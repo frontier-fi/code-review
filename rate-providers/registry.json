@@ -3820,6 +3820,24 @@
       "warnings": [],
       "factory": "",
       "upgradeableComponents": []
+    },
+    "0x131a121bda71ed810bcaf2ac9079214925e59c18": {
+      "asset": "0x131a121bda71ED810bCAf2aC9079214925e59C18",
+      "name": "waBTC Rate Provider",
+      "summary": "safe",
+      "review": "./StatATokenTestnetRateProvider.md",
+      "warnings": [],
+      "factory": "",
+      "upgradeableComponents": []
+    },
+    "0x72b49a461900e11632c95dfa563e7173438d4e3e": {
+      "asset": "0x72B49a461900e11632C95dfa563e7173438D4e3E",
+      "name": "waEURS Rate Provider",
+      "summary": "safe",
+      "review": "./StatATokenTestnetRateProvider.md",
+      "warnings": [],
+      "factory": "",
+      "upgradeableComponents": []
     }
   },
   "sonic": {
