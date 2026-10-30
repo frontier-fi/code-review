@@ -2128,6 +2128,26 @@
       "canUseBufferForSwaps": true,
       "useUnderlyingForAddRemove": true,
       "useWrappedForAddRemove": true
+    },
+    "0x131a121bda71ed810bcaf2ac9079214925e59c18": {
+      "asset": "0x29f2D40B0605204364af54EC677bD022dA425d03",
+      "name": "Static Aave Ethereum wBTC",
+      "summary": "safe",
+      "review": "./AaveV3.md",
+      "warnings": [],
+      "canUseBufferForSwaps": true,
+      "useUnderlyingForAddRemove": true,
+      "useWrappedForAddRemove": true
+    },
+    "0x72b49a461900e11632c95dfa563e7173438d4e3e": {
+      "asset": "0x6d906e526a4e2Ca02097BA9d0caA3c382F52278E",
+      "name": "Static Aave Ethereum EURS",
+      "summary": "safe",
+      "review": "./AaveV3.md",
+      "warnings": [],
+      "canUseBufferForSwaps": true,
+      "useUnderlyingForAddRemove": true,
+      "useWrappedForAddRemove": true
     }
   },
   "optimism": {
