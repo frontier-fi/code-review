@@ -3821,7 +3821,7 @@
       "factory": "",
       "upgradeableComponents": []
     },
-    "0x131a121bda71ed810bcaf2ac9079214925e59c18": {
+    "0xc5b1af99585aC25c07b8a12318e89fcaC6982f24": {
       "asset": "0x131a121bda71ED810bCAf2aC9079214925e59C18",
       "name": "waBTC Rate Provider",
       "summary": "safe",
@@ -3830,7 +3830,7 @@
       "factory": "",
       "upgradeableComponents": []
     },
-    "0x72b49a461900e11632c95dfa563e7173438d4e3e": {
+    "0xABF24b3f6f9e10Ce4367b6981464fAA4eC1F1793": {
       "asset": "0x72B49a461900e11632C95dfa563e7173438D4e3E",
       "name": "waEURS Rate Provider",
       "summary": "safe",
