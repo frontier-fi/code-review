@@ -3838,6 +3838,15 @@
       "warnings": [],
       "factory": "",
       "upgradeableComponents": []
+    },
+    "0x7c64d1ef668e74aa7fd8955a90a06f0019ee25eb": {
+      "asset": "0x56771cEF0cb422e125564CcCC98BB05fdc718E77",
+      "name": "waAAVE Rate Provider",
+      "summary": "safe",
+      "review": "./StatATokenTestnetRateProvider.md",
+      "warnings": [],
+      "factory": "",
+      "upgradeableComponents": []
     }
   },
   "sonic": {
