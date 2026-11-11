@@ -26,6 +26,7 @@ export interface TransactionData {
     result: Array<{
         txHash: Hex
         blockNumber: string
+        timestamp?: string
     }>
 }
 
@@ -89,6 +90,19 @@ export interface HypernativeAgent {
 }
 
 /**
+ * Contract metadata returned by a chain explorer. `SourceCode` is only set by
+ * explorers that return it, and is the raw (possibly JSON-wrapped) source.
+ */
+export interface ContractSourceInfo {
+    address: Address
+    Proxy: string
+    ContractName: string
+    ABI: string
+    Implementation: Address
+    SourceCode?: string
+}
+
+/**
  * Interface for chain explorer APIs that provide contract source code
  * and deployment information.
  */
@@ -102,9 +116,7 @@ export interface ChainApi {
      * @param addresses The addresses to fetch source code for.
      * @returns An array of contract information including ABI, proxy status, etc.
      */
-    getSourceCode(
-        addresses: Address[],
-    ): Promise<{ address: Address; Proxy: string; ContractName: string; ABI: string; Implementation: Address }[]>
+    getSourceCode(addresses: Address[]): Promise<ContractSourceInfo[]>
 
     /**
      * Fetches deployment transaction hash and block number for the given addresses.
@@ -113,5 +125,5 @@ export interface ChainApi {
      */
     getDeploymentTxHashAndBlock(
         addresses: Address[],
-    ): Promise<{ address: Address; deploymentTxHash: Hex; blockNumber: string }[]>
+    ): Promise<{ address: Address; deploymentTxHash: Hex; blockNumber: string; timestamp?: string }[]>
 }

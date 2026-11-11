@@ -1,5 +1,5 @@
 import { Address, Hex, Chain } from 'viem'
-import { ChainApi } from '../types/types'
+import { ChainApi, ContractSourceInfo } from '../types/types'
 import { base, optimism } from 'viem/chains'
 /**
  * BlockscoutApi class to interact with Blockscout Explorer API
@@ -56,7 +56,7 @@ class BlockscoutApi implements ChainApi {
         const contractAddresses = addresses.join(',')
 
         const fetchingUrl = `${apiUrl}module=contract&action=getcontractcreation&contractaddresses=${contractAddresses}`
-        
+
         const data = await this.fetchFromApi(fetchingUrl)
 
         if (data.status !== '1') {
@@ -81,9 +81,7 @@ class BlockscoutApi implements ChainApi {
      * Implements ChainApi interface.
      * Not implemented yet - will throw an error.
      */
-    public async getSourceCode(
-        addresses: Address[],
-    ): Promise<{ address: Address; Proxy: string; ContractName: string; ABI: string; Implementation: Address }[]> {
+    public async getSourceCode(addresses: Address[]): Promise<ContractSourceInfo[]> {
         throw new Error('getSourceCode is not yet implemented for BlockscoutApi')
     }
 
@@ -96,4 +94,3 @@ class BlockscoutApi implements ChainApi {
 }
 
 export default BlockscoutApi
-

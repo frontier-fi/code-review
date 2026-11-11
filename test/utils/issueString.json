@@ -3,12 +3,12 @@
     "selected": [
       "Does this rate provider pertain to an ERC4626 contract?",
       "If so, is the intention for this ERC4626 asset to be boosted?",
-      "If so, is the Buffer already initialized",
+      "If so, is the Buffer already initialized?",
       "If so, shall the underlying asset be used to add/remove liquidity in a pool if possible? (i.e. add USDC for waUSDC)",
       "If so, shall the wrapped asset also be used to add/remove liquidity in a pool? (i.e. add waUSDC directly)"
     ],
     "unselected": [
-      "Is the rate provider reporting a market rate?",
+      "Is the rate provider reporting a value other than token yield?",
       "Is a combined rate provider needed (i.e. wstETH in aave)?"
     ]
   },

@@ -1,9 +1,6 @@
 import * as dotenv from 'dotenv'
 import { writeReviewAndUpdateRegistry as writeERC4626ReviewAndUpdateRegistry } from '../src/utils/write-erc4626-review'
 import { writeReviewAndUpdateRegistry } from '../src/utils/write-rp-review'
-import { createCustomAgents } from '../src/utils'
-import { HypernativeAgent } from '../src/types/types'
-import * as fs from 'fs'
 
 dotenv.config()
 
@@ -104,47 +101,12 @@ async function processIssue(issueJson: string) {
         rpcUrl as string,
         issueData.protocol_documentation,
         issueData.audits,
-        issueData.additional_contract_information.selected.includes('Is the rate provider reporting a market rate?')
+        issueData.additional_contract_information.selected.includes(
+            'Is the rate provider reporting a value other than token yield?',
+        )
             ? { isMarketRate: true }
             : undefined,
     )
-
-    // this step requires the registry to be read thus having the registry updated already
-    let createdAgents: HypernativeAgent[] = []
-    let agentCreationError: string | undefined
-    try {
-        const isStablecoin = issueData.additional_contract_information.selected.includes(
-            'Is the rate provider reporting for a stable coin/FX/Yield tracking?',
-        )
-
-        createdAgents = await createCustomAgents(issueData.rate_provider_contract_address, network, isStablecoin)
-        console.log('createdAgents:', createdAgents)
-    } catch (error) {
-        agentCreationError = error instanceof Error ? error.message : String(error)
-        console.log(`Failed to create custom agents for chain ${network.name}: ${agentCreationError}`)
-    }
-
-    // Expose Hypernative agent results (or failure reason) via GITHUB_OUTPUT for the PR body.
-    if (process.env.GITHUB_OUTPUT) {
-        const outputPath = process.env.GITHUB_OUTPUT
-
-        if (createdAgents.length > 0) {
-            const ids = createdAgents.map((agent) => agent.id).join(', ')
-            const names = createdAgents.map((agent) => agent.agentName).join(', ')
-
-            console.log('GITHUB_OUTPUT path:', outputPath)
-            console.log('hypernative_agent_ids value:', ids)
-            console.log('hypernative_agent_names value:', names)
-
-            fs.appendFileSync(outputPath, `hypernative_agent_ids=${ids}\n`)
-            fs.appendFileSync(outputPath, `hypernative_agent_names=${names}\n`)
-        } else {
-            const reason = (agentCreationError ?? 'No agents were created (unknown error)').replace(/\r?\n/g, ' ')
-            console.log('hypernative_agent_error value:', reason)
-            // Multiline delimiter keeps special characters (colons, quotes) safe in GITHUB_OUTPUT
-            fs.appendFileSync(outputPath, `hypernative_agent_error<<EOF\n${reason}\nEOF\n`)
-        }
-    }
 
     // Only continue with erc4626 review if
 
@@ -162,7 +124,7 @@ async function processIssue(issueJson: string) {
             issueData.erc4626_asset_contract_documentation, //written docs excerpt
             issueData.link_to_passing_fork_tests, // are fork tests passing?
             issueData.link_to_passing_fork_tests, //link to passing fork tests
-            issueData.additional_contract_information.selected.includes('If so, is the Buffer already initialized') &&
+            issueData.additional_contract_information.selected.includes('If so, is the Buffer already initialized?') &&
                 issueData.link_to_passing_fork_tests
                 ? true
                 : false,

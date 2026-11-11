@@ -1,5 +1,5 @@
 import { Address, Hex, Chain } from 'viem'
-import { ChainApi, XLayerContractInfo, XLayerAddressInfo } from '../types/types'
+import { ChainApi, XLayerContractInfo, XLayerAddressInfo, ContractSourceInfo } from '../types/types'
 import crypto from 'crypto'
 
 /**
@@ -59,9 +59,7 @@ class XLayerApi implements ChainApi {
      * Fetches source code information for the given addresses.
      * Implements ChainApi interface.
      */
-    public async getSourceCode(
-        addresses: Address[],
-    ): Promise<{ address: Address; Proxy: string; ContractName: string; ABI: string; Implementation: Address }[]> {
+    public async getSourceCode(addresses: Address[]): Promise<ContractSourceInfo[]> {
         const results = []
 
         for (const address of addresses) {
@@ -80,13 +78,14 @@ class XLayerApi implements ChainApi {
                     continue
                 }
 
-                const { proxy, contractName, contractAbi, implementation } = contractData
+                const { proxy, contractName, contractAbi, implementation, sourceCode } = contractData
                 results.push({
                     address,
                     Proxy: proxy,
                     ContractName: contractName,
                     ABI: contractAbi,
                     Implementation: implementation as Address,
+                    SourceCode: sourceCode,
                 })
             } catch (error) {
                 console.error(`Error processing address ${address}:`, error)

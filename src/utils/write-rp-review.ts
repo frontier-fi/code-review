@@ -23,7 +23,13 @@ import {
 
 import { hyperEvm } from './customChains'
 
-import HypernativeApi from '../services/hypernativeApi'
+import {
+    runRateProviderChecks,
+    renderSecurityChecks,
+    hasUnverifiedContracts,
+    hasOracle,
+    SecurityCheckResults,
+} from '../checks'
 import { doOnchainCallGetName } from '../utils'
 
 const fs = require('fs')
@@ -60,6 +66,20 @@ export async function writeReviewAndUpdateRegistry(
 
     const tenderlysimUrl = await service.getTenderlySimulation()
 
+    let securityChecks: SecurityCheckResults | undefined
+    let securityChecksFailure: string | undefined
+    try {
+        securityChecks = await runRateProviderChecks(service, {
+            asset: rateProviderAsset,
+            providerRate: rateInfo.rateScale18,
+        })
+    } catch (error) {
+        securityChecksFailure = error instanceof Error ? error.message.split('\n')[0] : String(error)
+        console.warn(`Automated security checks failed: ${securityChecksFailure}`)
+    }
+    const unverifiedInCallPath = securityChecks ? hasUnverifiedContracts(securityChecks) : false
+    const isMarketRate = !!warnings?.isMarketRate || (securityChecks ? hasOracle(securityChecks) : false)
+
     //const [{ ContractName }] = await service.getContractInfo([rateProviderAsset])
     const contractName = await doOnchainCallGetName(rateProviderAsset, network, rpcUrl)
 
@@ -70,7 +90,7 @@ export async function writeReviewAndUpdateRegistry(
         isScale18: `${rateInfo.scale18 ? 'x' : ' '}`,
         isUpgradeable: `${upgradeData.map((c) => c.address).includes(rateProviderAddress) ? 'x' : ' '}`,
         hasUpgradeableElements: `${upgradeData.filter((contract) => contract.address !== rateProviderAddress).length > 0 ? 'x' : ' '}`,
-        isUsable: `${hasInterfaceImplemented && rateInfo.scale18 ? 'USABLE' : 'UNUSABLE'}`,
+        isUsable: `${hasInterfaceImplemented && rateInfo.scale18 && !unverifiedInCallPath ? 'USABLE' : 'UNUSABLE'}`,
     }
 
     const shortUuid = crypto.randomBytes(2).toString('hex')
@@ -92,6 +112,7 @@ export async function writeReviewAndUpdateRegistry(
         .replace('{{hasUpgradeableElements}}', templateData.hasUpgradeableElements)
         .replace('{{isUsable}}', templateData.isUsable)
         .replace('{{tenderlySimUrl}}', tenderlysimUrl)
+        .replace('{{securityChecks}}', () => renderSecurityChecks(service.chain, securityChecks, securityChecksFailure))
 
     fs.writeFileSync(
         `./rate-providers/${(contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(' ', '')}RateProviderReview${shortUuid}.md`,
@@ -107,7 +128,7 @@ export async function writeReviewAndUpdateRegistry(
         name: `${(contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(' ', '')}RateProvider.md`,
         summary: templateData.isUsable === 'USABLE' ? 'safe' : 'unsafe',
         review: `./${(contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(' ', '')}RateProviderReview${shortUuid}.md`,
-        warnings: warnings?.isMarketRate ? ['market-rate'] : [],
+        warnings: isMarketRate ? ['market-rate'] : [],
         factory: '',
         upgradeableComponents: upgradeData.map((contract) => ({
             entrypoint: contract.address,

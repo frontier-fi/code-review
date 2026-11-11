@@ -109,7 +109,7 @@ The following scripts are available in the package.json file:
 
 ### `npm run write-review`
 
-This script generates a review for a specified rate provider. It fetches the necessary data, generates a markdown review file, and updates the registry with the new review information. It additionally creates the Hypernative monitoring agents.
+This script generates a review for a specified rate provider. It fetches the necessary data, generates a markdown review file, and updates the registry with the new review information.
 
 #### Usage:
 ```sh
@@ -144,7 +144,7 @@ The supported networks can be seen in the `write-review.ts` file under the netwo
 The `write-review` script does the following:
 1. Updates the `registry.json` file with rate provider information.
 2. Generates a markdown review report.
-3. Generates the monitoring agents on the hpyernative platform.
+3. Runs automated security checks (`src/checks/`) and adds them to the report: who controls each contract in the `getRate` path, oracle feeds and their staleness, AMM spot-price reads, unverified contracts, contract age, and risks of the pooled token. A detected oracle adds the `market-rate` warning; an unverified contract in the call path makes the review `UNUSABLE`.
 
 ### Post-Script Actions:
 Before the review is finalized, the user is expected to:

@@ -1,8 +1,7 @@
 import { Address, Hex, Chain } from 'viem'
-import { TransactionData, GetContractSourceCodeResponse } from '../types/types'
+import { TransactionData, GetContractSourceCodeResponse, ContractSourceInfo } from '../types/types'
 import { avalanche } from 'viem/chains'
 import { ChainApi } from '../types/types'
-
 
 /**
  * EtherscanApi class to interact with Etherscan API
@@ -68,14 +67,13 @@ class EtherscanApi implements ChainApi {
             address: addresses[index],
             deploymentTxHash: entry.txHash,
             blockNumber: entry.blockNumber,
+            timestamp: entry.timestamp,
         }))
     }
 
-    public async getSourceCode(
-        addresses: Address[],
-    ): Promise<{ address: Address; Proxy: string; ContractName: string; ABI: string; Implementation: Address }[]> {
+    public async getSourceCode(addresses: Address[]): Promise<ContractSourceInfo[]> {
         const apiUrl = this.getApiUrl()
-        const results = []
+        const results: ContractSourceInfo[] = []
 
         for (const address of addresses) {
             try {
@@ -99,8 +97,8 @@ class EtherscanApi implements ChainApi {
                     // Try fallback explorer (e.g., Snowscan for Avalanche)
                     const fallbackData = await this.tryFallbackExplorer(this.chain, address)
                     if (fallbackData) {
-                        const { Proxy, ContractName, ABI, Implementation } = fallbackData.result[0]
-                        results.push({ address, Proxy, ContractName, ABI, Implementation })
+                        const { Proxy, ContractName, ABI, Implementation, SourceCode } = fallbackData.result[0]
+                        results.push({ address, Proxy, ContractName, ABI, Implementation, SourceCode })
                         continue
                     }
 
@@ -108,8 +106,8 @@ class EtherscanApi implements ChainApi {
                     continue // Skip this address
                 }
 
-                const { Proxy, ContractName, ABI, Implementation } = data.result[0]
-                results.push({ address, Proxy, ContractName, ABI, Implementation })
+                const { Proxy, ContractName, ABI, Implementation, SourceCode } = data.result[0]
+                results.push({ address, Proxy, ContractName, ABI, Implementation, SourceCode })
             } catch (error) {
                 console.error(`Error processing address ${address}:`, error)
                 // Skip this address and continue with the next one

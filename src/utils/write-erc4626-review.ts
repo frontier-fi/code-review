@@ -1,6 +1,7 @@
 import ERC4626DataService from '../erc4626App'
 import { doOnchainCallGetAsset, doOnchainCallGetName } from './onchainCallHelpers'
 import { erc4626Template } from './erc4626Template'
+import { runErc4626Checks, renderSecurityChecks, hasUnverifiedContracts, SecurityCheckResults } from '../checks'
 
 import { Address, Chain } from 'viem'
 import crypto from 'crypto'
@@ -39,6 +40,16 @@ export async function writeReviewAndUpdateRegistry(
     const asset = await doOnchainCallGetAsset(erc4626, network, rpcUrl)
     const hasInterfaceImplemented = await service.hasValidERC4626Interface()
 
+    let securityChecks: SecurityCheckResults | undefined
+    let securityChecksFailure: string | undefined
+    try {
+        securityChecks = await runErc4626Checks(service)
+    } catch (error) {
+        securityChecksFailure = error instanceof Error ? error.message.split('\n')[0] : String(error)
+        console.warn(`Automated security checks failed: ${securityChecksFailure}`)
+    }
+    const unverifiedInCallPath = securityChecks ? hasUnverifiedContracts(securityChecks) : false
+
     // Write report
     const templateData = {
         rateProvider: `${service.sourceCode.ContractName}.md`,
@@ -62,7 +73,11 @@ export async function writeReviewAndUpdateRegistry(
         .replace('{{isUpgradeable}}', templateData.isUpgradeable)
         .replace('{{hasUpgradeableElements}}', templateData.hasUpgradeableElements)
         .replace('{{tenderlySimUrl}}', tenderlysimUrl)
-        .replace('{{usableUnusable}}', hasInterfaceImplemented && passingForkTests ? 'USABLE' : 'UNUSABLE')
+        .replace(
+            '{{usableUnusable}}',
+            hasInterfaceImplemented && passingForkTests && !unverifiedInCallPath ? 'USABLE' : 'UNUSABLE',
+        )
+        .replace('{{securityChecks}}', () => renderSecurityChecks(service.chain, securityChecks, securityChecksFailure))
         .replace('{{linkToForkTests}}', linkToForkTests || '')
 
     const shortUuid = crypto.randomBytes(2).toString('hex')
@@ -79,7 +94,7 @@ export async function writeReviewAndUpdateRegistry(
     const newEntry = {
         asset: asset,
         name: `${(contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(' ', '')}Erc4626Vault.md`,
-        summary: linkToForkTests && hasInterfaceImplemented ? 'safe' : 'unsafe',
+        summary: linkToForkTests && hasInterfaceImplemented && !unverifiedInCallPath ? 'safe' : 'unsafe',
         review: `./${(contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(' ', '')}Erc4626VaultReview${shortUuid}.md`,
         warnings: [],
         upgradeableComponents: upgradeData.map((contract) => ({
