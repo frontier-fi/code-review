@@ -2158,6 +2158,16 @@
       "canUseBufferForSwaps": true,
       "useUnderlyingForAddRemove": true,
       "useWrappedForAddRemove": true
+    },
+    "0x8227a989709a757f25df251c3c3e71ca38627836": {
+      "asset": "0xf8Fb3713D459D7C1018BD0A49D19b4C44290EBE5",
+      "name": "Static Aave Ethereum LINK",
+      "summary": "safe",
+      "review": "./AaveV3.md",
+      "warnings": [],
+      "canUseBufferForSwaps": true,
+      "useUnderlyingForAddRemove": true,
+      "useWrappedForAddRemove": true
     }
   },
   "optimism": {
