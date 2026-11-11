@@ -3847,6 +3847,15 @@
       "warnings": [],
       "factory": "",
       "upgradeableComponents": []
+    },
+    "0xdc0728f4d78f8aeccd7a1d4dcd3b9e0b7cb3b18e": {
+      "asset": "0x8227a989709a757f25df251c3c3e71ca38627836",
+      "name": "waLINK Rate Provider",
+      "summary": "safe",
+      "review": "./StatATokenTestnetRateProvider.md",
+      "warnings": [],
+      "factory": "",
+      "upgradeableComponents": []
     }
   },
   "sonic": {
