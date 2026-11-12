@@ -1,6 +1,6 @@
 import { Address, Hex, parseAbi, zeroAddress, hexToBigInt, getAddress } from 'viem'
 import { Callchain } from './callchain'
-import { Client, formatDuration, stateChangingFunctionNames, tryRead, unique } from './common'
+import { Client, formatDuration, isTransportError, stateChangingFunctionNames, tryRead, unique } from './common'
 
 /**
  * Check 1: who can change the price.
@@ -13,12 +13,15 @@ import { Client, formatDuration, stateChangingFunctionNames, tryRead, unique } f
 const EIP1967_ADMIN_SLOT = '0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103'
 const EIP1967_BEACON_SLOT = '0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50'
 const DEFAULT_ADMIN_ROLE = '0x0000000000000000000000000000000000000000000000000000000000000000'
+/** Upper bound on role members read per contract, to keep the report and RPC load bounded. */
+const MAX_ROLE_MEMBERS = 20
 
 const probeAbi = parseAbi([
     'function owner() view returns (address)',
     'function admin() view returns (address)',
     'function governance() view returns (address)',
     'function getRoleMember(bytes32 role, uint256 index) view returns (address)',
+    'function getRoleMemberCount(bytes32 role) view returns (uint256)',
     'function getThreshold() view returns (uint256)',
     'function getOwners() view returns (address[])',
     'function getMinDelay() view returns (uint256)',
@@ -58,6 +61,8 @@ export interface ContractControl {
     name: string
     roles: ControlRole[]
     privilegedFunctions: string[]
+    /** Caveats about completeness, e.g. role members that were not enumerated. */
+    notes: string[]
 }
 
 export interface AdminCheckResult {
@@ -106,12 +111,18 @@ export async function checkAdminControl(client: Client, callchain: Callchain): P
         const governance = await tryRead<Address>(client, contract.address, probeAbi, 'governance')
         if (governance && governance !== zeroAddress) roles.push({ role: 'Governance', address: governance })
 
-        const roleAdmin = await tryRead<Address>(client, contract.address, probeAbi, 'getRoleMember', [
-            DEFAULT_ADMIN_ROLE,
-            0n,
-        ])
-        if (roleAdmin && roleAdmin !== zeroAddress)
-            roles.push({ role: 'DEFAULT_ADMIN_ROLE holder', address: roleAdmin })
+        const notes: string[] = []
+        const roleAdmins = await readRoleMembers(client, contract.address, DEFAULT_ADMIN_ROLE)
+        roleAdmins.members.forEach((member, i) =>
+            roles.push({
+                role:
+                    roleAdmins.total > 1
+                        ? `DEFAULT_ADMIN_ROLE holder (${i + 1} of ${roleAdmins.total})`
+                        : 'DEFAULT_ADMIN_ROLE holder',
+                address: member,
+            }),
+        )
+        if (roleAdmins.note) notes.push(roleAdmins.note)
 
         const resolved: ControlRole[] = []
         for (const r of dedupeRoles(roles)) {
@@ -126,6 +137,7 @@ export async function checkAdminControl(client: Client, callchain: Callchain): P
             privilegedFunctions: unique(stateChangingFunctionNames(contract.abi)).filter(
                 (n) => PRIVILEGED_FUNCTION.test(n) && !USER_FUNCTION.test(n),
             ),
+            notes,
         })
     }
 
@@ -203,12 +215,50 @@ export function ultimateController(controller: Controller): Controller {
     return controller.ownedBy ? ultimateController(controller.ownedBy) : controller
 }
 
+/**
+ * Reads every holder of an AccessControl role. Any one holder can act alone, so the
+ * report must rank all of them, not just index 0.
+ */
+async function readRoleMembers(
+    client: Client,
+    address: Address,
+    role: Hex,
+): Promise<{ members: Address[]; total: number; note?: string }> {
+    const count = await tryRead<bigint>(client, address, probeAbi, 'getRoleMemberCount', [role])
+    if (count === undefined) {
+        // Not enumerable. getRoleMember alone (unusual) gives at least one holder.
+        const first = await tryRead<Address>(client, address, probeAbi, 'getRoleMember', [role, 0n])
+        if (!first || first === zeroAddress) return { members: [], total: 0 }
+        return {
+            members: [first],
+            total: 1,
+            note: 'DEFAULT_ADMIN_ROLE holders could not be counted; only the first is shown and others may exist.',
+        }
+    }
+
+    const total = Number(count)
+    const members: Address[] = []
+    for (let i = 0; i < Math.min(total, MAX_ROLE_MEMBERS); i++) {
+        const member = await tryRead<Address>(client, address, probeAbi, 'getRoleMember', [role, BigInt(i)])
+        if (member && member !== zeroAddress) members.push(member)
+    }
+    return {
+        members,
+        total,
+        note:
+            total > MAX_ROLE_MEMBERS
+                ? `DEFAULT_ADMIN_ROLE has ${total} holders; only the first ${MAX_ROLE_MEMBERS} are shown.`
+                : undefined,
+    }
+}
+
 async function readAddressSlot(client: Client, address: Address, slot: Hex): Promise<Address | undefined> {
     try {
         const value = await client.getStorageAt({ address, slot })
         if (!value || hexToBigInt(value) === 0n) return undefined
         return getAddress(`0x${value.slice(-40)}`)
-    } catch {
+    } catch (error) {
+        if (isTransportError(error)) throw error
         return undefined
     }
 }

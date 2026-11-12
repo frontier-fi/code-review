@@ -21,7 +21,9 @@ const FEE_ON_TRANSFER =
 export interface TokenRiskResult {
     address: Address
     symbol?: string
-    verified: boolean
+    /** False when the token's ABI could not be obtained, so the feature lists below are empty, not clean. */
+    abiChecked: boolean
+    abiUnavailableReason?: string
     pausedNow?: boolean
     pausable: string[]
     blocklist: string[]
@@ -36,10 +38,14 @@ export async function checkTokenRisks(
 ): Promise<TokenRiskResult> {
     const [info] = await service.getContractInfo([token])
     let abi = parseAbiSafe(info?.ABI)
+    let unavailableReason: string | undefined = info ? undefined : 'source unverified'
     if (info?.Proxy === '1' && info.Implementation && info.Implementation !== zeroAddress) {
         const [impl] = await service.getContractInfo([info.Implementation])
         abi = parseAbiSafe(impl?.ABI)
+        // The proxy's own ABI says nothing about the token's features, so don't fall back to it.
+        if (!impl) unavailableReason = `implementation ${info.Implementation} is unverified`
     }
+    if (!unavailableReason && abi.length === 0) unavailableReason = 'the ABI could not be read'
 
     const names = unique(allNames(abi))
     const matching = (re: RegExp) => names.filter((n) => re.test(n))
@@ -47,7 +53,8 @@ export async function checkTokenRisks(
     return {
         address: token,
         symbol: await tryRead<string>(client, token, erc20Abi, 'symbol'),
-        verified: !!info,
+        abiChecked: !unavailableReason,
+        abiUnavailableReason: unavailableReason,
         pausedNow: await tryRead<boolean>(client, token, probeAbi, 'paused'),
         pausable: matching(PAUSABLE),
         blocklist: matching(BLOCKLIST),

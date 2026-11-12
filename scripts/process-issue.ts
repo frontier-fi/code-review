@@ -20,7 +20,7 @@ import {
     mode,
     monad,
 } from 'viem/chains'
-import { hyperEvm, plasma, xlayer } from '../src/utils/customChains'
+import { hyperEvm, plasma } from '../src/utils/customChains'
 import { Hex } from 'viem'
 
 /* 
@@ -73,7 +73,6 @@ async function processIssue(issueJson: string) {
         mode,
         hyperEvm,
         plasma,
-        xlayer,
         monad,
     }
     let network = networks[issueData.network]

@@ -4,10 +4,8 @@ import { createPublicClient, encodeFunctionData, http } from 'viem'
 import { Chain, Hex, Abi } from 'viem'
 import { base, optimism, avalanche } from 'viem/chains'
 import { rateProviderAbi } from './utils/abi/rateProvider'
-import { xlayer } from './utils/customChains'
 import { ChainApi, ContractSourceInfo } from './types/types'
 import EtherscanApi from './services/etherscanApi'
-import XLayerApi from './services/xlayerApi'
 import BlockscoutApi from './services/BlockscoutApi'
 import RoutescanApi from './services/RoutescanApi'
 
@@ -388,9 +386,6 @@ class RateProviderDataService {
             : (() => {
                   throw new Error(`ETHERSCAN_API_KEY Environment variable is not set`)
               })()
-        if (chain.id === xlayer.id) {
-            this.apiKey = process.env.XLAYER_API_KEY || ''
-        }
     }
 
     /**
@@ -401,29 +396,13 @@ class RateProviderDataService {
      * @returns The appropriate ChainApi instance
      */
     private getApiForFunction(functionName: 'getDeploymentBlocks' | 'getContractInfo'): ChainApi {
-        // For getContractInfo: Use Etherscan all the time EXCEPT if chain is xlayer
+        // For getContractInfo: always use Etherscan
         if (functionName === 'getContractInfo') {
-            if (this.chain.id === xlayer.id) {
-                return new XLayerApi(
-                    this.chain,
-                    process.env.XLAYER_API_KEY || '',
-                    process.env.XLAYER_SECRET_KEY || '',
-                    process.env.XLAYER_PASSPHRASE || '',
-                )
-            }
             return new EtherscanApi(this.chain, this.apiKey)
         }
 
-        // For getDeploymentBlocks: Use Etherscan if chain is NOT Base, Optimism, or xlayer
+        // For getDeploymentBlocks: Use Etherscan if chain is NOT Base, Optimism or Avalanche
         if (functionName === 'getDeploymentBlocks') {
-            if (this.chain.id === xlayer.id) {
-                return new XLayerApi(
-                    this.chain,
-                    process.env.XLAYER_API_KEY || '',
-                    process.env.XLAYER_SECRET_KEY || '',
-                    process.env.XLAYER_PASSPHRASE || '',
-                )
-            }
             // Base, Avalanche, BNB and Optimism are not supported via Etherscan for getDeploymentBlocks
             // so using Blockscout api for Base & optimism
             if (this.chain.id === base.id || this.chain.id === optimism.id) {

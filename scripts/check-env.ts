@@ -22,7 +22,6 @@ const RPC_ENV_KEYS = [
     'mode',
     'hyperEvm',
     'plasma',
-    'xlayer',
     'monad',
 ] as const
 
@@ -170,47 +169,6 @@ async function checkTenderlyCredentials(
     }
 }
 
-async function checkHypernativeCredentials(
-    clientId: string,
-    clientSecret: string,
-): Promise<{ ok: true } | { ok: false; reason: string }> {
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), RPC_CHECK_TIMEOUT_MS)
-
-    const url = 'https://api.hypernative.xyz/custom-agents'
-
-    try {
-        const response = await fetch(url, {
-            signal: controller.signal,
-            headers: {
-                accept: 'application/json',
-                'x-client-id': clientId,
-                'x-client-secret': clientSecret,
-            },
-        })
-        clearTimeout(timeoutId)
-
-        if (!response.ok) {
-            if (response.status === 401 || response.status === 403) {
-                return { ok: false, reason: 'invalid credentials' }
-            }
-            return { ok: false, reason: `HTTP ${response.status}: ${response.statusText}` }
-        }
-
-        // Verify response is valid JSON
-        await response.json()
-
-        return { ok: true }
-    } catch (err) {
-        clearTimeout(timeoutId)
-        if (controller.signal.aborted) {
-            return { ok: false, reason: 'timeout' }
-        }
-        const reason = err instanceof Error ? err.message : String(err)
-        return { ok: false, reason }
-    }
-}
-
 async function main(): Promise<void> {
     const results: { name: string; status: 'pass' | 'fail'; reason?: string }[] = []
 
@@ -290,36 +248,6 @@ async function main(): Promise<void> {
         } else {
             results.push({ name: 'TENDERLY', status: 'fail', reason: check.reason })
             console.log(`TENDERLY: fail — ${check.reason}`)
-        }
-    }
-
-    // Check Hypernative credentials
-    const hypernativeClientId = process.env.HYPERNATIVE_CLIENT_ID?.trim()
-    const hypernativeClientSecret = process.env.HYPERNATIVE_CLIENT_SECRET?.trim()
-
-    if (hypernativeClientId === undefined || hypernativeClientId === '') {
-        results.push({ name: 'HYPERNATIVE_CLIENT_ID', status: 'fail', reason: 'missing' })
-        console.log(`HYPERNATIVE_CLIENT_ID: fail — missing`)
-    }
-    if (hypernativeClientSecret === undefined || hypernativeClientSecret === '') {
-        results.push({ name: 'HYPERNATIVE_CLIENT_SECRET', status: 'fail', reason: 'missing' })
-        console.log(`HYPERNATIVE_CLIENT_SECRET: fail — missing`)
-    }
-
-    // If both are present, validate with API call
-    if (
-        hypernativeClientId !== undefined &&
-        hypernativeClientId !== '' &&
-        hypernativeClientSecret !== undefined &&
-        hypernativeClientSecret !== ''
-    ) {
-        const check = await checkHypernativeCredentials(hypernativeClientId, hypernativeClientSecret)
-        if (check.ok) {
-            results.push({ name: 'HYPERNATIVE', status: 'pass' })
-            console.log(`HYPERNATIVE: success`)
-        } else {
-            results.push({ name: 'HYPERNATIVE', status: 'fail', reason: check.reason })
-            console.log(`HYPERNATIVE: fail — ${check.reason}`)
         }
     }
 

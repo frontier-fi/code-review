@@ -1,6 +1,6 @@
 import { Address, parseAbi } from 'viem'
 import { Callchain } from './callchain'
-import { Client, tryRead } from './common'
+import { Client, sameAddress, stripComments, tryRead } from './common'
 
 /**
  * Check 3: spot-price reads and read-only reentrancy.
@@ -36,7 +36,8 @@ export interface SpotPriceCheckResult {
     curveReentrancyGuardFound: boolean
 }
 
-const TWAP = /\bobserve\s*\(|\bconsult\s*\(|twap|getTimeWeighted|getTimeWeightedAverage/i
+// Call sites only. `function observe(` in a bundled pool interface is a declaration, not usage.
+const TWAP = /\.observe\s*\(|\.getTimepoints\s*\(|(?<!function\s+)\b(?:consult\w*|getTimeWeighted\w*|\w*twap\w*)\s*\(/i
 const BALANCER_GUARD = /ensureNotInVaultContext|VaultReentrancyLib/
 // Curve pools have no view reentrancy lock; integrators call a state-changing no-op
 // (e.g. withdraw_admin_fees / remove_liquidity of 0) to trip the lock.
@@ -50,7 +51,12 @@ export async function checkSpotPrice(client: Client, callchain: Callchain): Prom
         if (kind) pools.push({ address: contract.address, name: contract.name, kind, risk: riskFor(kind) })
     }
 
-    const sources = callchain.contracts.flatMap((c) => c.sources)
+    // Only the reading contracts count. A pool's own source defines observe(), lock
+    // checks, etc., which says nothing about whether the reader uses them.
+    const sources = callchain.contracts
+        .filter((c) => !pools.some((p) => sameAddress(p.address, c.address)))
+        .flatMap((c) => c.sources)
+        .map(stripComments)
     return {
         pools,
         twapUsageFound: sources.some((s) => TWAP.test(s)),

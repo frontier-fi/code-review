@@ -20,7 +20,7 @@ import {
     monad
 } from 'viem/chains'
 
-import { hyperEvm, plasma, xlayer } from '../src/utils/customChains'
+import { hyperEvm, plasma } from '../src/utils/customChains'
 import { writeReviewAndUpdateRegistry } from '../src/utils/write-erc4626-review'
 
 dotenv.config()
@@ -54,7 +54,6 @@ async function main() {
                 'sonic',
                 'hyperEvm',
                 'plasma',
-                'xlayer',
                 'monad'
             ],
             demandOption: true,
@@ -82,7 +81,6 @@ async function main() {
         mode,
         hyperEvm,
         plasma,
-        xlayer,
         monad
     }
 

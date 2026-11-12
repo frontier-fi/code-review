@@ -85,6 +85,10 @@ function renderAdmin(r: AdminCheckResult, link: Link): string {
         }
     }
 
+    for (const c of r.contracts) {
+        for (const note of c.notes) lines.push(`- ⚠️ ${c.name} ${link(c.address)}: ${note}`)
+    }
+
     const withFunctions = r.contracts.filter((c) => c.privilegedFunctions.length > 0)
     if (withFunctions.length > 0) {
         lines.push('')
@@ -252,8 +256,8 @@ function renderLiquidity(r: Erc4626LiquidityResult, link: Link): string {
 
 function renderToken(t: TokenRiskResult, link: Link): string {
     const name = `${t.symbol ?? 'Token'} ${link(t.address)}`
-    if (!t.verified) {
-        return `- ${name}: source unverified, so its features could not be checked.${t.pausedNow ? ' ⚠️ **Paused now.**' : ''}`
+    if (!t.abiChecked) {
+        return `- ${name}: ⚠️ ${t.abiUnavailableReason ?? 'ABI unavailable'}, so pause, blocklist, rebasing and transfer-fee features could not be checked.${t.pausedNow ? ' ⚠️ **Paused now.**' : ''}`
     }
     const flags: string[] = []
     const list = (names: string[]) => names.map((n) => `\`${n}\``).join(', ')

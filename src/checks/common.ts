@@ -1,4 +1,16 @@
-import { Abi, Address, Chain, PublicClient, createPublicClient, http } from 'viem'
+import {
+    Abi,
+    Address,
+    BaseError,
+    Chain,
+    HttpRequestError,
+    LimitExceededRpcError,
+    PublicClient,
+    TimeoutError,
+    WebSocketRequestError,
+    createPublicClient,
+    http,
+} from 'viem'
 
 /**
  * Shared helpers for the automated security checks.
@@ -18,7 +30,30 @@ export function createClient(chain: Chain): Client {
     }) as Client
 }
 
-/** Calls a view function and returns undefined instead of throwing if it reverts or does not exist. */
+// Some nodes answer a revert with a non-200 status; those are still reverts, not outages.
+const REVERT_HINT = /revert|invalid opcode|out of gas/i
+
+/**
+ * True when the RPC itself failed (rate limit, timeout, HTTP error) rather than the
+ * contract reverting. Probes must not treat such failures as "not detected".
+ */
+export function isTransportError(error: unknown): boolean {
+    if (!(error instanceof BaseError)) return false
+    return !!error.walk(
+        (e) =>
+            e instanceof TimeoutError ||
+            e instanceof WebSocketRequestError ||
+            e instanceof LimitExceededRpcError ||
+            (e instanceof HttpRequestError &&
+                !REVERT_HINT.test(`${e.details} ${e.body ? JSON.stringify(e.body) : ''}`)),
+    )
+}
+
+/**
+ * Calls a view function and returns undefined if it reverts or does not exist.
+ * RPC failures are rethrown so the calling check is reported as failed instead of
+ * silently reporting "nothing found".
+ */
 export async function tryRead<T>(
     client: Client,
     address: Address,
@@ -28,7 +63,8 @@ export async function tryRead<T>(
 ): Promise<T | undefined> {
     try {
         return (await client.readContract({ address, abi, functionName, args })) as T
-    } catch {
+    } catch (error) {
+        if (isTransportError(error)) throw error
         return undefined
     }
 }
@@ -66,6 +102,17 @@ export function allNames(abi: Abi): string[] {
 
 export function unique<T>(values: T[]): T[] {
     return [...new Set(values)]
+}
+
+/**
+ * Removes Solidity/Vyper comments so pattern searches only see code. Explorer source
+ * may be JSON-wrapped, where newlines are escaped as \\n, so line comments end there too.
+ */
+export function stripComments(source: string): string {
+    return source
+        .replace(/\/\*[\s\S]*?\*\//g, ' ')
+        .replace(/\/\/.*?(?=\\n|\n|$)/g, ' ')
+        .replace(/^\s*#.*$/gm, ' ')
 }
 
 export function explorerLink(chain: Chain, address: string): string {
