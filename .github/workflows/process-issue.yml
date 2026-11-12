@@ -40,21 +40,10 @@ jobs:
           HYPEREVM_RPC_URL: ${{ secrets.HYPEREVM_RPC_URL }}
           PLASMA_RPC_URL: ${{ secrets.PLASMA_RPC_URL }}
           MONAD_RPC_URL: ${{ secrets.MONAD_RPC_URL }}
-          XLAYER_API_KEY: ${{ secrets.XLAYER_API_KEY }}
-          XLAYER_SECRET_KEY: ${{ secrets.XLAYER_SECRET_KEY }}
-          XLAYER_PASSPHRASE: ${{ secrets.XLAYER_PASSPHRASE }}
-          XLAYER_RPC_URL: ${{ secrets.XLAYER_RPC_URL }}
-          HYPERNATIVE_CLIENT_ID: ${{ secrets.HYPERNATIVE_CLIENT_ID }}
-          HYPERNATIVE_CLIENT_SECRET: ${{ secrets.HYPERNATIVE_CLIENT_SECRET }}
       - name: Validate registry format
         run: npm run test
         env:
           ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
-      - name: Print GITHUB_OUTPUT
-        run: |
-          echo "GITHUB_OUTPUT: ${{ env.GITHUB_OUTPUT }}"
-          echo "hypernative_agent_ids: '${{ steps.process-issue.outputs.hypernative_agent_ids }}'"
-          echo "hypernative_agent_error: '${{ steps.process-issue.outputs.hypernative_agent_error }}'"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7.0.8
         with:
@@ -75,11 +64,6 @@ jobs:
             ### Generated Files:
             - Rate provider review documentation
             - Updated registry files
-
-            ### Hypernative agents
-            - IDs: `${{ steps.process-issue.outputs.hypernative_agent_ids }}`
-            - Names: `${{ steps.process-issue.outputs.hypernative_agent_names }}`
-            ${{ steps.process-issue.outputs.hypernative_agent_error != '' && format('- **Creation failed:** {0}', steps.process-issue.outputs.hypernative_agent_error) || '' }}
 
             Closes #${{ github.event.issue.number }}
           labels: |

@@ -26,66 +26,21 @@ export interface TransactionData {
     result: Array<{
         txHash: Hex
         blockNumber: string
+        timestamp?: string
     }>
 }
 
-export interface XLayerContractInfo {
-    sourceCode: string
-    contractName: string
-    compilerVersion: string
-    optimization: string
-    optimizationRuns: string
-    contractAbi: string
-    evmVersion: string
-    licenseType: string
-    libraryInfo: Array<{
-        libraryName: string
-        libraryAddress: string
-    }>
-    proxy: string
-    implementation: string
-    swarmSource: string
-}
-
-export interface XLayerApiResponse<T> {
-    code: string
-    msg: string
-    data: T[]
-}
-
-export interface XLayerAddressInfo {
-    address: string
-    balance: string
-    balanceSymbol: string
-    transactionCount: string
-    firstTransactionTime: string
-    lastTransactionTime: string
-    contractAddress: boolean
-    createContractAddress: string
-    createContractTransactionHash: string
-    contractCorrespondingToken: string
-    contractCalls: string
-    contractCallingAddresses: string
-}
-
-export interface CustomAgentInput {
-    chain: Chain
-    ruleString: string
-    contractAddress: string
-    contractAlias: string
-    rateProvider: string
-    agentName: string
-    operands: string[]
-}
-
-// Minimal Hypernative agent representation used when fetching agents
-export interface HypernativeAgent {
-    id: number
-    agentName: string
-    agentType: string
-    chain: string
-    createdBy: string
-    createdAt: string
+/**
+ * Contract metadata returned by a chain explorer. `SourceCode` is only set by
+ * explorers that return it, and is the raw (possibly JSON-wrapped) source.
+ */
+export interface ContractSourceInfo {
+    address: Address
+    Proxy: string
+    ContractName: string
+    ABI: string
+    Implementation: Address
+    SourceCode?: string
 }
 
 /**
@@ -102,9 +57,7 @@ export interface ChainApi {
      * @param addresses The addresses to fetch source code for.
      * @returns An array of contract information including ABI, proxy status, etc.
      */
-    getSourceCode(
-        addresses: Address[],
-    ): Promise<{ address: Address; Proxy: string; ContractName: string; ABI: string; Implementation: Address }[]>
+    getSourceCode(addresses: Address[]): Promise<ContractSourceInfo[]>
 
     /**
      * Fetches deployment transaction hash and block number for the given addresses.
@@ -113,5 +66,5 @@ export interface ChainApi {
      */
     getDeploymentTxHashAndBlock(
         addresses: Address[],
-    ): Promise<{ address: Address; deploymentTxHash: Hex; blockNumber: string }[]>
+    ): Promise<{ address: Address; deploymentTxHash: Hex; blockNumber: string; timestamp?: string }[]>
 }

@@ -1,5 +1,5 @@
 import { Address, Hex, Chain } from 'viem'
-import { ChainApi } from '../types/types'
+import { ChainApi, ContractSourceInfo } from '../types/types'
 
 /**
  * RoutescanApi class to interact with Routescan Explorer API
@@ -45,11 +45,11 @@ class RoutescanApi implements ChainApi {
     ): Promise<{ address: Address; deploymentTxHash: Hex; blockNumber: string }[]> {
         const apiUrl = this.getApiUrl()
         const contractAddresses = addresses.join(',')
-        
+
         // Build URL with optional API key
         const apiKeyParam = this.apiKey ? `&apikey=${this.apiKey}` : ''
         const fetchingUrl = `${apiUrl}module=contract&action=getcontractcreation&contractaddresses=${contractAddresses}${apiKeyParam}`
-        
+
         const data = await this.fetchFromApi(fetchingUrl)
 
         if (data.status !== '1') {
@@ -75,12 +75,9 @@ class RoutescanApi implements ChainApi {
      * Implements ChainApi interface.
      * Not implemented yet - will throw an error.
      */
-    public async getSourceCode(
-        addresses: Address[],
-    ): Promise<{ address: Address; Proxy: string; ContractName: string; ABI: string; Implementation: Address }[]> {
+    public async getSourceCode(addresses: Address[]): Promise<ContractSourceInfo[]> {
         throw new Error('getSourceCode is not yet implemented for RoutescanApi')
     }
 }
 
 export default RoutescanApi
-

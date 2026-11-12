@@ -23,6 +23,7 @@ Each of the items below represents an absolute requirement for the Rate Provider
 - [{{hasUpgradeableElements}}] Other contracts which are part of the \`mint\` callchain are upgradeable**. You can find more information
    about the involved contracts in this [tenderly simulation]({{tenderlySimUrl}})
 
+{{securityChecks}}
 ## Conclusion
 **Summary judgment: {{usableUnusable}}**
 Passing fork tests can be found at {{linkToForkTests}}.

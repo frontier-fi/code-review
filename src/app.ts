@@ -4,10 +4,8 @@ import { createPublicClient, encodeFunctionData, http } from 'viem'
 import { Chain, Hex, Abi } from 'viem'
 import { base, optimism, avalanche } from 'viem/chains'
 import { rateProviderAbi } from './utils/abi/rateProvider'
-import { xlayer } from './utils/customChains'
-import { ChainApi } from './types/types'
+import { ChainApi, ContractSourceInfo } from './types/types'
 import EtherscanApi from './services/etherscanApi'
-import XLayerApi from './services/xlayerApi'
 import BlockscoutApi from './services/BlockscoutApi'
 import RoutescanApi from './services/RoutescanApi'
 
@@ -94,7 +92,9 @@ class RateProviderDataService {
      * @param addresses The addresses to fetch deployment information for.
      * @returns An array of deployment information.
      */
-    public async getDeploymentBlocks(addresses: Address[]): Promise<{ address: Address; deploymentTxHash: Hex }[]> {
+    public async getDeploymentBlocks(
+        addresses: Address[],
+    ): Promise<{ address: Address; deploymentTxHash: Hex; blockNumber?: string; timestamp?: string }[]> {
         const chainApi = this.getApiForFunction('getDeploymentBlocks')
 
         // The addresses length can be arbitrary but the etherscan API only allows 5 addresses at a time
@@ -116,12 +116,29 @@ class RateProviderDataService {
      * @param addresses The addresses to fetch proxy information for.
      * @returns An array of contract information.
      */
-    public async getContractInfo(
-        addresses: Address[],
-    ): Promise<{ address: Address; Proxy: string; ContractName: string; ABI: string; Implementation: Address }[]> {
-        const chainApi = this.getApiForFunction('getContractInfo')
-        return await chainApi.getSourceCode(addresses)
+    public async getContractInfo(addresses: Address[]): Promise<ContractSourceInfo[]> {
+        // Explorer lookups are slow and rate limited, and several checks ask about the
+        // same contracts, so each address is only fetched once per service instance.
+        // Addresses the explorer returned nothing for (unverified or lookup failed) are
+        // remembered too, so they are not retried.
+        const missing = addresses.filter((a) => !this.contractInfoLookedUp.has(a.toLowerCase()))
+        if (missing.length > 0) {
+            const chainApi = this.getApiForFunction('getContractInfo')
+            const fetched = await chainApi.getSourceCode(missing)
+            for (const info of fetched) {
+                this.contractInfoCache.set(info.address.toLowerCase(), info)
+            }
+            for (const a of missing) {
+                this.contractInfoLookedUp.add(a.toLowerCase())
+            }
+        }
+        return addresses
+            .map((a) => this.contractInfoCache.get(a.toLowerCase()))
+            .filter((info): info is ContractSourceInfo => info !== undefined)
     }
+
+    private contractInfoCache = new Map<string, ContractSourceInfo>()
+    private contractInfoLookedUp = new Set<string>()
 
     /**
      * Fetches upgradeable contracts information. Includes the rate provider if upgradeable.
@@ -242,11 +259,8 @@ class RateProviderDataService {
      * @param address The address to fetch source code for.
      * @returns The source code information.
      */
-    public async getContractSourceCode(
-        address: Address,
-    ): Promise<{ address: Address; Proxy: string; ContractName: string; ABI: string; Implementation: Address }> {
-        const chainApi = this.getApiForFunction('getContractInfo')
-        const sourceCodeArray = await chainApi.getSourceCode([address])
+    public async getContractSourceCode(address: Address): Promise<ContractSourceInfo> {
+        const sourceCodeArray = await this.getContractInfo([address])
         return sourceCodeArray[0]
     }
 
@@ -372,9 +386,6 @@ class RateProviderDataService {
             : (() => {
                   throw new Error(`ETHERSCAN_API_KEY Environment variable is not set`)
               })()
-        if (chain.id === xlayer.id) {
-            this.apiKey = process.env.XLAYER_API_KEY || ''
-        }
     }
 
     /**
@@ -385,29 +396,13 @@ class RateProviderDataService {
      * @returns The appropriate ChainApi instance
      */
     private getApiForFunction(functionName: 'getDeploymentBlocks' | 'getContractInfo'): ChainApi {
-        // For getContractInfo: Use Etherscan all the time EXCEPT if chain is xlayer
+        // For getContractInfo: always use Etherscan
         if (functionName === 'getContractInfo') {
-            if (this.chain.id === xlayer.id) {
-                return new XLayerApi(
-                    this.chain,
-                    process.env.XLAYER_API_KEY || '',
-                    process.env.XLAYER_SECRET_KEY || '',
-                    process.env.XLAYER_PASSPHRASE || '',
-                )
-            }
             return new EtherscanApi(this.chain, this.apiKey)
         }
 
-        // For getDeploymentBlocks: Use Etherscan if chain is NOT Base, Optimism, or xlayer
+        // For getDeploymentBlocks: Use Etherscan if chain is NOT Base, Optimism or Avalanche
         if (functionName === 'getDeploymentBlocks') {
-            if (this.chain.id === xlayer.id) {
-                return new XLayerApi(
-                    this.chain,
-                    process.env.XLAYER_API_KEY || '',
-                    process.env.XLAYER_SECRET_KEY || '',
-                    process.env.XLAYER_PASSPHRASE || '',
-                )
-            }
             // Base, Avalanche, BNB and Optimism are not supported via Etherscan for getDeploymentBlocks
             // so using Blockscout api for Base & optimism
             if (this.chain.id === base.id || this.chain.id === optimism.id) {

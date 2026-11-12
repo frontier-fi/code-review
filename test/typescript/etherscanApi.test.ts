@@ -16,7 +16,7 @@ import {
     mode,
 } from 'viem/chains'
 
-import { hyperEvm, plasma, xlayer } from '../../src/utils/customChains'
+import { hyperEvm, plasma } from '../../src/utils/customChains'
 import { ChainApi } from '../../src/types/types'
 import { createChainApi } from '../../src/utils/factories'
 // Check that the viem Chain has a multicall3 contract defined
@@ -35,7 +35,6 @@ describe('test networks', () => {
         optimism,
         hyperEvm,
         plasma,
-        xlayer,
     ]
 
     config()
