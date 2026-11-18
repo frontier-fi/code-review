@@ -1,3 +1,3 @@
 export * from './etherscanApi'
-export * from './BlockscoutApi'
+export * from './RpcApi'
 export * from './RoutescanApi'

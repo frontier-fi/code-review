@@ -33,7 +33,7 @@ describe('RateProviderDataService.getUpgradeableContracts soft-fail', () => {
                 Implementation: implementation,
             },
         ])
-        jest.spyOn(service, 'getDeploymentBlocks').mockRejectedValue(new Error('Blockscout 500'))
+        jest.spyOn(service, 'getDeploymentBlocks').mockRejectedValue(new Error('RPC request failed'))
         jest.spyOn(console, 'warn').mockImplementation(() => undefined)
 
         await expect(service.getUpgradeableContracts()).resolves.toEqual([

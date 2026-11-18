@@ -66,5 +66,5 @@ export interface ChainApi {
      */
     getDeploymentTxHashAndBlock(
         addresses: Address[],
-    ): Promise<{ address: Address; deploymentTxHash: Hex; blockNumber: string; timestamp?: string }[]>
+    ): Promise<{ address: Address; deploymentTxHash?: Hex; blockNumber: string; timestamp?: string }[]>
 }
