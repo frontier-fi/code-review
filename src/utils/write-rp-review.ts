@@ -15,6 +15,7 @@ import {
     SecurityCheckResults,
 } from '../checks'
 import { doOnchainCallGetName } from '../utils'
+import { findRateProviderFactory } from './rateProviderFactories'
 
 const fs = require('fs')
 
@@ -41,6 +42,7 @@ export async function writeReviewAndUpdateRegistry(
 
     await service.initialize()
     const upgradeData = await service.getUpgradeableContracts()
+    const factory = await findRateProviderFactory(network, rateProviderAddress)
 
     const rateInfo = await service.isRateScale18()
     const hasInterfaceImplemented = await service.hasValidGetRateFunction()
@@ -110,7 +112,7 @@ export async function writeReviewAndUpdateRegistry(
         summary: templateData.isUsable === 'USABLE' ? 'safe' : 'unsafe',
         review: `./${(contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(' ', '')}RateProviderReview${shortUuid}.md`,
         warnings: isMarketRate ? ['market-rate'] : [],
-        factory: '',
+        factory,
         upgradeableComponents: upgradeData.map((contract) => ({
             entrypoint: contract.address,
             implementationReviewed: contract.implementation,
