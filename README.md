@@ -24,7 +24,7 @@ Rate Provider Factories for reference
 | Monad      | 0x138D9E0d0Cc4906C4cD865b38c9340A5CeDD9850 | 0xb0334C5287Bfb15A8C9464898CDB0248ED176332 |
 
 Rate Transformer Factories 
-Use these factories when an ERC4626 vault contains a yield bearing token to combine their resepctive rates of growth. This denominates the vault asset in the underlying for correlated pairs. For example Aave-wstETH pairing with Aave-wETH by denominating the assets in wETH.
+Use these factories when an ERC4626 vault contains a yield bearing token to combine their respective rates of growth. This denominates the vault asset in the underlying for correlated pairs. For example Aave-wstETH pairing with Aave-wETH by denominating the assets in wETH.
 
 | Network    | AaveRateTransformerFactory                 | 
 | ---------- | -------------------------------------------|
@@ -35,7 +35,7 @@ Use these factories when an ERC4626 vault contains a yield bearing token to comb
  
 
 Constant Rate Provider Factories
-Use this factories for Gyro pools. They report a static rate custom tailored to gyro pools.
+Use these factories for Gyro pools. They report a static rate custom tailored to gyro pools.
 
 | Network    | ConstantRateProviderFactory                 | 
 | ---------- | -------------------------------------------|
@@ -43,7 +43,7 @@ Use this factories for Gyro pools. They report a static rate custom tailored to 
 | Base       | 0xc0555b555857AAf2b5b28601eaAcFba2F8BBFB09 |
 
 Combined Rate Provider Factories
-Use this factories to combine rate providers, similar to AaveRateTransformers. These factories take in two different rate providers, multipliy them, and display the result as getRate. Used for nested rates to denominate the base asset. For example Aave - wstETH has a LST rate and a lending vault rate which must be combined to result in the ETH rate. 
+Use these factories to combine rate providers, similar to AaveRateTransformers. These factories take in two different rate providers, multiply them, and display the result as getRate. Used for nested rates to denominate the base asset. For example Aave - wstETH has a LST rate and a lending vault rate which must be combined to result in the ETH rate. 
 
 | Network    | CombinedRateProviderFactory                | 
 | ---------- | -------------------------------------------|
