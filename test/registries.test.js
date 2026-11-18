@@ -7,6 +7,7 @@
 const fs = require("fs").promises
 const path = require("path")
 const Ajv = require("ajv")
+const { getAddress } = require("viem")
 
 const ajv = new Ajv({ allErrors: true })
 
@@ -27,7 +28,7 @@ const rateProviderSchema = {
             summary: { type: "string", enum: ["safe", "unsafe"] },
             review: { type: "string", minLength: 1 },
             warnings: { type: "array", items: { type: "string" } },
-            factory: { type: "string" },
+            factory: { anyOf: [{ const: "" }, address] },
             upgradeableComponents: {
               type: "array",
               items: {
@@ -161,5 +162,23 @@ describe.each(REGISTRIES)("$name registry", ({ file, schema }) => {
     }
 
     expect(missing).toEqual([])
+  })
+})
+
+describe("rate-providers registry factories", () => {
+  test("factory addresses are checksummed", async () => {
+    const registry = JSON.parse(await fs.readFile("rate-providers/registry.json", "utf8"))
+    const notChecksummed = []
+
+    for (const network in registry) {
+      for (const addr in registry[network]) {
+        const factory = registry[network][addr].factory
+        if (factory !== "" && factory !== getAddress(factory)) {
+          notChecksummed.push(`${network} ${addr}: ${factory}`)
+        }
+      }
+    }
+
+    expect(notChecksummed).toEqual([])
   })
 })

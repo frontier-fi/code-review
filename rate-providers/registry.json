@@ -472,7 +472,7 @@
       "warnings": [
         "market-rate"
       ],
-      "factory": "0x5dbad78818d4c8958eff2d5b95b28385a22113cd",
+      "factory": "0x5DbAd78818D4c8958EfF2d5b95b28385A22113Cd",
       "upgradeableComponents": []
     },
     "0x5b988aacf8aD14ce4b50C19676C234410135696E": {
@@ -513,7 +513,7 @@
       "summary": "safe",
       "review": "./ChainLinkRateProvider.md",
       "warnings": [],
-      "factory": "0x5dbad78818d4c8958eff2d5b95b28385a22113cd",
+      "factory": "0x5DbAd78818D4c8958EfF2d5b95b28385A22113Cd",
       "upgradeableComponents": []
     },
     "0x1c69da5f388167cca3b9b07b7ec3472e7c380a63": {
@@ -1687,7 +1687,7 @@
       "warnings": [
         ""
       ],
-      "factory": "https://etherscan.io/address/0xfc541f8d8c5e907e236c8931f0df9f58e0c259ec",
+      "factory": "0xFC541f8d8c5e907E236C8931F0Df9F58e0C259Ec",
       "upgradeableComponents": [
         {
           "entrypoint": "0x848107491E029AFDe0AC543779c7790382f15929",
@@ -2147,7 +2147,7 @@
       "summary": "safe",
       "review": "./wUSDLPaxosRateProvider.md",
       "warnings": [],
-      "factory": "0xe548a29631f9e49830be8edc22d407b2d2915f31",
+      "factory": "0xe548a29631f9E49830bE8edc22d407b2D2915F31",
       "upgradeableComponents": [
         {
           "entrypoint": "0x7751E2F4b8ae93EF6B79d86419d42FE3295A4559",
@@ -3097,7 +3097,7 @@
       "summary": "safe",
       "review": "./statATokenLMRateProvider.md",
       "warnings": [],
-      "factory": "0x15e86be6084c6a5a8c17732d398dfbc2ec574cec",
+      "factory": "0x15e86Be6084C6A5a8c17732D398dFbC2Ec574CEC",
       "upgradeableComponents": []
     },
     "0xCCfE43E5853C87225948317379ffD910039f6A14": {
@@ -3173,7 +3173,7 @@
       "warnings": [
         ""
       ],
-      "factory": "0x03362f847b4fabc12e1ce98b6b59f94401e4588e",
+      "factory": "0x03362f847B4fAbC12e1Ce98b6b59F94401E4588e",
       "upgradeableComponents": [
         {
           "entrypoint": "0x773CDA0CADe2A3d86E6D4e30699d40bB95174ff2",
@@ -3881,7 +3881,7 @@
       "warnings": [
         ""
       ],
-      "factory": "0x00de97829d01815346e58372be55aefd84ca2457",
+      "factory": "0x00dE97829D01815346e58372be55aeFD84CA2457",
       "upgradeableComponents": []
     },
     "0xf9fe8c5009b1015363e4452e0ac1d45d3924b986": {
@@ -3892,7 +3892,7 @@
       "warnings": [
         ""
       ],
-      "factory": "0x00de97829d01815346e58372be55aefd84ca2457",
+      "factory": "0x00dE97829D01815346e58372be55aeFD84CA2457",
       "upgradeableComponents": []
     },
     "0xe508a70deef702d5cd1df120bf6936540c9a6b2d": {
@@ -3903,7 +3903,7 @@
       "warnings": [
         ""
       ],
-      "factory": "0x00de97829d01815346e58372be55aefd84ca2457",
+      "factory": "0x00dE97829D01815346e58372be55aeFD84CA2457",
       "upgradeableComponents": []
     },
     "0xfbcee1fcaa2db776b4b575a8da3e8c93ea5eef53": {
@@ -3914,7 +3914,7 @@
       "warnings": [
         ""
       ],
-      "factory": "0x00de97829d01815346e58372be55aefd84ca2457",
+      "factory": "0x00dE97829D01815346e58372be55aeFD84CA2457",
       "upgradeableComponents": [
         {
           "entrypoint": "0x9F0dF7799f6FDAd409300080cfF680f5A23df4b1",
@@ -3930,7 +3930,7 @@
       "warnings": [
         ""
       ],
-      "factory": "0x00de97829d01815346e58372be55aefd84ca2457",
+      "factory": "0x00dE97829D01815346e58372be55aeFD84CA2457",
       "upgradeableComponents": [
         {
           "entrypoint": "0xfA85Fe5A8F5560e9039C04f2b0a90dE1415aBD70",
@@ -3982,7 +3982,7 @@
       "warnings": [
         ""
       ],
-      "factory": "0x00de97829d01815346e58372be55aefd84ca2457",
+      "factory": "0x00dE97829D01815346e58372be55aeFD84CA2457",
       "upgradeableComponents": []
     },
     "0x59c9262da57918557780e6010d15c01b59971c42": {
@@ -3993,7 +3993,7 @@
       "warnings": [
         ""
       ],
-      "factory": "0x00de97829d01815346e58372be55aefd84ca2457",
+      "factory": "0x00dE97829D01815346e58372be55aeFD84CA2457",
       "upgradeableComponents": []
     },
     "0x71453d205b1437f7f3057ce480cdb7a02c1568a0": {
@@ -4004,7 +4004,7 @@
       "warnings": [
         ""
       ],
-      "factory": "0x00de97829d01815346e58372be55aefd84ca2457",
+      "factory": "0x00dE97829D01815346e58372be55aeFD84CA2457",
       "upgradeableComponents": []
     },
     "0x4A3eA10da3c422d31485585096CD00fB5e9F1019": {
@@ -4015,7 +4015,7 @@
       "warnings": [
         ""
       ],
-      "factory": "0x00de97829d01815346e58372be55aefd84ca2457",
+      "factory": "0x00dE97829D01815346e58372be55aeFD84CA2457",
       "upgradeableComponents": []
     },
     "0x2446b93ec86be9225d07379ee5dba6b0aa632c55": {
@@ -4026,7 +4026,7 @@
       "warnings": [
         ""
       ],
-      "factory": "0x00de97829d01815346e58372be55aefd84ca2457",
+      "factory": "0x00dE97829D01815346e58372be55aeFD84CA2457",
       "upgradeableComponents": []
     },
     "0x25b5e53e3dfca480047b6e53f637ebe44abadd59": {
@@ -4037,7 +4037,7 @@
       "warnings": [
         ""
       ],
-      "factory": "0x00de97829d01815346e58372be55aefd84ca2457",
+      "factory": "0x00dE97829D01815346e58372be55aeFD84CA2457",
       "upgradeableComponents": []
     },
     "0xf05afb759f1bc07756329d7080987d5ccc2a26e7": {
@@ -4048,7 +4048,7 @@
       "warnings": [
         ""
       ],
-      "factory": "0x00de97829d01815346e58372be55aefd84ca2457",
+      "factory": "0x00dE97829D01815346e58372be55aeFD84CA2457",
       "upgradeableComponents": []
     },
     "0x871A101Dcf22fE4fE37be7B654098c801CBA1c88": {
@@ -4457,7 +4457,7 @@
       "warnings": [
         "market-rate"
       ],
-      "factory": "0x9179c06629ef7f17cb5759f501d89997fe0e7b45",
+      "factory": "0x9179C06629ef7f17Cb5759F501D89997FE0E7b45",
       "upgradeableComponents": []
     },
     "0x751E200b3AA15EacF077965ad1feDAaD9468d910": {
