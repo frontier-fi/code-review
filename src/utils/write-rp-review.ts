@@ -83,6 +83,7 @@ export async function writeReviewAndUpdateRegistry(
     }
 
     const shortUuid = crypto.randomBytes(2).toString('hex')
+    const baseName = (contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(/ /g, '')
 
     const filledTemplate = template
         .replace('{{date}}', new Date().toLocaleDateString('en-GB'))
@@ -104,7 +105,7 @@ export async function writeReviewAndUpdateRegistry(
         .replace('{{securityChecks}}', () => renderSecurityChecks(service.chain, securityChecks, securityChecksFailure))
 
     fs.writeFileSync(
-        `./rate-providers/${(contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(' ', '')}RateProviderReview${shortUuid}.md`,
+        `./rate-providers/${baseName}RateProviderReview${shortUuid}.md`,
         filledTemplate,
     )
 
@@ -114,9 +115,9 @@ export async function writeReviewAndUpdateRegistry(
 
     const newEntry = {
         asset: rateProviderAsset,
-        name: `${(contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(' ', '')}RateProvider.md`,
+        name: `${baseName}RateProvider`,
         summary: templateData.isUsable === 'USABLE' ? 'safe' : 'unsafe',
-        review: `./${(contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(' ', '')}RateProviderReview${shortUuid}.md`,
+        review: `./${baseName}RateProviderReview${shortUuid}.md`,
         warnings: isMarketRate ? ['market-rate'] : [],
         factory,
         upgradeableComponents: upgradeData.map((contract) => ({

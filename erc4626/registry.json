@@ -142,7 +142,7 @@
     },
     "0xe4783824593a50Bfe9dc873204CEc171ebC62dE0": {
       "asset": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
-      "name": "EulerEarnUSDCErc4626Vault.md",
+      "name": "EulerEarnUSDCErc4626Vault",
       "summary": "safe",
       "review": "./EulerEarnUSDCErc4626VaultReviewa925.md",
       "warnings": [],
@@ -174,7 +174,7 @@
     },
     "0x2BA39e5388aC6C702Cb29AEA78d52aa66832f1ee": {
       "asset": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
-      "name": "VarlamoreUSDCGrowthErc4626Vault.md",
+      "name": "VarlamoreUSDCGrowthErc4626Vault",
       "summary": "safe",
       "review": "./VarlamoreUSDCGrowthErc4626VaultReviewe362.md",
       "warnings": [],
@@ -185,7 +185,7 @@
     },
     "0x252b965400862d94bda35fecf7ee0f204a53cc36": {
       "asset": "0x4ecf61a6c2FaB8A047CEB3B3B263B401763e9D49",
-      "name": "YearnUSNDErc4626Vault.md",
+      "name": "YearnUSNDErc4626Vault",
       "summary": "safe",
       "review": "./YearnUSNDErc4626VaultReview298f.md",
       "warnings": [],
@@ -348,7 +348,7 @@
     },
     "0x589A7339C6d0c8777E7429F57f2f95c069c37288": {
       "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-      "name": "WrappedExtraFiX Base USDCErc4626Vault.md",
+      "name": "WrappedExtraFiX Base USDCErc4626Vault",
       "summary": "safe",
       "review": "./WrappedExtraFiX Base USDCErc4626VaultReview8e16.md",
       "warnings": [],
@@ -368,7 +368,7 @@
     },
     "0x98eFe85735F253a0ed0Be8e2915ff39f9e4AfF0F": {
       "asset": "0x35E5dB674D8e93a03d814FA0ADa70731efe8a4b9",
-      "name": "WrappedExtraXBase USRErc4626Vault.md",
+      "name": "WrappedExtraXBase USRErc4626Vault",
       "summary": "safe",
       "review": "./WrappedExtraXBase USRErc4626VaultReview1483.md",
       "warnings": [],
@@ -620,7 +620,7 @@
     },
     "0xDBDC1Ef57537E34680B898E1FEBD3D68c7389bCB": {
       "asset": "0x48f9e38f3070AD8945DFEae3FA70987722E3D89c",
-      "name": "StakedinfiniFiUSDErc4626Vault.md",
+      "name": "StakedinfiniFiUSDErc4626Vault",
       "summary": "safe",
       "review": "./StakedinfiniFiUSDErc4626VaultReviewc704.md",
       "warnings": [],
@@ -631,7 +631,7 @@
     },
     "0xBEeF1f5Bd88285E5B239B6AAcb991d38ccA23Ac9": {
       "asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-      "name": "SteakhouseinfiniFiUSDCErc4626Vault.md",
+      "name": "SteakhouseinfiniFiUSDCErc4626Vault",
       "summary": "safe",
       "review": "./SteakhouseinfiniFiUSDCErc4626VaultReview9bbe.md",
       "warnings": [],
@@ -642,7 +642,7 @@
     },
     "0x88887be419578051ff9f4eb6c858a951921d8888": {
       "asset": "0xcCcc62962d17b8914c62D74FfB843d73B2a3cccC",
-      "name": "StakedcapUSDErc4626Vault.md",
+      "name": "StakedcapUSDErc4626Vault",
       "summary": "safe",
       "review": "./StakedcapUSDErc4626VaultReview85f3.md",
       "warnings": [],
@@ -658,7 +658,7 @@
     },
     "0x2fe4dc166adbc0b39edb47f4324f00a7374dabf7": {
       "asset": "0xC139190F447e929f090Edeb554D95AbB8b18aC1C",
-      "name": "WrappedAaveEthereum USDtbErc4626Vault.md",
+      "name": "WrappedAaveEthereum USDtbErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveEthereum USDtbErc4626VaultReview2d5a.md",
       "warnings": [],
@@ -678,7 +678,7 @@
     },
     "0x8399C8Fc273bD165C346Af74A02e65f10e4FD78F": {
       "asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-      "name": "VarlamoreUSDCGrowthErc4626Vault.md",
+      "name": "VarlamoreUSDCGrowthErc4626Vault",
       "summary": "safe",
       "review": "./VarlamoreUSDCGrowthErc4626VaultReviewe581.md",
       "warnings": [],
@@ -689,7 +689,7 @@
     },
     "0xd217A07493b6BA272Ff806EE5eaBdFF86C292cc6": {
       "asset": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "name": "TelosCEarnWETHErc4626Vault.md",
+      "name": "TelosCEarnWETHErc4626Vault",
       "summary": "safe",
       "review": "./TelosCEarnWETHErc4626VaultReview080f.md",
       "warnings": [],
@@ -717,7 +717,7 @@
     },
     "0xc5d6a7b61d18afa11435a889557b068bb9f29930": {
       "asset": "0x4f8e5DE400DE08B164E7421B3EE387f461beCD1A",
-      "name": "SavingsUsddErc4626Vault.md",
+      "name": "SavingsUsddErc4626Vault",
       "summary": "safe",
       "review": "./SavingsUsddErc4626VaultReview7f1e.md",
       "warnings": [],
@@ -728,7 +728,7 @@
     },
     "0xc8CF6D7991f15525488b2A83Df53468D682Ba4B0": {
       "asset": "0xFa2B947eEc368f42195f24F36d2aF29f7c24CeC2",
-      "name": "StakedFalconUSDErc4626Vault.md",
+      "name": "StakedFalconUSDErc4626Vault",
       "summary": "safe",
       "review": "./StakedFalconUSDErc4626VaultReview72fd.md",
       "warnings": [],
@@ -748,7 +748,7 @@
     },
     "0xBb50A5341368751024ddf33385BA8cf61fE65FF9": {
       "asset": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "name": "KpkETHPrime V2Erc4626Vault.md",
+      "name": "KpkETHPrime V2Erc4626Vault",
       "summary": "safe",
       "review": "./KpkETHPrime V2Erc4626VaultReview6ac0.md",
       "warnings": [],
@@ -759,7 +759,7 @@
     },
     "0x4Ef53d2cAa51C447fdFEEedee8F07FD1962C9ee6": {
       "asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-      "name": "KpkUSDCPrime V2Erc4626Vault.md",
+      "name": "KpkUSDCPrime V2Erc4626Vault",
       "summary": "safe",
       "review": "./KpkUSDCPrime V2Erc4626VaultReview8e7b.md",
       "warnings": [],
@@ -779,7 +779,7 @@
     },
     "0xe5f130253ff137f9917c0107659a4c5262abf6b0": {
       "asset": "0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-      "name": "SavingsVaultZCHFErc4626Vault.md",
+      "name": "SavingsVaultZCHFErc4626Vault",
       "summary": "safe",
       "review": "./SavingsVaultZCHFErc4626VaultReviewba56.md",
       "warnings": [],
@@ -790,7 +790,7 @@
     },
     "0xe108fbc04852B5df72f9E44d7C29F47e7A993aDd": {
       "asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-      "name": "KpkUSDC PrimeErc4626Vault.md",
+      "name": "KpkUSDC PrimeErc4626Vault",
       "summary": "safe",
       "review": "./KpkUSDC PrimeErc4626VaultReviewb97d.md",
       "warnings": [],
@@ -801,7 +801,7 @@
     },
     "0xc582F04d8a82795aa2Ff9c8bb4c1c889fe7b754e": {
       "asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-      "name": "GauntletUSDCFrontierErc4626Vault.md",
+      "name": "GauntletUSDCFrontierErc4626Vault",
       "summary": "safe",
       "review": "./GauntletUSDCFrontierErc4626VaultReview31b9.md",
       "warnings": [],
@@ -812,7 +812,7 @@
     },
     "0xb45ad160634c528cc3d2926d9807104fa3157305": {
       "asset": "0x865377367054516e17014CcdED1e7d814EDC9ce4",
-      "name": "StakedDolaErc4626Vault.md",
+      "name": "StakedDolaErc4626Vault",
       "summary": "safe",
       "review": "./StakedDolaErc4626VaultReview5690.md",
       "warnings": [],
@@ -823,7 +823,7 @@
     },
     "0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD": {
       "asset": "0xdC035D45d973E3EC169d2276DDab16f1e407384F",
-      "name": "SavingsUSDSErc4626Vault.md",
+      "name": "SavingsUSDSErc4626Vault",
       "summary": "safe",
       "review": "./SavingsUSDSErc4626VaultReview4bc9.md",
       "warnings": [],
@@ -839,7 +839,7 @@
     },
     "0x9F4330700a36B29952869fac9b33f45EEdd8A3d8": {
       "asset": "0x6440f144b7e50D6a8439336510312d2F54beB01D",
-      "name": "YearnBOLDErc4626Vault.md",
+      "name": "YearnBOLDErc4626Vault",
       "summary": "safe",
       "review": "./YearnBOLDErc4626VaultReviewa9ae.md",
       "warnings": [],
@@ -850,7 +850,7 @@
     },
     "0x8c106EEDAd96553e64287A5A6839c3Cc78afA3D0": {
       "asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-      "name": "GauntletUSDCPrimeErc4626Vault.md",
+      "name": "GauntletUSDCPrimeErc4626Vault",
       "summary": "safe",
       "review": "./GauntletUSDCPrimeErc4626VaultReview4dd3.md",
       "warnings": [],
@@ -870,7 +870,7 @@
     },
     "0x870F0BF29A25A40E7CC087cD5C53e70C11F2C8A8": {
       "asset": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "name": "KpkUSDTPrime V2Erc4626Vault.md",
+      "name": "KpkUSDTPrime V2Erc4626Vault",
       "summary": "safe",
       "review": "./KpkUSDTPrime V2Erc4626VaultReview9b08.md",
       "warnings": [],
@@ -881,7 +881,7 @@
     },
     "0xE1753F2e00940cC31213dd92013cF019DFE4ca1d": {
       "asset": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f",
-      "name": "SGhoErc4626Vault.md",
+      "name": "SGhoErc4626Vault",
       "summary": "safe",
       "review": "./SGhoErc4626VaultReview71ca.md",
       "warnings": [],
@@ -897,7 +897,7 @@
     },
     "0x08d23468A467d2bb86FaE0e32F247A26C7E2e994": {
       "asset": "0x41D5D79431A913C4aE7d69a668ecdfE5fF9DFB68",
-      "name": "StakedInvErc4626Vault.md",
+      "name": "StakedInvErc4626Vault",
       "summary": "safe",
       "review": "./StakedInvErc4626VaultReview75ba.md",
       "warnings": [],
@@ -908,7 +908,7 @@
     },
     "0x2DF6DfbD281F127a3690c87E4572076778a9EDa5": {
       "asset": "0xe343167631d89B6Ffc58B88d6b7fB0228795491D",
-      "name": "WrappedAaveEthereum USDGErc4626Vault.md",
+      "name": "WrappedAaveEthereum USDGErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveEthereum USDGErc4626VaultReviewf3dd.md",
       "warnings": [],
@@ -928,7 +928,7 @@
     },
     "0xF17D6f98A5C6EAA99d149079984119e0A4EF6900": {
       "asset": "0xB1c2Db5d6cA03FCe73dBd304d320bF76C55Ae1B1",
-      "name": "SavingsUSGErc4626Vault.md",
+      "name": "SavingsUSGErc4626Vault",
       "summary": "safe",
       "review": "./SavingsUSGErc4626VaultReview9758.md",
       "warnings": [],
@@ -939,7 +939,7 @@
     },
     "0x19ebb35279A16207Ec4ba82799CC64715065F7F6": {
       "asset": "0x6aD038cA6C04e885630851278ca0a856Ad9a66Cc",
-      "name": "HastraPRIMEErc4626Vault.md",
+      "name": "HastraPRIMEErc4626Vault",
       "summary": "safe",
       "review": "./HastraPRIMEErc4626VaultReview51ba.md",
       "warnings": [],
@@ -959,7 +959,7 @@
     },
     "0x531E90a2376902DE8915789Fcc1075e3B0c153E7": {
       "asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-      "name": "WrappedAaveCore USDCErc4626Vault.md",
+      "name": "WrappedAaveCore USDCErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveCore USDCErc4626VaultReview5a17.md",
       "warnings": [],
@@ -979,7 +979,7 @@
     },
     "0x58C14a5E061c9bC6926c5b853445290F296C2F7B": {
       "asset": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f",
-      "name": "WrappedAaveCore GHOErc4626Vault.md",
+      "name": "WrappedAaveCore GHOErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveCore GHOErc4626VaultReview89ec.md",
       "warnings": [],
@@ -999,7 +999,7 @@
     },
     "0x5eC44a70F309854fe04d495cFE1B5dA63DD1cc73": {
       "asset": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "name": "WrappedAaveCore USDTErc4626Vault.md",
+      "name": "WrappedAaveCore USDTErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveCore USDTErc4626VaultReviewe83b.md",
       "warnings": [],
@@ -1019,7 +1019,7 @@
     },
     "0xAC2435E3C25e8246870D33ce0a26988A46d5DB68": {
       "asset": "0xe343167631d89B6Ffc58B88d6b7fB0228795491D",
-      "name": "WrappedAaveCore USDGErc4626Vault.md",
+      "name": "WrappedAaveCore USDGErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveCore USDGErc4626VaultReview2f2a.md",
       "warnings": [],
@@ -1375,7 +1375,7 @@
     },
     "0xF6F87073cF8929C206A77b0694619DC776F89885": {
       "asset": "0x29219dd400f2Bf60E5a23d13Be72B486D4038894",
-      "name": "VarlamoreUSDCGrowthErc4626Vault.md",
+      "name": "VarlamoreUSDCGrowthErc4626Vault",
       "summary": "safe",
       "review": "./VarlamoreUSDCGrowthErc4626VaultReview2127.md",
       "warnings": [],
@@ -1386,7 +1386,7 @@
     },
     "0xDED4aC8645619334186f28B8798e07ca354CFa0e": {
       "asset": "0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38",
-      "name": "VarlamoreSErc4626Vault.md",
+      "name": "VarlamoreSErc4626Vault",
       "summary": "safe",
       "review": "./VarlamoreSErc4626VaultReview7359.md",
       "warnings": [],
@@ -1402,7 +1402,7 @@
     },
     "0xb6A23cB29e512Df41876B28D7A848BD831f9c5Ba": {
       "asset": "0xd3DCe716f3eF535C5Ff8d041c1A41C3bd89b97aE",
-      "name": "VarlamorescUSDErc4626Vault.md",
+      "name": "VarlamorescUSDErc4626Vault",
       "summary": "safe",
       "review": "./VarlamorescUSDErc4626VaultReviewb07d.md",
       "warnings": [],
@@ -1413,7 +1413,7 @@
     },
     "0xEEEEEEE6d95E55A468D32FeB5d6648754d10A967": {
       "asset": "0x29219dd400f2Bf60E5a23d13Be72B486D4038894",
-      "name": "WrappedStabilityUSDCErc4626Vault.md",
+      "name": "WrappedStabilityUSDCErc4626Vault",
       "summary": "safe",
       "review": "./WrappedStabilityUSDCErc4626VaultReviewaa84.md",
       "warnings": [],
@@ -1537,7 +1537,7 @@
     },
     "0xccccCCcca9FC69a2b32408730011EdB3205A93A1": {
       "asset": "0xd3DCe716f3eF535C5Ff8d041c1A41C3bd89b97aE",
-      "name": "WrappedStabilityscUSDErc4626Vault.md",
+      "name": "WrappedStabilityscUSDErc4626Vault",
       "summary": "safe",
       "review": "./WrappedStabilityscUSDErc4626VaultReviewbbf6.md",
       "warnings": [],
@@ -1613,7 +1613,7 @@
     },
     "0x9A1BF5365edBB99C2c61CA6D9ffAd0B705ACfc6F": {
       "asset": "0x53a6aBb52B2F968fA80dF6A894e4f1b1020DA975",
-      "name": "VarlamoredUSDVaultErc4626Vault.md",
+      "name": "VarlamoredUSDVaultErc4626Vault",
       "summary": "safe",
       "review": "./VarlamoredUSDVaultErc4626VaultReview5852.md",
       "warnings": [],
@@ -1629,7 +1629,7 @@
     },
     "0x592D1e187729C76EfacC6dfFB9355bd7BF47B2a7": {
       "asset": "0xd3DCe716f3eF535C5Ff8d041c1A41C3bd89b97aE",
-      "name": "Re7scUSDErc4626Vault.md",
+      "name": "Re7scUSDErc4626Vault",
       "summary": "safe",
       "review": "./Re7scUSDErc4626VaultReview83ee.md",
       "warnings": [],
@@ -1640,7 +1640,7 @@
     },
     "0x92ebF5A1fB4061B45222a6d76ACCF4698bdE4b95": {
       "asset": "0xd3DCe716f3eF535C5Ff8d041c1A41C3bd89b97aE",
-      "name": "GamiCapitalscUSDErc4626Vault.md",
+      "name": "GamiCapitalscUSDErc4626Vault",
       "summary": "safe",
       "review": "./GamiCapitalscUSDErc4626VaultReview6cee.md",
       "warnings": [],
@@ -1651,7 +1651,7 @@
     },
     "0xf6bC16B79c469b94Cdd25F3e2334DD4FEE47A581": {
       "asset": "0x29219dd400f2Bf60E5a23d13Be72B486D4038894",
-      "name": "GreenhouseUSDCErc4626Vault.md",
+      "name": "GreenhouseUSDCErc4626Vault",
       "summary": "safe",
       "review": "./GreenhouseUSDCErc4626VaultReviewc0d8.md",
       "warnings": [],
@@ -1662,7 +1662,7 @@
     },
     "0x391b3F70E254d582588B27e97E48D1CFcdf0BE7e": {
       "asset": "0xd3DCe716f3eF535C5Ff8d041c1A41C3bd89b97aE",
-      "name": "MithrasErc4626Vault.md",
+      "name": "MithrasErc4626Vault",
       "summary": "safe",
       "review": "./MithrasErc4626VaultReview71e8.md",
       "warnings": [],
@@ -1673,7 +1673,7 @@
     },
     "0x423a7A5709213dEa0F0C2368e5fB16338c87bBA7": {
       "asset": "0x29219dd400f2Bf60E5a23d13Be72B486D4038894",
-      "name": "OpenErc4626Vault.md",
+      "name": "OpenErc4626Vault",
       "summary": "safe",
       "review": "./OpenErc4626VaultReview9d0c.md",
       "warnings": [],
@@ -1796,7 +1796,7 @@
     },
     "0x79459f4C9AfC902488109D058C3E76ed0B037c41": {
       "asset": "0xfc421aD3C883Bf9E7C4f42dE845C4e4405799e73",
-      "name": "WrappedAaveAvalanche GHOErc4626Vault.md",
+      "name": "WrappedAaveAvalanche GHOErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveAvalanche GHOErc4626VaultReviewf836.md",
       "warnings": [],
@@ -1816,7 +1816,7 @@
     },
     "0x39dE0f00189306062D79eDEC6DcA5bb6bFd108f9": {
       "asset": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
-      "name": "EVKVaulteUSDC-2Erc4626Vault.md",
+      "name": "EVKVaulteUSDC-2Erc4626Vault",
       "summary": "safe",
       "review": "./EVKVaulteUSDC-2Erc4626VaultReview.md",
       "warnings": [],
@@ -1840,7 +1840,7 @@
     },
     "0xa446938b0204Aa4055cdFEd68Ddf0E0d1BAB3E9E": {
       "asset": "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
-      "name": "EVKVaulteUSDt-3Erc4626Vault.md",
+      "name": "EVKVaulteUSDt-3Erc4626Vault",
       "summary": "safe",
       "review": "./EVKVaulteUSDt-3Erc4626VaultReview.md",
       "warnings": [],
@@ -1864,7 +1864,7 @@
     },
     "0x2137568666f12fc5A026f5430Ae7194F1C1362aB": {
       "asset": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
-      "name": "EVKVaulteAUSD-2Erc4626Vault.md",
+      "name": "EVKVaulteAUSD-2Erc4626Vault",
       "summary": "safe",
       "review": "./EVKVaulteAUSD-2Erc4626VaultReview.md",
       "warnings": [],
@@ -1888,7 +1888,7 @@
     },
     "0x5030183B3DD0105d69D7d45595C120Fc4b542EC3": {
       "asset": "0x06d47F3fb376649c3A9Dafe069B3D6E35572219E",
-      "name": "EVKVaultesavUSD-3Erc4626Vault.md",
+      "name": "EVKVaultesavUSD-3Erc4626Vault",
       "summary": "safe",
       "review": "./EVKVaultesavUSD-3Erc4626VaultReview.md",
       "warnings": [],
@@ -1912,7 +1912,7 @@
     },
     "0x72F92a966f1874f74e1b601BEe7CF57031B53A03": {
       "asset": "0x06d47F3fb376649c3A9Dafe069B3D6E35572219E",
-      "name": "EVKVaultesavUSD-2Erc4626Vault.md",
+      "name": "EVKVaultesavUSD-2Erc4626Vault",
       "summary": "safe",
       "review": "./EVKVaultesavUSD-2Erc4626VaultReview9cb8.md",
       "warnings": [],
@@ -1936,7 +1936,7 @@
     },
     "0x51b47B3013863c52CA28D603De3C2d7a5FEf50B9": {
       "asset": "0xA3D68b74bF0528fdD07263c60d6488749044914b",
-      "name": "EVKVaulteweETH-1Erc4626Vault.md",
+      "name": "EVKVaulteweETH-1Erc4626Vault",
       "summary": "safe",
       "review": "./EVKVaulteweETH-1Erc4626VaultReview417e.md",
       "warnings": [],
@@ -1970,7 +1970,7 @@
     },
     "0xFECebF56f150A68dDd197c3a6101da35C46693Ac": {
       "asset": "0x68088C91446c7bEa49ea7Dbd3B96Ce62B272DC96",
-      "name": "EVKVaultesdeUSD-2Erc4626Vault.md",
+      "name": "EVKVaultesdeUSD-2Erc4626Vault",
       "summary": "safe",
       "review": "./EVKVaultesdeUSD-2Erc4626VaultReviewf366.md",
       "warnings": [],
@@ -1990,7 +1990,7 @@
     },
     "0x4dc1ce9b9f9EF00c144BfAD305f16c62293dC0E8": {
       "asset": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
-      "name": "MEVUSDCErc4626Vault.md",
+      "name": "MEVUSDCErc4626Vault",
       "summary": "safe",
       "review": "./MEVUSDCErc4626VaultReview2cf0.md",
       "warnings": [],
@@ -2006,7 +2006,7 @@
     },
     "0x1F0570a081FeE0e4dF6eAC470f9d2D53CDEDa1c5": {
       "asset": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
-      "name": "GamiUSDCErc4626Vault.md",
+      "name": "GamiUSDCErc4626Vault",
       "summary": "safe",
       "review": "./GamiUSDCErc4626VaultReview58b6.md",
       "warnings": [],
@@ -2017,7 +2017,7 @@
     },
     "0x2E4BA06fF97E10D09FA4F5a270e97301eae729A9": {
       "asset": "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
-      "name": "WrappedAaveCore USDTErc4626Vault.md",
+      "name": "WrappedAaveCore USDTErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveCore USDTErc4626VaultReview7330.md",
       "warnings": [],
@@ -2041,7 +2041,7 @@
     },
     "0x01D7f7B7CE2123192fECC20bd1caF3e4d9e4C10D": {
       "asset": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
-      "name": "WrappedAaveCore USDCErc4626Vault.md",
+      "name": "WrappedAaveCore USDCErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveCore USDCErc4626VaultReview4ffa.md",
       "warnings": [],
@@ -2065,7 +2065,7 @@
     },
     "0x7b538a1840EAf2Ed92EEB67eE744AE627335e201": {
       "asset": "0xC891EB4cbdEFf6e073e859e987815Ed1505c2ACD",
-      "name": "WrappedAaveCore EURCErc4626Vault.md",
+      "name": "WrappedAaveCore EURCErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveCore EURCErc4626VaultReview1dc1.md",
       "warnings": [],
@@ -2173,7 +2173,7 @@
   "optimism": {
     "0x61b620FAd391b53A2D0973b10a3Ed69558d5c66E": {
       "asset": "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
-      "name": "WrappedAaveOptimism DAIErc4626Vault.md",
+      "name": "WrappedAaveOptimism DAIErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveOptimism DAIErc4626VaultReview6f04.md",
       "warnings": [],
@@ -2197,7 +2197,7 @@
     },
     "0x464b808c2C7E04b07e860fDF7a91870620246148": {
       "asset": "0x4200000000000000000000000000000000000006",
-      "name": "WrappedAaveOptimism WETHErc4626Vault.md",
+      "name": "WrappedAaveOptimism WETHErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveOptimism WETHErc4626VaultReview86b0.md",
       "warnings": [],
@@ -2221,7 +2221,7 @@
     },
     "0x927CfF131fD5B43FC992D071929b2c095d6E4b70": {
       "asset": "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
-      "name": "WrappedAaveOptimism USDTErc4626Vault.md",
+      "name": "WrappedAaveOptimism USDTErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveOptimism USDTErc4626VaultReviewab63.md",
       "warnings": [],
@@ -2245,7 +2245,7 @@
     },
     "0xEA9020a9e04C557478daD749A1aaD242b443042C": {
       "asset": "0x68f180fcCe6836688e9084f035309E29Bf0A2095",
-      "name": "WrappedAaveOptimism WBTCErc4626Vault.md",
+      "name": "WrappedAaveOptimism WBTCErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveOptimism WBTCErc4626VaultReview13a5.md",
       "warnings": [],
@@ -2269,7 +2269,7 @@
     },
     "0x41B334E9F2C0ED1f30fD7c351874a6071C53a78E": {
       "asset": "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
-      "name": "WrappedAaveOptimism USDCnErc4626Vault.md",
+      "name": "WrappedAaveOptimism USDCnErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveOptimism USDCnErc4626VaultReview3e4a.md",
       "warnings": [],
@@ -2297,7 +2297,7 @@
     },
     "0x712Ef4D78f43ecAfa106ea003704a908C99D7f11": {
       "asset": "0x4200000000000000000000000000000000000042",
-      "name": "WrappedAaveOptimism OPErc4626Vault.md",
+      "name": "WrappedAaveOptimism OPErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveOptimism OPErc4626VaultReviewa908.md",
       "warnings": [],
@@ -2321,7 +2321,7 @@
     },
     "0x8e6a81b9d541A0CeA090818B62C4B2DE7f2A2Cf7": {
       "asset": "0x9Bcef72be871e61ED4fBbc7630889beE758eb81D",
-      "name": "WrappedAaveOptimism rETHErc4626Vault.md",
+      "name": "WrappedAaveOptimism rETHErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveOptimism rETHErc4626VaultReview47b5.md",
       "warnings": [],
@@ -2345,7 +2345,7 @@
     },
     "0x0B590eF479c8e03825Ae779839aCb4583aCc15FD": {
       "asset": "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
-      "name": "WrappedAaveOptimism USDCErc4626Vault.md",
+      "name": "WrappedAaveOptimism USDCErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveOptimism USDCErc4626VaultReview1944.md",
       "warnings": [],
@@ -2369,7 +2369,7 @@
     },
     "0xC438643b0eee8a314eEC53eb8A1Ee6467C88fc24": {
       "asset": "0x350a791Bfc2C21F9Ed5d10980Dad2e2638ffa7f6",
-      "name": "WrappedAaveOptimism LINKErc4626Vault.md",
+      "name": "WrappedAaveOptimism LINKErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveOptimism LINKErc4626VaultReview4239.md",
       "warnings": [],
@@ -2393,7 +2393,7 @@
     },
     "0x527604E4D87A7562ec653dbe2878D0DCAB7f1972": {
       "asset": "0x76FB31fb4af56892A25e32cFC43De717950c9278",
-      "name": "WrappedAaveOptimism AAVEErc4626Vault.md",
+      "name": "WrappedAaveOptimism AAVEErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveOptimism AAVEErc4626VaultReviewe14e.md",
       "warnings": [],
@@ -2417,7 +2417,7 @@
     },
     "0x0ec63A55a688E5Ba26afe8d9250114505E8b60a0": {
       "asset": "0x8c6f28f2F1A3C87F0f938b96d27520d9751ec8d9",
-      "name": "WrappedAaveOptimism SUSDErc4626Vault.md",
+      "name": "WrappedAaveOptimism SUSDErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveOptimism SUSDErc4626VaultReview6780.md",
       "warnings": [],
@@ -2441,7 +2441,7 @@
     },
     "0x413093E03d6aeE4F2F7e48D4b88881bf4932b249": {
       "asset": "0xc40F949F8a4e094D1b49a23ea9241D289B7b2819",
-      "name": "WrappedAaveOptimism LUSDErc4626Vault.md",
+      "name": "WrappedAaveOptimism LUSDErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveOptimism LUSDErc4626VaultReviewdb45.md",
       "warnings": [],
@@ -2465,7 +2465,7 @@
     },
     "0xbaF95bB30CDab3d5b7a11B67EDeF5631bD62be86": {
       "asset": "0x1F32b1c2345538c0c6f582fCB022739c4A194Ebb",
-      "name": "WrappedAaveOptimism wstETHErc4626Vault.md",
+      "name": "WrappedAaveOptimism wstETHErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveOptimism wstETHErc4626VaultReview2b8e.md",
       "warnings": [],
@@ -2495,7 +2495,7 @@
   "hyperevm": {
     "0x53A333e51E96FE288bC9aDd7cdC4B1EAD2CD2FfA": {
       "asset": "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
-      "name": "GauntletUSDT0VaultErc4626Vault.md",
+      "name": "GauntletUSDT0VaultErc4626Vault",
       "summary": "safe",
       "review": "./GauntletUSDT0VaultErc4626VaultReview93a6.md",
       "warnings": [],
@@ -2506,7 +2506,7 @@
     },
     "0x9c59a9389D8f72DE2CdAf1126F36EA4790E2275e": {
       "asset": "0xb50A96253aBDF803D85efcDce07Ad8becBc52BD5",
-      "name": "FelixUSDhlErc4626Vault.md",
+      "name": "FelixUSDhlErc4626Vault",
       "summary": "safe",
       "review": "./FelixUSDhlErc4626VaultReview8494.md",
       "warnings": [],
@@ -2517,7 +2517,7 @@
     },
     "0xD704254eb350E0D3BaeCD194d095862267897aE0": {
       "asset": "0x5555555555555555555555555555555555555555",
-      "name": "StaticHyperLendHyperEVM WHYPE v2Erc4626Vault.md",
+      "name": "StaticHyperLendHyperEVM WHYPE v2Erc4626Vault",
       "summary": "safe",
       "review": "./StaticHyperLendHyperEVM WHYPE v2Erc4626VaultReview22b3.md",
       "warnings": [],
@@ -2533,7 +2533,7 @@
     },
     "0xfc5126377f0efc0041c0969ef9ba903ce67d151e": {
       "asset": "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
-      "name": "FelixUSDT0Erc4626Vault.md",
+      "name": "FelixUSDT0Erc4626Vault",
       "summary": "safe",
       "review": "./FelixUSDT0Erc4626VaultReview29bb.md",
       "warnings": [],
@@ -2544,7 +2544,7 @@
     },
     "0x5eEC795d919FA97688Fb9844eeB0072E6B846F9d": {
       "asset": "0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34",
-      "name": "GauntletUSDeCoreErc4626Vault.md",
+      "name": "GauntletUSDeCoreErc4626Vault",
       "summary": "safe",
       "review": "./GauntletUSDeCoreErc4626VaultReviewb0a8.md",
       "warnings": [],
@@ -2555,7 +2555,7 @@
     },
     "0xD3A9Cb7312B9c29113290758f5ADFe12304cd16A": {
       "asset": "0x0aD339d66BF4AeD5ce31c64Bc37B3244b6394A77",
-      "name": "MEVCapitalUSRErc4626Vault.md",
+      "name": "MEVCapitalUSRErc4626Vault",
       "summary": "safe",
       "review": "./MEVCapitalUSRErc4626VaultReviewa313.md",
       "warnings": [],
@@ -2566,7 +2566,7 @@
     },
     "0x3Bcc0a5a66bB5BdCEEf5dd8a659a4eC75F3834d8": {
       "asset": "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
-      "name": "MEVCapitalUSDT0Erc4626Vault.md",
+      "name": "MEVCapitalUSDT0Erc4626Vault",
       "summary": "safe",
       "review": "./MEVCapitalUSDT0Erc4626VaultReview778c.md",
       "warnings": [],
@@ -2577,7 +2577,7 @@
     },
     "0x2c910F67DbF81099e6f8e126E7265d7595DC20aD": {
       "asset": "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
-      "name": "HyUSD₮0(hwHLP)- 11Erc4626Vault.md",
+      "name": "HyUSD₮0(hwHLP)- 11Erc4626Vault",
       "summary": "safe",
       "review": "./HyUSD₮0(hwHLP)- 11Erc4626VaultReview37fe.md",
       "warnings": [],
@@ -2588,7 +2588,7 @@
     },
     "0x0571362ba5EA9784a97605f57483f865A37dBEAA": {
       "asset": "0xBe6727B535545C67d5cAa73dEa54865B92CF7907",
-      "name": "GauntletuETHVaultErc4626Vault.md",
+      "name": "GauntletuETHVaultErc4626Vault",
       "summary": "safe",
       "review": "./GauntletuETHVaultErc4626VaultReview1975.md",
       "warnings": [],
@@ -2599,7 +2599,7 @@
     },
     "0xd19e3d00f8547f7d108abFD4bbb015486437B487": {
       "asset": "0x5555555555555555555555555555555555555555",
-      "name": "MEVCapitalHYPEErc4626Vault.md",
+      "name": "MEVCapitalHYPEErc4626Vault",
       "summary": "safe",
       "review": "./MEVCapitalHYPEErc4626VaultReview5dcc.md",
       "warnings": [],
@@ -2610,7 +2610,7 @@
     },
     "0x06Fd9D03b3d0F18E4919919b72D30c582f0a97E5": {
       "asset": "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
-      "name": "HyperlendInterestBearing USD₮0 (Wrapped HLP)Erc4626Vault.md",
+      "name": "HyperlendInterestBearing USD₮0 (Wrapped HLP)Erc4626Vault",
       "summary": "safe",
       "review": "./HyperlendInterestBearing USD₮0 (Wrapped HLP)Erc4626VaultReview02cf.md",
       "warnings": [],
@@ -2621,7 +2621,7 @@
     },
     "0x66c71204B70aE27BE6dC3eb41F9aF5868E68fDb6": {
       "asset": "0xb50A96253aBDF803D85efcDce07Ad8becBc52BD5",
-      "name": "USDhl(Frontier)Erc4626Vault.md",
+      "name": "USDhl(Frontier)Erc4626Vault",
       "summary": "safe",
       "review": "./USDhl(Frontier)Erc4626VaultReview8c47.md",
       "warnings": [],
@@ -2632,7 +2632,7 @@
     },
     "0xDC6F4239C1D8D3b955C06CB8f1A6cF18EFfc5BFe": {
       "asset": "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
-      "name": "StaticUSD₮0HypurrErc4626Vault.md",
+      "name": "StaticUSD₮0HypurrErc4626Vault",
       "summary": "safe",
       "review": "./StaticUSD₮0HypurrErc4626VaultReview4f04.md",
       "warnings": [],
@@ -2652,7 +2652,7 @@
     },
     "0x1C5164A764844356d57654ea83f9f1B72Cd10db5": {
       "asset": "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
-      "name": "HyUSD₮0(LoopedHYPE).md",
+      "name": "HyUSD₮0(LoopedHYPE)",
       "summary": "safe",
       "review": "./HyUSDT0(LoopedHYPE).md",
       "warnings": [],
@@ -2663,7 +2663,7 @@
     },
     "0x20ecF3936Df08556b62fD15a4E167ae99d73b957": {
       "asset": "0x111111a1a0667d36bD57c0A9f569b98057111111",
-      "name": "StaticUSDHHypurrErc4626Vault.md",
+      "name": "StaticUSDHHypurrErc4626Vault",
       "summary": "safe",
       "review": "./StaticUSDHHypurrErc4626VaultReview9f45.md",
       "warnings": [],
@@ -2683,7 +2683,7 @@
     },
     "0x3Df418bE6Dad3f824d00A7c516DAd3Ea2A5a79C6": {
       "asset": "0x5555555555555555555555555555555555555555",
-      "name": "StaticWHYPEHypurrErc4626Vault.md",
+      "name": "StaticWHYPEHypurrErc4626Vault",
       "summary": "safe",
       "review": "./StaticWHYPEHypurrErc4626VaultReviewd85a.md",
       "warnings": [],
@@ -2703,7 +2703,7 @@
     },
     "0xe8b10461ea0b04FF30F4cBfc3E93957Cac00DEd4": {
       "asset": "0x5555555555555555555555555555555555555555",
-      "name": "HypurrFiEarnHYPEErc4626Vault.md",
+      "name": "HypurrFiEarnHYPEErc4626Vault",
       "summary": "safe",
       "review": "./HypurrFiEarnHYPEErc4626VaultReviewa053.md",
       "warnings": [],
@@ -2731,7 +2731,7 @@
     },
     "0xc200aab602cd7046389b5c8fb088884323f8dd0f": {
       "asset": "0xb88339CB7199b77E23DB6E890353E22632Ba630f",
-      "name": "EVKVaulteUSDC-3Erc4626Vault.md",
+      "name": "EVKVaulteUSDC-3Erc4626Vault",
       "summary": "safe",
       "review": "./EVKVaulteUSDC-3Erc4626VaultReviewdc88.md",
       "warnings": [],
@@ -2751,7 +2751,7 @@
     },
     "0xb2A2104D9fC202a38d74d8F6c3c45Da6eef8F5e0": {
       "asset": "0xfD739d4e423301CE9385c1fb8850539D657C296D",
-      "name": "StaticHyperLendHyperEVM kHYPE v2Erc4626Vault.md",
+      "name": "StaticHyperLendHyperEVM kHYPE v2Erc4626Vault",
       "summary": "safe",
       "review": "./StaticHyperLendHyperEVM kHYPE v2Erc4626VaultReview8537.md",
       "warnings": [],
@@ -2771,7 +2771,7 @@
     },
     "0x6dd448d5cb73DC96788d5BE605DD3C5c83864a36": {
       "asset": "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
-      "name": "ClearstarEarnUSDT0Erc4626Vault.md",
+      "name": "ClearstarEarnUSDT0Erc4626Vault",
       "summary": "safe",
       "review": "./ClearstarEarnUSDT0Erc4626VaultReviewedb6.md",
       "warnings": [],
@@ -2791,7 +2791,7 @@
     },
     "0xF868A2B30854FE13e26F7AB7a92609cCb6b9c0e1": {
       "asset": "0xb88339CB7199b77E23DB6E890353E22632Ba630f",
-      "name": "ClearstarEarnUSDCErc4626Vault.md",
+      "name": "ClearstarEarnUSDCErc4626Vault",
       "summary": "safe",
       "review": "./ClearstarEarnUSDCErc4626VaultReview6f29.md",
       "warnings": [],
@@ -2823,7 +2823,7 @@
     },
     "0xF38eA9DE758a8F6be08B6E65bc0Ff2f3e3aB741b": {
       "asset": "0x111111a1a0667d36bD57c0A9f569b98057111111",
-      "name": "ClearstarEarnUSDHErc4626Vault.md",
+      "name": "ClearstarEarnUSDHErc4626Vault",
       "summary": "safe",
       "review": "./ClearstarEarnUSDHErc4626VaultReview7a7e.md",
       "warnings": [],
@@ -2908,7 +2908,7 @@
     },
     "0xa9C251F8304b1B3Fc2b9e8fcae78D94Eff82Ac66": {
       "asset": "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
-      "name": "TelosCEarnUSDT0Erc4626Vault.md",
+      "name": "TelosCEarnUSDT0Erc4626Vault",
       "summary": "safe",
       "review": "./TelosCEarnUSDT0Erc4626VaultReviewf279.md",
       "warnings": [],
@@ -2936,7 +2936,7 @@
     },
     "0x76309A9a56309104518847BbA321c261B7B4a43f": {
       "asset": "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
-      "name": "USDT0Erc4626Vault.md",
+      "name": "USDT0Erc4626Vault",
       "summary": "safe",
       "review": "./USDT0Erc4626VaultReview73a4.md",
       "warnings": [],
@@ -2947,7 +2947,7 @@
     },
     "0x9c46EE1f01d2b551048F5fF99a4659D98d04BED1": {
       "asset": "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
-      "name": "246ClubTelosCEarn USDT0Erc4626Vault.md",
+      "name": "246ClubTelosCEarn USDT0Erc4626Vault",
       "summary": "safe",
       "review": "./246ClubTelosCEarn USDT0Erc4626VaultReview102c.md",
       "warnings": [],
@@ -2975,7 +2975,7 @@
     },
     "0x9d86B4fc23D8438fC4Aba58642DC35D5F64fE941": {
       "asset": "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
-      "name": "EVKVaulteUSDT0-30Erc4626Vault.md",
+      "name": "EVKVaulteUSDT0-30Erc4626Vault",
       "summary": "safe",
       "review": "./EVKVaulteUSDT0-30Erc4626VaultReview6b68.md",
       "warnings": [],
@@ -2999,7 +2999,7 @@
     },
     "0x28C48A7630A730F5f2297dA7A72b7F31d9E99e19": {
       "asset": "0xb77E872A68C62CfC0dFb02C067Ecc3DA23B4bbf3",
-      "name": "WrappedAavePlasma GHOErc4626Vault.md",
+      "name": "WrappedAavePlasma GHOErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAavePlasma GHOErc4626VaultReview79c1.md",
       "warnings": [],
@@ -3021,7 +3021,7 @@
   "monad": {
     "0x8E94704607E857eB3E10Bd21D90bf8C1Ecba0452": {
       "asset": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
-      "name": "CurvanceAUSDErc4626Vault.md",
+      "name": "CurvanceAUSDErc4626Vault",
       "summary": "safe",
       "review": "./CurvanceAUSDErc4626VaultReview3e50.md",
       "warnings": [],
@@ -3032,7 +3032,7 @@
     },
     "0x0fcEd51b526BfA5619F83d97b54a57e3327eB183": {
       "asset": "0x3bd359C1119dA7Da1D913D1C4D2B7c461115433A",
-      "name": "CurvanceWrappedMONErc4626Vault.md",
+      "name": "CurvanceWrappedMONErc4626Vault",
       "summary": "safe",
       "review": "./CurvanceWrappedMONErc4626VaultReview59b7.md",
       "warnings": [],
@@ -3043,7 +3043,7 @@
     },
     "0xf473568b26B8C5aadCa9fbC0eA17E1728d5ec925": {
       "asset": "0x3bd359C1119dA7Da1D913D1C4D2B7c461115433A",
-      "name": "CurvanceWrappedMONErc4626Vault.md",
+      "name": "CurvanceWrappedMONErc4626Vault",
       "summary": "safe",
       "review": "./CurvanceWrappedMONErc4626VaultRevieweff3.md",
       "warnings": [],
@@ -3054,7 +3054,7 @@
     },
     "0x8d5c2Df3Eef09088Fcccf3376D8EcD0Dd505f642": {
       "asset": "0x754704Bc059F8C67012fEd69BC8A327a5aafb603",
-      "name": "WrappedNeverlandUSDCErc4626Vault.md",
+      "name": "WrappedNeverlandUSDCErc4626Vault",
       "summary": "safe",
       "review": "./WrappedNeverlandUSDCErc4626VaultReview1052.md",
       "warnings": [],
@@ -3074,7 +3074,7 @@
     },
     "0x4e8aaecCE10ad9394e96fE5f2bd4e587A7B04298": {
       "asset": "0xe7cd86e13AC4309349F30B3435a9d337750fC82D",
-      "name": "WrappedNeverlandUSDT0Erc4626Vault.md",
+      "name": "WrappedNeverlandUSDT0Erc4626Vault",
       "summary": "safe",
       "review": "./WrappedNeverlandUSDT0Erc4626VaultReviewece4.md",
       "warnings": [],
@@ -3094,7 +3094,7 @@
     },
     "0x82c370ba90E38ef6Acd8b1b078d34fD86FC6bAC9": {
       "asset": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
-      "name": "WrappedNeverlandAUSDErc4626Vault.md",
+      "name": "WrappedNeverlandAUSDErc4626Vault",
       "summary": "safe",
       "review": "./WrappedNeverlandAUSDErc4626VaultReview7d5a.md",
       "warnings": [],
@@ -3114,7 +3114,7 @@
     },
     "0xdB39A9D4a1f1b4e93A5684d602207628aD60613C": {
       "asset": "0x3bd359C1119dA7Da1D913D1C4D2B7c461115433A",
-      "name": "WrappedNeverlandWMONErc4626Vault.md",
+      "name": "WrappedNeverlandWMONErc4626Vault",
       "summary": "safe",
       "review": "./WrappedNeverlandWMONErc4626VaultReview477b.md",
       "warnings": [],
@@ -3134,7 +3134,7 @@
     },
     "0xD786F7569C39A9F64E6A54Eb77db21364E90F279": {
       "asset": "0x9c82eB49B51F7Dc61e22Ff347931CA32aDc6cd90",
-      "name": "WrappedNeverlandloAZNDErc4626Vault.md",
+      "name": "WrappedNeverlandloAZNDErc4626Vault",
       "summary": "safe",
       "review": "./WrappedNeverlandloAZNDErc4626VaultReview15a6.md",
       "warnings": [],
@@ -3154,7 +3154,7 @@
     },
     "0x29D2075E5151B1A6863bDC40EA86bD5e8aFd1705": {
       "asset": "0x8498312A6B3CbD158bf0c93AbdCF29E6e4F55081",
-      "name": "WrappedNeverlandgMONErc4626Vault.md",
+      "name": "WrappedNeverlandgMONErc4626Vault",
       "summary": "safe",
       "review": "./WrappedNeverlandgMONErc4626VaultReviewb1c2.md",
       "warnings": [],
@@ -3174,7 +3174,7 @@
     },
     "0x08139339dd9A480CEB84D9C7CcE48BE436dB20b3": {
       "asset": "0xA3227C5969757783154C60bF0bC1944180ed81B9",
-      "name": "WrappedNeverlandsMONErc4626Vault.md",
+      "name": "WrappedNeverlandsMONErc4626Vault",
       "summary": "safe",
       "review": "./WrappedNeverlandsMONErc4626VaultReviewda69.md",
       "warnings": [],
@@ -3194,7 +3194,7 @@
     },
     "0x5e073494678fB7FA4a05bB17d45941Dd9Dc469c1": {
       "asset": "0x1B68626dCa36c7fE922fD2d55E4f631d962dE19c",
-      "name": "WrappedNeverlandshMONErc4626Vault.md",
+      "name": "WrappedNeverlandshMONErc4626Vault",
       "summary": "safe",
       "review": "./WrappedNeverlandshMONErc4626VaultReviewf5f7.md",
       "warnings": [],
@@ -3214,7 +3214,7 @@
     },
     "0xB3b850ac62B89fe9f4eFB652b516108a8aEb8848": {
       "asset": "0xEE8c0E9f1BFFb4Eb878d8f15f368A02a35481242",
-      "name": "WrappedNeverlandWETHErc4626Vault.md",
+      "name": "WrappedNeverlandWETHErc4626Vault",
       "summary": "safe",
       "review": "./WrappedNeverlandWETHErc4626VaultReview64c1.md",
       "warnings": [],
@@ -3234,7 +3234,7 @@
     },
     "0xE1BcA19baA63894D374578320551633320436523": {
       "asset": "0x754704Bc059F8C67012fEd69BC8A327a5aafb603",
-      "name": "ClearstarEarnUSDCErc4626Vault.md",
+      "name": "ClearstarEarnUSDCErc4626Vault",
       "summary": "safe",
       "review": "./ClearstarEarnUSDCErc4626VaultReview59d5.md",
       "warnings": [],
@@ -3250,7 +3250,7 @@
     },
     "0x5E7109A755fD2b86361F95065cDE07FbAb50CA1D": {
       "asset": "0xe7cd86e13AC4309349F30B3435a9d337750fC82D",
-      "name": "WrappedAaveMonad USDT0Erc4626Vault.md",
+      "name": "WrappedAaveMonad USDT0Erc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveMonad USDT0Erc4626VaultReview9ee6.md",
       "warnings": [],
@@ -3270,7 +3270,7 @@
     },
     "0x967d427eF0Eb4AEB7a1B523A98B04061F094276B": {
       "asset": "0xEE8c0E9f1BFFb4Eb878d8f15f368A02a35481242",
-      "name": "WrappedAaveMonad WETHErc4626Vault.md",
+      "name": "WrappedAaveMonad WETHErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveMonad WETHErc4626VaultReview0b31.md",
       "warnings": [],
@@ -3290,7 +3290,7 @@
     },
     "0xC554aFfE2f581F5E0811e0D42D484ECaC5c6B8e2": {
       "asset": "0x754704Bc059F8C67012fEd69BC8A327a5aafb603",
-      "name": "WrappedAaveMonad USDCErc4626Vault.md",
+      "name": "WrappedAaveMonad USDCErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveMonad USDCErc4626VaultReviewac6e.md",
       "warnings": [],
@@ -3310,7 +3310,7 @@
     },
     "0x9e1AcC5BFbf34e2E579763cE14042d957719fE76": {
       "asset": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
-      "name": "WrappedAaveMonad AUSDErc4626Vault.md",
+      "name": "WrappedAaveMonad AUSDErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveMonad AUSDErc4626VaultReview6705.md",
       "warnings": [],
@@ -3330,7 +3330,7 @@
     },
     "0x6A7C826974994c4CE012B2fb32FE9D30d6366380": {
       "asset": "0xacA92E438df0B2401fF60dA7E4337B687a2435DA",
-      "name": "WrappedAaveMonad mUSDErc4626Vault.md",
+      "name": "WrappedAaveMonad mUSDErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveMonad mUSDErc4626VaultReviewe6be.md",
       "warnings": [],
@@ -3350,7 +3350,7 @@
     },
     "0x7c9e74e6C6E5DafAf9b44F60bf8eBbe81CA70d4F": {
       "asset": "0xfc421aD3C883Bf9E7C4f42dE845C4e4405799e73",
-      "name": "WrappedAaveMonad GHOErc4626Vault.md",
+      "name": "WrappedAaveMonad GHOErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveMonad GHOErc4626VaultReview6c49.md",
       "warnings": [],
@@ -3370,7 +3370,7 @@
     },
     "0x6f2cdF03c8343E1eA608668812Fb094E46C41C80": {
       "asset": "0xaB6e5a0C3799d020c790D34F7B2C02639e238AF7",
-      "name": "WrappedAaveMonad syrupUSDCErc4626Vault.md",
+      "name": "WrappedAaveMonad syrupUSDCErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveMonad syrupUSDCErc4626VaultReviewe3d8.md",
       "warnings": [],
@@ -3390,7 +3390,7 @@
     },
     "0xDc00342D80de85a8b843Dab1f29bb407B3abeB64": {
       "asset": "0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34",
-      "name": "WrappedAaveMonad USDeErc4626Vault.md",
+      "name": "WrappedAaveMonad USDeErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveMonad USDeErc4626VaultReview16a3.md",
       "warnings": [],
@@ -3410,7 +3410,7 @@
     },
     "0x4eC854a6fDF52Eb64F8CabF87FafD3B1f1743a00": {
       "asset": "0x211Cc4DD073734dA055fbF44a2b4667d5E5fE5d2",
-      "name": "WrappedAaveMonad sUSDeErc4626Vault.md",
+      "name": "WrappedAaveMonad sUSDeErc4626Vault",
       "summary": "safe",
       "review": "./WrappedAaveMonad sUSDeErc4626VaultReview39ec.md",
       "warnings": [],
@@ -3430,7 +3430,7 @@
     },
     "0x8959f4e6ed1f4567a464959793d5f8f6f33c1c8b": {
       "asset": "0x0555E30da8f98308EdB960aa94C0Db47230d2B9c",
-      "name": "WrappedNeverlandWBTCErc4626Vault.md",
+      "name": "WrappedNeverlandWBTCErc4626Vault",
       "summary": "safe",
       "review": "./WrappedNeverlandWBTCErc4626VaultReview879d.md",
       "warnings": [],
@@ -3450,7 +3450,7 @@
     },
     "0x98a297e6424787e57af119949d7e00b721f832bb": {
       "asset": "0xd18B7EC58Cdf4876f6AFebd3Ed1730e4Ce10414b",
-      "name": "WrappedNeverlandcbBTCErc4626Vault.md",
+      "name": "WrappedNeverlandcbBTCErc4626Vault",
       "summary": "safe",
       "review": "./WrappedNeverlandcbBTCErc4626VaultReview329b.md",
       "warnings": [],
@@ -3470,7 +3470,7 @@
     },
     "0x22139a346b6312eb0a9812c67cfce4a694676d59": {
       "asset": "0x01bFF41798a0BcF287b996046Ca68b395DbC1071",
-      "name": "WrappedNeverlandXAUt0Erc4626Vault.md",
+      "name": "WrappedNeverlandXAUt0Erc4626Vault",
       "summary": "safe",
       "review": "./WrappedNeverlandXAUt0Erc4626VaultReview167e.md",
       "warnings": [],
@@ -3490,7 +3490,7 @@
     },
     "0x215394B5677Cb7a18B6fA8cc2cD155C024ee6b2E": {
       "asset": "0x754704Bc059F8C67012fEd69BC8A327a5aafb603",
-      "name": "BlueberryUSDCErc4626Vault.md",
+      "name": "BlueberryUSDCErc4626Vault",
       "summary": "safe",
       "review": "./BlueberryUSDCErc4626VaultReview4f9b.md",
       "warnings": [],
@@ -3501,7 +3501,7 @@
     },
     "0xC2ddc1004CA0d6cC4bFd1dCD03Dcf855bED8E670": {
       "asset": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
-      "name": "BlueberryAUSDErc4626Vault.md",
+      "name": "BlueberryAUSDErc4626Vault",
       "summary": "safe",
       "review": "./BlueberryAUSDErc4626VaultReview0d43.md",
       "warnings": [],
