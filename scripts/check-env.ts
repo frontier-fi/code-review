@@ -6,36 +6,11 @@ dotenv.config()
 
 const RPC_CHECK_TIMEOUT_MS = 10_000
 
-// Network keys from process-issue.ts networks map; env var is {KEY.toUpperCase()}_RPC_URL
-const RPC_ENV_KEYS = [
-    'base',
-    'mainnet',
-    'arbitrum',
-    'avalanche',
-    'gnosis',
-    'fraxtal',
-    'optimism',
-    'sonic',
-    'sepolia',
-    'polygon',
-    'polygonZkEvm',
-    'mode',
-    'hyperEvm',
-    'plasma',
-    'monad',
-] as const
+// dRPC network names from process-issue.ts drpcNetworks map
+const DRPC_NETWORKS = ['base', 'ethereum', 'arbitrum', 'avalanche', 'monad', 'sepolia'] as const
 
-function envName(key: string): string {
-    return `${key.toUpperCase()}_RPC_URL`
-}
-
-function isValidHttpUrl(s: string): boolean {
-    try {
-        const u = new URL(s)
-        return u.protocol === 'http:' || u.protocol === 'https:'
-    } catch {
-        return false
-    }
+function drpcUrl(network: string, apiKey: string): string {
+    return `https://lb.drpc.live/${network}/${apiKey}`
 }
 
 function minimalChain(rpcUrl: string): Chain {
@@ -172,29 +147,22 @@ async function checkTenderlyCredentials(
 async function main(): Promise<void> {
     const results: { name: string; status: 'pass' | 'fail'; reason?: string }[] = []
 
-    for (const key of RPC_ENV_KEYS) {
-        const name = envName(key)
-        const value = process.env[name]?.trim()
-
-        if (value === undefined || value === '') {
-            results.push({ name, status: 'fail', reason: 'missing' })
-            console.log(`${name}: fail — missing`)
-            continue
-        }
-
-        if (!isValidHttpUrl(value)) {
-            results.push({ name, status: 'fail', reason: 'invalid URL' })
-            console.log(`${name}: fail — invalid URL`)
-            continue
-        }
-
-        const check = await checkRpcUrl(value)
-        if (check.ok) {
-            results.push({ name, status: 'pass' })
-            console.log(`${name}: success`)
-        } else {
-            results.push({ name, status: 'fail', reason: check.reason })
-            console.log(`${name}: fail — ${check.reason}`)
+    // Check dRPC API key against each network
+    const drpcApiKey = process.env.DRPC_API_KEY?.trim()
+    if (drpcApiKey === undefined || drpcApiKey === '') {
+        results.push({ name: 'DRPC_API_KEY', status: 'fail', reason: 'missing' })
+        console.log(`DRPC_API_KEY: fail — missing`)
+    } else {
+        for (const network of DRPC_NETWORKS) {
+            const name = `DRPC_API_KEY (${network})`
+            const check = await checkRpcUrl(drpcUrl(network, drpcApiKey))
+            if (check.ok) {
+                results.push({ name, status: 'pass' })
+                console.log(`${name}: success`)
+            } else {
+                results.push({ name, status: 'fail', reason: check.reason })
+                console.log(`${name}: fail — ${check.reason}`)
+            }
         }
     }
 

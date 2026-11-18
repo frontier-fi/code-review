@@ -1,13 +1,14 @@
-import { Address, parseEventLogs } from 'viem'
+import { Address } from 'viem'
 import { CreateAccessListReturnType } from 'viem/_types/actions/public/createAccessList'
 import { createPublicClient, encodeFunctionData, http } from 'viem'
 import { Chain, Hex, Abi } from 'viem'
-import { base, optimism, avalanche } from 'viem/chains'
+import { base, avalanche } from 'viem/chains'
 import { rateProviderAbi } from './utils/abi/rateProvider'
 import { ChainApi, ContractSourceInfo } from './types/types'
 import EtherscanApi from './services/etherscanApi'
-import BlockscoutApi from './services/BlockscoutApi'
+import RpcApi from './services/RpcApi'
 import RoutescanApi from './services/RoutescanApi'
+import { getErc1967Pointers } from './utils/getErc1967Pointers'
 
 class RateProviderDataService {
     public rateProvider: Address
@@ -94,7 +95,7 @@ class RateProviderDataService {
      */
     public async getDeploymentBlocks(
         addresses: Address[],
-    ): Promise<{ address: Address; deploymentTxHash: Hex; blockNumber?: string; timestamp?: string }[]> {
+    ): Promise<{ address: Address; deploymentTxHash?: Hex; blockNumber?: string; timestamp?: string }[]> {
         const chainApi = this.getApiForFunction('getDeploymentBlocks')
 
         // The addresses length can be arbitrary but the etherscan API only allows 5 addresses at a time
@@ -165,13 +166,13 @@ class RateProviderDataService {
         // filter out the contracts that are not proxies
         const filteredProxiesList = proxiesWithRateProvider.filter((p) => p.Proxy === '1')
 
-        let proxiesWithRateProviderDeploymentInfo: { address: Address; deploymentTxHash: Hex }[]
+        let proxiesWithRateProviderDeploymentInfo: { address: Address; deploymentTxHash?: Hex; blockNumber?: string }[]
         try {
             proxiesWithRateProviderDeploymentInfo = await this.getDeploymentBlocks(
                 filteredProxiesList.map((p) => p.address),
             )
         } catch (error) {
-            // Explorer deployment lookup can fail (e.g. Blockscout HTTP 500 on Base).
+            // Deployment lookup can fail (e.g. explorer or RPC errors).
             // Reviews only need proxy + implementation; leave wasUpgraded unknown.
             console.warn(
                 `Failed to determine upgrade history for ${this.chain.name}; continuing with proxy list only:`,
@@ -199,32 +200,38 @@ class RateProviderDataService {
             return { ...d, ...proxyInfo }
         })
 
-        const receipts = await Promise.all(
-            mergedInfo.map(async (contract) => {
-                const receipt = await publicClient.getTransactionReceipt({
-                    hash: contract.deploymentTxHash,
-                })
-                return { ...contract, receipt }
-            }),
-        )
+        const latestBlock = await publicClient.getBlockNumber()
 
         const proxiesWithRateProviderCompleteInfo = await Promise.all(
-            receipts.map(async (info) => {
+            mergedInfo.map(async (info) => {
                 try {
-                    if (!info.ABI) {
-                        throw new Error(`ABI not provided for contract at address ${info.address}`)
+                    // Some explorers only return the deployment tx hash, not the block
+                    let deploymentBlock: bigint
+                    if (info.blockNumber) {
+                        deploymentBlock = BigInt(info.blockNumber)
+                    } else if (info.deploymentTxHash) {
+                        const receipt = await publicClient.getTransactionReceipt({ hash: info.deploymentTxHash })
+                        deploymentBlock = receipt.blockNumber
+                    } else {
+                        throw new Error(`No deployment block or tx hash for contract at address ${info.address}`)
                     }
-                    const events = parseEventLogs({
-                        logs: info.receipt.logs,
-                        abi: JSON.parse(info.ABI),
-                        eventName: 'Upgraded',
-                    })
-                    const wasUpgraded = events.length > 0
 
-                    return { ...info, events, wasUpgraded }
+                    const [atDeployment, atLatest] = await Promise.all([
+                        getErc1967Pointers(publicClient, info.address, deploymentBlock),
+                        getErc1967Pointers(publicClient, info.address, latestBlock),
+                    ])
+                    if (atLatest === undefined) {
+                        throw new Error(`Contract at address ${info.address} does not use ERC-1967 storage slots`)
+                    }
+                    const wasUpgraded = atDeployment !== atLatest
+
+                    return { ...info, wasUpgraded }
                 } catch (error) {
-                    console.error(`Error processing contract at address ${info.address}:`, error)
-                    return { ...info, events: [], wasUpgraded: false, error }
+                    console.warn(
+                        `Failed to determine upgrade history for ${info.address}:`,
+                        error instanceof Error ? error.message : error,
+                    )
+                    return { ...info, wasUpgraded: null }
                 }
             }),
         )
@@ -401,12 +408,12 @@ class RateProviderDataService {
             return new EtherscanApi(this.chain, this.apiKey)
         }
 
-        // For getDeploymentBlocks: Use Etherscan if chain is NOT Base, Optimism or Avalanche
+        // For getDeploymentBlocks: Use Etherscan if chain is NOT Base or Avalanche
         if (functionName === 'getDeploymentBlocks') {
-            // Base, Avalanche, BNB and Optimism are not supported via Etherscan for getDeploymentBlocks
-            // so using Blockscout api for Base & optimism
-            if (this.chain.id === base.id || this.chain.id === optimism.id) {
-                return new BlockscoutApi(this.chain, this.apiKey)
+            // Base and Avalanche are not supported via Etherscan's free plan for getDeploymentBlocks
+            // so looking up deployments over RPC for Base
+            if (this.chain.id === base.id) {
+                return new RpcApi(this.chain)
             }
 
             if (this.chain.id === avalanche.id) {

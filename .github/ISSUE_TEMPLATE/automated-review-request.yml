@@ -28,6 +28,7 @@ body:
         - arbitrum
         - avalanche
         - monad
+        - sepolia
     validations:
       required: true
   - type: input

@@ -1,27 +1,10 @@
 import { Address, Chain } from 'viem'
-import {
-    base,
-    mainnet,
-    arbitrum,
-    avalanche,
-    gnosis,
-    sonic,
-    sepolia,
-    polygon,
-    fraxtal,
-    optimism,
-    polygonZkEvm,
-    mode,
-} from 'viem/chains'
-import { hyperEvm } from './customChains'
+import { base, mainnet, arbitrum, avalanche, monad, sepolia } from 'viem/chains'
 
 // Mapping of chain names to registry keys
 export const chainNameToRegistryKey: { [key: string]: string } = {
     'Arbitrum One': 'arbitrum',
     mainnet: 'ethereum',
-    'OP Mainnet': 'optimism',
-    'Polygon zkEVM': 'zkevm',
-    'Mode Mainnet': 'mode',
 }
 
 export function validateAndPrepareNetwork(networkName: string, rpcUrl: string): Chain {
@@ -31,15 +14,8 @@ export function validateAndPrepareNetwork(networkName: string, rpcUrl: string): 
         mainnet,
         arbitrum,
         avalanche,
-        gnosis,
-        fraxtal,
-        optimism,
-        sonic,
+        monad,
         sepolia,
-        polygon,
-        polygonZkEvm,
-        mode,
-        hyperEvm,
     }
 
     let network = networks[networkName]
@@ -58,22 +34,6 @@ export function validateAndPrepareNetwork(networkName: string, rpcUrl: string): 
                 http: [rpcUrl],
             },
         },
-    }
-
-    // some viem chains do not have a block explorer api url set
-    if (networkName === 'sonic') {
-        network = {
-            ...network,
-            blockExplorers: {
-                ...network.blockExplorers,
-                default: {
-                    ...network.blockExplorers?.default,
-                    apiUrl: 'https://api.sonicscan.org/api',
-                    name: 'SonicScan',
-                    url: network.blockExplorers?.default?.url || 'https://sonicscan.io',
-                },
-            },
-        }
     }
 
     return network

@@ -5,23 +5,7 @@ import { Address } from 'viem'
 
 import RateProviderDataService from '../app'
 import { template } from './template'
-import {
-    base,
-    mainnet,
-    arbitrum,
-    avalanche,
-    gnosis,
-    sonic,
-    sepolia,
-    polygon,
-    fraxtal,
-    Chain,
-    optimism,
-    polygonZkEvm,
-    mode,
-} from 'viem/chains'
-
-import { hyperEvm } from './customChains'
+import { Chain } from 'viem/chains'
 
 import {
     runRateProviderChecks,
@@ -31,6 +15,7 @@ import {
     SecurityCheckResults,
 } from '../checks'
 import { doOnchainCallGetName } from '../utils'
+import { findRateProviderFactory } from './rateProviderFactories'
 
 const fs = require('fs')
 
@@ -38,9 +23,6 @@ const fs = require('fs')
 const chainNameToRegistryKey: { [key: string]: string } = {
     'Arbitrum One': 'arbitrum',
     mainnet: 'ethereum',
-    'OP Mainnet': 'optimism',
-    'Polygon zkEVM': 'zkevm',
-    'Mode Mainnet': 'mode',
 }
 
 type RateProviderWarnings = {
@@ -60,6 +42,13 @@ export async function writeReviewAndUpdateRegistry(
 
     await service.initialize()
     const upgradeData = await service.getUpgradeableContracts()
+    let factory: Address | '' = ''
+    try {
+        factory = await findRateProviderFactory(network, rateProviderAddress)
+    } catch (error) {
+        const message = error instanceof Error ? error.message.split('\n')[0] : String(error)
+        console.warn(`Rate provider factory lookup failed: ${message}`)
+    }
 
     const rateInfo = await service.isRateScale18()
     const hasInterfaceImplemented = await service.hasValidGetRateFunction()
@@ -129,7 +118,7 @@ export async function writeReviewAndUpdateRegistry(
         summary: templateData.isUsable === 'USABLE' ? 'safe' : 'unsafe',
         review: `./${(contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(' ', '')}RateProviderReview${shortUuid}.md`,
         warnings: isMarketRate ? ['market-rate'] : [],
-        factory: '',
+        factory,
         upgradeableComponents: upgradeData.map((contract) => ({
             entrypoint: contract.address,
             implementationReviewed: contract.implementation,
