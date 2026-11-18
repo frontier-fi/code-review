@@ -42,7 +42,13 @@ export async function writeReviewAndUpdateRegistry(
 
     await service.initialize()
     const upgradeData = await service.getUpgradeableContracts()
-    const factory = await findRateProviderFactory(network, rateProviderAddress)
+    let factory: Address | '' = ''
+    try {
+        factory = await findRateProviderFactory(network, rateProviderAddress)
+    } catch (error) {
+        const message = error instanceof Error ? error.message.split('\n')[0] : String(error)
+        console.warn(`Rate provider factory lookup failed: ${message}`)
+    }
 
     const rateInfo = await service.isRateScale18()
     const hasInterfaceImplemented = await service.hasValidGetRateFunction()
