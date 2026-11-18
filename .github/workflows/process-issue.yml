@@ -5,11 +5,22 @@ on:
 jobs:
   write-review:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: Iv23lin88uMBRaCQ5SzJ
+          private-key: ${{ secrets.MAXYZ_ACTIONS_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Install dependencies
         run: npm install
@@ -37,8 +48,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7.0.8
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          author: mkflow27 <mkflow27@users.noreply.github.com>
+          token: ${{ steps.app-token.outputs.token }}
           branch: review/issue-${{ github.event.issue.number }}
           base: main
           title: "Review: Rate Provider from Issue #${{ github.event.issue.number }}"
@@ -59,4 +69,6 @@ jobs:
           labels: |
             automated-review
             rate-provider
-          assignees: mkflow27
+          reviewers: |
+            zekraken-bot
+            gosuto-inzasheru
