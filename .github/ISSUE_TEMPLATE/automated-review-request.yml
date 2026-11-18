@@ -27,12 +27,6 @@ body:
         - mainnet
         - arbitrum
         - avalanche
-        - gnosis
-        - fraxtal
-        - optimism
-        - sonic
-        - hyperEvm
-        - plasma
         - monad
     validations:
       required: true

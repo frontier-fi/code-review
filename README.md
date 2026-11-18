@@ -78,6 +78,7 @@ Use these factories to combine rate providers, similar to AaveRateTransformers. 
     - **`TENDERLY_PROJECT_SLUG`**: Your Tenderly project slug.
     - **`TENDERLY_API_ACCESS_KEY`**: Your Tenderly API access key.
     - **`ETHERSCAN_API_KEY`**: Your Etherscan API key (for Ethereum).
+    - **`DRPC_API_KEY`**: Your dRPC API key, used to build the RPC URL for the issue's network.
     - **Other API keys**: Depending on the chain, you may need additional API keys (e.g., `GNOSISSCAN_API_KEY`, `BASESCAN_API_KEY`, etc.).
 
 ---

@@ -4,23 +4,7 @@ import { writeReviewAndUpdateRegistry } from '../src/utils/write-rp-review'
 
 dotenv.config()
 
-import {
-    base,
-    mainnet,
-    arbitrum,
-    avalanche,
-    gnosis,
-    sonic,
-    sepolia,
-    polygon,
-    fraxtal,
-    Chain,
-    optimism,
-    polygonZkEvm,
-    mode,
-    monad,
-} from 'viem/chains'
-import { hyperEvm, plasma } from '../src/utils/customChains'
+import { base, mainnet, arbitrum, avalanche, Chain, monad } from 'viem/chains'
 import { Hex } from 'viem'
 
 /* 
@@ -63,22 +47,26 @@ async function processIssue(issueJson: string) {
         mainnet,
         arbitrum,
         avalanche,
-        gnosis,
-        fraxtal,
-        optimism,
-        sonic,
-        sepolia,
-        polygon,
-        polygonZkEvm,
-        mode,
-        hyperEvm,
-        plasma,
         monad,
     }
+    // Map network name to dRPC network name
+    const drpcNetworks: { [key: string]: string } = {
+        base: 'base',
+        mainnet: 'ethereum',
+        arbitrum: 'arbitrum',
+        avalanche: 'avalanche',
+        monad: 'monad',
+    }
     let network = networks[issueData.network]
+    if (!network || !drpcNetworks[issueData.network]) {
+        throw new Error(`Unsupported network: ${issueData.network}`)
+    }
 
-    // load the RPC URL from the environment variable
-    const rpcUrl = process.env[`${issueData.network.toUpperCase()}_RPC_URL`] as string
+    // build the dRPC URL from the API key
+    if (!process.env.DRPC_API_KEY) {
+        throw new Error('DRPC_API_KEY is not set')
+    }
+    const rpcUrl = `https://lb.drpc.live/${drpcNetworks[issueData.network]}/${process.env.DRPC_API_KEY}`
 
     // replace the default network url with the passed one
     // Override the default RPC URL
