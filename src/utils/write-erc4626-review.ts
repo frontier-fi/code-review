@@ -78,9 +78,10 @@ export async function writeReviewAndUpdateRegistry(
         .replace('{{linkToForkTests}}', linkToForkTests || '')
 
     const shortUuid = crypto.randomBytes(2).toString('hex')
+    const baseName = (contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(/ /g, '')
 
     fs.writeFileSync(
-        `./erc4626/${(contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(' ', '')}Erc4626VaultReview${shortUuid}.md`,
+        `./erc4626/${baseName}Erc4626VaultReview${shortUuid}.md`,
         filledTemplate,
     )
 
@@ -90,9 +91,9 @@ export async function writeReviewAndUpdateRegistry(
 
     const newEntry = {
         asset: asset,
-        name: `${(contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(' ', '')}Erc4626Vault.md`,
+        name: `${baseName}Erc4626Vault`,
         summary: linkToForkTests && hasInterfaceImplemented && !unverifiedInCallPath ? 'safe' : 'unsafe',
-        review: `./${(contractName.charAt(0).toUpperCase() + contractName.slice(1)).replace(' ', '')}Erc4626VaultReview${shortUuid}.md`,
+        review: `./${baseName}Erc4626VaultReview${shortUuid}.md`,
         warnings: [],
         upgradeableComponents: upgradeData.map((contract) => ({
             entrypoint: contract.address,
