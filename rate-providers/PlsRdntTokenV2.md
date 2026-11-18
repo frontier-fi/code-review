@@ -55,7 +55,7 @@ function getRate() external view returns (uint) {
 // Context: ERC4626Upgradeable
 /** @dev See {IERC4626-convertToAssets}. */
 function convertToAssets(uint256 shares) public view virtual returns (uint256) {
-    // @audit See `_convertToAssets()` implemenation below.
+    // @audit See `_convertToAssets()` implementation below.
     return _convertToAssets(shares, Math.Rounding.Floor);
 }
 

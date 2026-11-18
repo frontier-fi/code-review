@@ -13,7 +13,7 @@
 A 4626 wrapper that can wrap the various Beefy vaults. Its created using their factory at [sonic:0x234f7f81434e340910a84f45f8e89d07fa86611a](https://sonicscan.org/address/0x234f7f81434e340910a84f45f8e89d07fa86611a). 
 
 ## Review Checklist: Bare Minimum Compatibility
-Each of the items below represents an absolute requirement for the ERC4626. If any of these is unchecked, the the ERC4626 is unfit to use.
+Each of the items below represents an absolute requirement for the ERC4626. If any of these is unchecked, the ERC4626 is unfit to use.
 
 - [x] Tests based on the [balancer-v3-monorepo](https://github.com/balancer/balancer-v3-monorepo/tree/main/pkg/vault/test/foundry/fork) pass for the given ERC4626 vaults, which can be found [here](https://github.com/balancer/balancer-v3-erc4626-tests/blob/main/test/sonic/ERC4626BeefyUsdcSilo.sol).
 - [x] The required Vault implements the required operational ERC4626 Interface
