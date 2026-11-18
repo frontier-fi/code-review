@@ -41,6 +41,7 @@ Use these factories for Gyro pools. They report a static rate custom tailored to
 | ---------- | ------------------------------------------ |
 | Arbitrum   | 0xF502791715F287989374c452Fa78b475A3194a90 |
 | Base       | 0xc0555b555857AAf2b5b28601eaAcFba2F8BBFB09 |
+| Ethereum   | 0x1973A094af519CA65cE5ce79E7A8c87dC2fF1767 |
 
 ### Combined Rate Provider Factories
 

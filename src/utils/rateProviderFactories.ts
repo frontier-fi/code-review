@@ -12,6 +12,7 @@ export const rateProviderFactories: { [chainId: number]: Address[] } = {
         '0x1311Fbc9F60359639174c1e7cC2032DbDb5Cc4d1', // ChainlinkRateProviderFactory
         '0xFC541f8d8c5e907E236C8931F0Df9F58e0C259Ec', // ERC4626RateProviderFactory
         '0xeC2C6184761ab7fE061130B4A7e3Da89c72F8395', // AaveMarketRateTransformerFactory
+        '0x1973A094af519CA65cE5ce79E7A8c87dC2fF1767', // ConstantRateProviderFactory
         '0xd2cd8027F8c4B8ddCd1bFcD4e47587f41F2712f2', // CombinedRateProviderFactory
     ],
     [arbitrum.id]: [
