@@ -1472,6 +1472,24 @@
           "implementationReviewed": "0x20745842191bef60f9ed0debdfd166f04f8abd4d"
         }
       ]
+    },
+    "0x42533ea0dd0a1b75578f48a95407bae2104a870c": {
+      "asset": "0x729f75aff28c726e32403e80cef2afb518cfbfa7",
+      "name": "WrappedAaveBase EURCRateProvider.md",
+      "summary": "safe",
+      "review": "./WrappedAaveBase EURCRateProviderReview03c0.md",
+      "warnings": [],
+      "factory": "",
+      "upgradeableComponents": [
+        {
+          "entrypoint": "0x729f75aff28c726e32403e80cef2afb518cfbfa7",
+          "implementationReviewed": "0xbcb167bdcf14a8f791d6f4a6edd964aed2f8813b"
+        },
+        {
+          "entrypoint": "0xa238dd80c259a72e81d7e4664a9801593f98d1c5",
+          "implementationReviewed": "0xf248dd0adb01e78043e8a423b8504c8129f11918"
+        }
+      ]
     }
   },
   "ethereum": {
