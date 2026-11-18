@@ -45,7 +45,7 @@ If none of these is checked, then this might be a pretty great Rate Provider! If
 - [x] Price data is provided by an off-chain source (e.g., a Chainlink oracle, a multisig, or a network of nodes).
     - source: Multisig (3/5)
     - source address: [arbitrum:0x0e60fd361fF5b90088e1782e6b21A7D177d462C5](https://arbiscan.io/address/0x0e60fd361fF5b90088e1782e6b21A7D177d462C5#code)
-    - any protections? YES: The oracle price update functionality is assumed to be used as a backup functionality if CCIP cross chain rate messaging needs to be changed or some manual intervention is required. Meaning: Updating the rate via an an Oracle is not the primary price update mechanism. There are protections in place against arbitrarily submitted price data as part of an internal `_updatePrice` function. This includes a deviation threshold and timestamp protections.
+    - any protections? YES: The oracle price update functionality is assumed to be used as a backup functionality if CCIP cross chain rate messaging needs to be changed or some manual intervention is required. Meaning: Updating the rate via an Oracle is not the primary price update mechanism. There are protections in place against arbitrarily submitted price data as part of an internal `_updatePrice` function. This includes a deviation threshold and timestamp protections.
 
     ```solidity
     function _updatePrice(uint256 _price, uint256 _timestamp) internal {

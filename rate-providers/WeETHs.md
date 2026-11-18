@@ -29,7 +29,7 @@ If none of these is checked, then this might be a pretty great Rate Provider! If
 - [x] The Rate Provider is upgradeable (e.g., via a proxy architecture or an `onlyOwner` function that updates the price source address).
     - admin address: [ethereum:https://etherscan.io/address/0x0000000000000000000000000000000000000000](https://etherscan.io/address/0x0000000000000000000000000000000000000000)
     - admin type: EOA
-        - comment: the `owner` can change the `authority` which is the contract managing function access. If the authority were changed the possibility of an unintended account setting the rate would be possible. However as part of [this tx](https://etherscan.io/tx/0xa7ead57c956a7e8ac333088a024060fd8e7119c4088d4575e63a14c80a67cb08) ownership was transfered to the zero address. 
+        - comment: the `owner` can change the `authority` which is the contract managing function access. If the authority were changed the possibility of an unintended account setting the rate would be possible. However as part of [this tx](https://etherscan.io/tx/0xa7ead57c956a7e8ac333088a024060fd8e7119c4088d4575e63a14c80a67cb08) ownership was transferred to the zero address. 
 
 - [ ] Some other portion of the price pipeline is upgradeable (e.g., the token itself, an oracle, or some piece of a larger system that tracks the price).
 
