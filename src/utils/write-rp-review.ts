@@ -5,23 +5,7 @@ import { Address } from 'viem'
 
 import RateProviderDataService from '../app'
 import { template } from './template'
-import {
-    base,
-    mainnet,
-    arbitrum,
-    avalanche,
-    gnosis,
-    sonic,
-    sepolia,
-    polygon,
-    fraxtal,
-    Chain,
-    optimism,
-    polygonZkEvm,
-    mode,
-} from 'viem/chains'
-
-import { hyperEvm } from './customChains'
+import { Chain } from 'viem/chains'
 
 import {
     runRateProviderChecks,
@@ -38,9 +22,6 @@ const fs = require('fs')
 const chainNameToRegistryKey: { [key: string]: string } = {
     'Arbitrum One': 'arbitrum',
     mainnet: 'ethereum',
-    'OP Mainnet': 'optimism',
-    'Polygon zkEVM': 'zkevm',
-    'Mode Mainnet': 'mode',
 }
 
 type RateProviderWarnings = {

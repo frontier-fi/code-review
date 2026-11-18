@@ -12,9 +12,6 @@ import path from 'path'
 const chainNameToRegistryKey: { [key: string]: string } = {
     'Arbitrum One': 'arbitrum',
     mainnet: 'ethereum',
-    'OP Mainnet': 'optimism',
-    'Polygon zkEVM': 'zkevm',
-    'Mode Mainnet': 'mode',
 }
 
 export async function writeReviewAndUpdateRegistry(

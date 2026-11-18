@@ -1,22 +1,7 @@
 import { config } from 'dotenv'
 
-import {
-    base,
-    mainnet,
-    arbitrum,
-    avalanche,
-    gnosis,
-    sonic,
-    sepolia,
-    polygon,
-    fraxtal,
-    Chain,
-    optimism,
-    polygonZkEvm,
-    mode,
-} from 'viem/chains'
+import { base, mainnet, arbitrum, avalanche, Chain, monad, sepolia } from 'viem/chains'
 
-import { hyperEvm, plasma } from '../../src/utils/customChains'
 import { ChainApi } from '../../src/types/types'
 import { createChainApi } from '../../src/utils/factories'
 // Check that the viem Chain has a multicall3 contract defined
@@ -27,14 +12,8 @@ describe('test networks', () => {
         mainnet,
         arbitrum,
         avalanche,
-        gnosis,
-        sonic,
+        monad,
         sepolia,
-        polygon,
-        fraxtal,
-        optimism,
-        hyperEvm,
-        plasma,
     ]
 
     config()

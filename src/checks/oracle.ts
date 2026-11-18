@@ -1,5 +1,5 @@
 import { Address, Chain, parseAbi } from 'viem'
-import { arbitrum, base, optimism } from 'viem/chains'
+import { arbitrum, base } from 'viem/chains'
 import { Callchain } from './callchain'
 import { Client, latestTimestamp, sameAddress, tryRead } from './common'
 
@@ -33,7 +33,7 @@ const STALE_AFTER_SECONDS = 26 * 3600
 const STALENESS_GUARD =
     /stale|heartbeat|maxAge|max_age|maxDelay|max_delay|maxTimeDelay|getPriceNoOlderThan|validTimePeriod|block\.timestamp\s*-\s*\w*updated/i
 const SEQUENCER_CHECK = /sequencer/i
-const L2_CHAINS_WITH_SEQUENCER_FEEDS = [arbitrum.id, base.id, optimism.id] as number[]
+const L2_CHAINS_WITH_SEQUENCER_FEEDS = [arbitrum.id, base.id] as number[]
 
 export type FeedType = 'Chainlink-compatible' | 'API3' | 'Chronicle' | 'Pyth'
 

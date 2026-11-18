@@ -2,24 +2,8 @@ import * as dotenv from 'dotenv'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { Address } from 'viem'
-import {
-    base,
-    mainnet,
-    arbitrum,
-    avalanche,
-    gnosis,
-    sonic,
-    sepolia,
-    polygon,
-    fraxtal,
-    Chain,
-    optimism,
-    polygonZkEvm,
-    mode,
-    monad,
-} from 'viem/chains'
+import { base, mainnet, arbitrum, avalanche, Chain, monad, sepolia } from 'viem/chains'
 
-import { hyperEvm, plasma } from '../src/utils/customChains'
 import { writeReviewAndUpdateRegistry } from '../src/utils/write-rp-review'
 
 dotenv.config()
@@ -48,13 +32,8 @@ async function main() {
                 'mainnet',
                 'arbitrum',
                 'avalanche',
-                'gnosis',
-                'fraxtal',
-                'optimism',
-                'sonic',
-                'hyperEvm',
-                'plasma',
                 'monad',
+                'sepolia',
             ],
             demandOption: true,
         })
@@ -77,17 +56,8 @@ async function main() {
         mainnet,
         arbitrum,
         avalanche,
-        gnosis,
-        fraxtal,
-        optimism,
-        sonic,
-        sepolia,
-        polygon,
-        polygonZkEvm,
-        mode,
-        hyperEvm,
-        plasma,
         monad,
+        sepolia,
     }
 
     let network = networks[argv.network]
@@ -107,22 +77,6 @@ async function main() {
                 http: [argv.rpcUrl],
             },
         },
-    }
-
-    // some viem chains do not have a block explorer api url set
-    if (argv.network === 'sonic') {
-        network = {
-            ...network,
-            blockExplorers: {
-                ...network.blockExplorers,
-                default: {
-                    ...network.blockExplorers?.default,
-                    apiUrl: 'https://api.sonicscan.org/api',
-                    name: 'SonicScan',
-                    url: network.blockExplorers?.default?.url || 'https://sonicscan.io',
-                },
-            },
-        }
     }
 
     const rateProviderAddress = argv.rateProviderAddress.startsWith('0x')

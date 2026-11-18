@@ -2,7 +2,7 @@ import { Address } from 'viem'
 import { CreateAccessListReturnType } from 'viem/_types/actions/public/createAccessList'
 import { createPublicClient, encodeFunctionData, http } from 'viem'
 import { Chain, Hex, Abi } from 'viem'
-import { base, optimism, avalanche } from 'viem/chains'
+import { base, avalanche } from 'viem/chains'
 import { rateProviderAbi } from './utils/abi/rateProvider'
 import { ChainApi, ContractSourceInfo } from './types/types'
 import EtherscanApi from './services/etherscanApi'
@@ -408,11 +408,11 @@ class RateProviderDataService {
             return new EtherscanApi(this.chain, this.apiKey)
         }
 
-        // For getDeploymentBlocks: Use Etherscan if chain is NOT Base, Optimism or Avalanche
+        // For getDeploymentBlocks: Use Etherscan if chain is NOT Base or Avalanche
         if (functionName === 'getDeploymentBlocks') {
-            // Base, Avalanche, BNB and Optimism are not supported via Etherscan for getDeploymentBlocks
-            // so looking up deployments over RPC for Base & optimism
-            if (this.chain.id === base.id || this.chain.id === optimism.id) {
+            // Base and Avalanche are not supported via Etherscan's free plan for getDeploymentBlocks
+            // so looking up deployments over RPC for Base
+            if (this.chain.id === base.id) {
                 return new RpcApi(this.chain)
             }
 

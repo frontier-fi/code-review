@@ -4,7 +4,7 @@ import { writeReviewAndUpdateRegistry } from '../src/utils/write-rp-review'
 
 dotenv.config()
 
-import { base, mainnet, arbitrum, avalanche, Chain, monad } from 'viem/chains'
+import { base, mainnet, arbitrum, avalanche, Chain, monad, sepolia } from 'viem/chains'
 import { Hex } from 'viem'
 
 /* 
@@ -48,6 +48,7 @@ async function processIssue(issueJson: string) {
         arbitrum,
         avalanche,
         monad,
+        sepolia,
     }
     // Map network name to dRPC network name
     const drpcNetworks: { [key: string]: string } = {
@@ -56,6 +57,7 @@ async function processIssue(issueJson: string) {
         arbitrum: 'arbitrum',
         avalanche: 'avalanche',
         monad: 'monad',
+        sepolia: 'sepolia',
     }
     let network = networks[issueData.network]
     if (!network || !drpcNetworks[issueData.network]) {

@@ -11,17 +11,9 @@ Rate Provider Factories for reference
 | Arbitrum   | 0x5DbAd78818D4c8958EfF2d5b95b28385A22113Cd | 0xe548a29631f9E49830bE8edc22d407b2D2915F31 |
 | Avalanche  | 0x76578ecf9a141296Ec657847fb45B0585bCDa3a6 | 0xfCe81cafe4b3F7e2263EFc2d907f488EBF2B238E |
 | Base       | 0x0A973B6DB16C2ded41dC91691Cc347BEb0e2442B | 0xEfD3aF73d3359014f3B864d37AC672A6d3D7ff1A |
-| Fraxtal    | 0x3f170631ed9821Ca51A59D996aB095162438DC10 | N/A                                        |
-| Gnosis     | 0xDB8d758BCb971e482B2C45f7F8a7740283A1bd3A | 0x15e86Be6084C6A5a8c17732D398dFbC2Ec574CEC |
 | Mainnet    | 0x1311Fbc9F60359639174c1e7cC2032DbDb5Cc4d1 | 0xFC541f8d8c5e907E236C8931F0Df9F58e0C259Ec |
-| Mode       | 0x96484f2aBF5e58b15176dbF1A799627B53F13B6d | 0x0767bECE12a327A1eD896c48E843AE53a0c313E9 |
-| Optimism   | 0x83E443EF4f9963C77bd860f94500075556668cb8 | 0x02a569eea6f85736E2D63C59E60d27d075E75c33 |
-| Polygon    | 0xa3b370092aeb56770B23315252aB5E16DAcBF62B | 0x3e89cc86307aF44A77EB29d0c4163d515D348313 |
-| Sepolia    | 0xA8920455934Da4D853faac1f94Fe7bEf72943eF1 | N/A                                        |
-| zkEVM      | 0x4132f7AcC9dB7A6cF7BE2Dd3A9DC8b30C7E6E6c8 | N/A                                        |
-| HyperEVM   | 0x03362f847b4fabc12e1ce98b6b59f94401e4588e | 0xec2c6184761ab7fe061130b4a7e3da89c72f8395 |
-| Plasma     | 0x138D9E0d0Cc4906C4cD865b38c9340A5CeDD9850 | 0x4E185b1502Fea7a06B63fDdA6de38F92C9528566 |
 | Monad      | 0x138D9E0d0Cc4906C4cD865b38c9340A5CeDD9850 | 0xb0334C5287Bfb15A8C9464898CDB0248ED176332 |
+| Sepolia    | 0xA8920455934Da4D853faac1f94Fe7bEf72943eF1 | N/A                                        |
 
 Rate Transformer Factories 
 Use these factories when an ERC4626 vault contains a yield bearing token to combine their respective rates of growth. This denominates the vault asset in the underlying for correlated pairs. For example Aave-wstETH pairing with Aave-wETH by denominating the assets in wETH.
@@ -31,7 +23,6 @@ Use these factories when an ERC4626 vault contains a yield bearing token to comb
 | Arbitrum   | 0xec2c6184761ab7fe061130b4a7e3da89c72f8395 | 
 | Base       | 0x4e185b1502fea7a06b63fdda6de38f92c9528566 |
 | Ethereum   | 0xec2c6184761ab7fe061130b4a7e3da89c72f8395 | 
-| Gnosis     | 0x03362f847b4fabc12e1ce98b6b59f94401e4588e |
  
 
 Constant Rate Provider Factories
@@ -51,10 +42,6 @@ Use these factories to combine rate providers, similar to AaveRateTransformers. 
 | Avalanche  | 0xeC2C6184761ab7fE061130B4A7e3Da89c72F8395 | 
 | Base       | 0x40b48e1eb72c62f7201b4c2621df7d822ccb9944 |
 | Ethereum   | 0xd2cd8027f8c4b8ddcd1bfcd4e47587f41f2712f2 | 
-| Gnosis     | 0xec2c6184761ab7fe061130b4a7e3da89c72f8395 | 
-| Optimism   | 0x7d9507014cc564e3b95e4d0972a878d0862af7ae | 
-| HyperEVM   | 0x138d9e0d0cc4906c4cd865b38c9340a5cedd9850 |
-| Plasma     | 0x470C9034F50afe6633f7e84A80B9961baa893d77 |
 | Monad      | 0x8942C1e1e0D48E14EFBa4cc48d2E3584116e367f |
 
 ---
@@ -79,7 +66,6 @@ Use these factories to combine rate providers, similar to AaveRateTransformers. 
     - **`TENDERLY_API_ACCESS_KEY`**: Your Tenderly API access key.
     - **`ETHERSCAN_API_KEY`**: Your Etherscan API key (for Ethereum).
     - **`DRPC_API_KEY`**: Your dRPC API key, used to build the RPC URL for the issue's network.
-    - **Other API keys**: Depending on the chain, you may need additional API keys (e.g., `GNOSISSCAN_API_KEY`, `BASESCAN_API_KEY`, etc.).
 
 ---
 
@@ -128,7 +114,7 @@ The supported networks can be seen in the `write-review.ts` file under the netwo
     alias: 'n',
     type: 'string',
     description: 'The network the rate provider is deployed on',
-    choices: ['base', 'mainnet', 'arbitrum', 'avalanche', 'gnosis', 'sonic', 'fraxtal', 'optimism'],
+    choices: ['base', 'mainnet', 'arbitrum', 'avalanche', 'monad', 'sepolia'],
     demandOption: true,
 })
 ```
