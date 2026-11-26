@@ -508,26 +508,6 @@
       "useUnderlyingForAddRemove": true,
       "useWrappedForAddRemove": true
     },
-    "0x7204B7Dbf9412567835633B6F00C3Edc3a8D6330": {
-      "asset": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-      "name": "MetaMorpho v1.1 Coinshift-Steakhouse csUSDC",
-      "summary": "safe",
-      "review": "./MorphoVaults/V1.1-Steakhouse.md",
-      "warnings": [],
-      "canUseBufferForSwaps": true,
-      "useUnderlyingForAddRemove": true,
-      "useWrappedForAddRemove": true
-    },
-    "0x1e6ffa4e9F63d10B8820A3ab52566Af881Dab53c": {
-      "asset": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      "name": "MetaMorpho v1.1 Gauntlet wETH Ecosystem",
-      "summary": "safe",
-      "review": "./MorphoVaults/V1.1 Gauntlet.md",
-      "warnings": [],
-      "canUseBufferForSwaps": true,
-      "useUnderlyingForAddRemove": true,
-      "useWrappedForAddRemove": true
-    },
     "0x701907283a57FF77E255C3f1aAD790466B8CE4ef": {
       "asset": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
       "name": "MetaMorpho v1.1 IndexCoop hyETH",
@@ -1057,18 +1037,6 @@
       "warnings": [],
       "canUseBufferForSwaps": true,
       "useUnderlyingForAddRemove": true,
-      "useWrappedForAddRemove": true
-    },
-    "0xaf204776c7245bf4147c2612bf6e5972ee483701": {
-      "asset": "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
-      "name": "sDAI",
-      "summary": "safe",
-      "review": "./sDaiReview.md",
-      "warnings": [
-        "buffer"
-      ],
-      "canUseBufferForSwaps": true,
-      "useUnderlyingForAddRemove": false,
       "useWrappedForAddRemove": true
     },
     "0x51350d88c1bd32cc6a79368c9fb70373fb71f375": {

@@ -22,6 +22,10 @@ Each of the items below represents an absolute requirement for the Rate Provider
 - [{{isUpgradeable}}] The Rate Provider is upgradeable** (e.g., via a proxy architecture).
 - [{{hasUpgradeableElements}}] Other contracts which are part of the \`getRate\` callchain are upgradeable**. You can find more information
    about the involved contracts in this [tenderly simulation]({{tenderlySimUrl}})
+- [{{isEoaUpgradeable}}] A contract in the \`getRate\` callchain can be upgraded by a single key (an EOA or a 1-of-n Safe).
+
+### Common Manipulation Vectors
+- [{{isDonationSusceptible}}] The Rate Provider is susceptible to donation attacks (detected by simulating a direct transfer; see Automated Security Checks).
 
 {{securityChecks}}
 ## Conclusion

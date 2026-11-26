@@ -1,8 +1,9 @@
 import { Address } from 'viem'
 import RateProviderDataService from '../app'
-import { checkAdminControl, AdminCheckResult } from './admin'
+import { checkAdminControl, AdminCheckResult, singleKeyUpgradeable } from './admin'
 import { loadCallchain } from './callchain'
 import { createClient } from './common'
+import { checkDonationForCallchain, DonationCheckResult } from './donation'
 import { checkErc4626Liquidity, Erc4626LiquidityResult } from './erc4626Liquidity'
 import { checkHygiene, HygieneCheckResult } from './hygiene'
 import { checkOracles, OracleCheckResult } from './oracle'
@@ -21,6 +22,8 @@ export interface SecurityCheckResults {
     hygiene: Outcome<HygieneCheckResult>
     tokens: Outcome<TokenRiskResult>[]
     liquidity?: Outcome<Erc4626LiquidityResult>
+    /** Only run for rate provider reviews. */
+    donation?: Outcome<DonationCheckResult>
 }
 
 async function attempt<T>(name: string, fn: () => Promise<T>): Promise<Outcome<T>> {
@@ -60,7 +63,11 @@ export async function runRateProviderChecks(
         tokens.push(await attempt(`token risks ${token}`, () => checkTokenRisks(client, service, token)))
     }
 
-    return { admin, oracle, spot, hygiene, tokens }
+    const donation = await attempt('donation', () =>
+        checkDonationForCallchain(client, callchain, service.accessList.accessList),
+    )
+
+    return { admin, oracle, spot, hygiene, tokens, donation }
 }
 
 /**
@@ -94,4 +101,14 @@ export function hasUnverifiedContracts(results: SecurityCheckResults): boolean {
 /** Any oracle in the call path means the rate is not a pure yield rate. */
 export function hasOracle(results: SecurityCheckResults): boolean {
     return results.oracle.ok && results.oracle.value.feeds.length > 0
+}
+
+/** A simulated donation moved the rate. */
+export function hasDonationRisk(results: SecurityCheckResults): boolean {
+    return !!results.donation?.ok && results.donation.value.findings.length > 0
+}
+
+/** A contract in the call path can be upgraded by a single key (EOA or 1-of-n Safe). */
+export function hasEoaUpgradeable(results: SecurityCheckResults): boolean {
+    return results.admin.ok && singleKeyUpgradeable(results.admin.value).length > 0
 }

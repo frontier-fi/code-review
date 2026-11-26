@@ -61,6 +61,8 @@ jobs:
             **Rate Provider:** `${{ fromJson(steps.parse-issue.outputs.json).rate_provider_contract_address }}`
             **Asset Contract:** `${{ fromJson(steps.parse-issue.outputs.json).asset_contract_address }}`
 
+            ${{ steps.process-issue.outputs.close_review_note }}
+
             ### Generated Files:
             - Rate provider review documentation
             - Updated registry files
@@ -69,6 +71,7 @@ jobs:
           labels: |
             automated-review
             rate-provider
+            ${{ steps.process-issue.outputs.needs_close_review == 'true' && 'needs-close-review' || '' }}
           reviewers: |
             zekraken-bot
             gosuto-inzasheru
