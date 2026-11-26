@@ -482,6 +482,15 @@
       "warnings": [],
       "factory": "0xe548a29631f9E49830bE8edc22d407b2D2915F31",
       "upgradeableComponents": []
+    },
+    "0xd4E96eF8eee8678dBFf4d535E033Ed1a4F7605b7": {
+      "asset": "0xEC70Dcb4A1EFa46b8F2D97C310C9c4790ba5ffA8",
+      "name": "RocketPoolETHRateProvider",
+      "summary": "safe",
+      "review": "./RocketPoolETHRateProviderReview5bd9.md",
+      "warnings": [],
+      "factory": "",
+      "upgradeableComponents": []
     }
   },
   "avalanche": {
@@ -971,9 +980,9 @@
     },
     "0x039f7205C2cBa4535C2575123Ac3D657263892c4": {
       "asset": "0xB6fe221Fe9EeF5aBa221c348bA20A1Bf5e73624c",
-      "name": "rETH RocketPool Rate Provider",
+      "name": "RocketPoolETHRateProvider",
       "summary": "safe",
-      "review": "./LegacyReview.md",
+      "review": "./RocketPoolETHRateProviderReviewdc83.md",
       "warnings": [],
       "factory": "",
       "upgradeableComponents": []
@@ -1492,9 +1501,9 @@
     },
     "0x1a8F81c256aee9C640e14bB0453ce247ea0DFE6F": {
       "asset": "0xae78736Cd615f374D3085123A210448E74Fc6393",
-      "name": "RocketBalancerRETHRateProvider",
+      "name": "RocketPoolETHRateProvider",
       "summary": "safe",
-      "review": "./LegacyReview.md",
+      "review": "./RocketPoolETHRateProviderReview4d51.md",
       "warnings": [],
       "factory": "",
       "upgradeableComponents": []
@@ -2730,15 +2739,6 @@
       "review": "./ChainLinkRateProvider.md",
       "warnings": [],
       "factory": "0x83E443EF4f9963C77bd860f94500075556668cb8",
-      "upgradeableComponents": []
-    },
-    "0x658843BB859B7b85cEAb5cF77167e3F0a78dFE7f": {
-      "asset": "0x9Bcef72be871e61ED4fBbc7630889beE758eb81D",
-      "name": "rETH RocketPool Rate Provider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [],
-      "factory": "",
       "upgradeableComponents": []
     },
     "0xef42D000a3e85C4e71C57e2C6A1E600e86f5a91B": {
