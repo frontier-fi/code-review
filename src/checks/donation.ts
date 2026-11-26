@@ -69,8 +69,25 @@ export interface DonationInput {
 /** Bounds RPC load on providers with large call paths. */
 const MAX_SLOTS = 150
 const ONE = 10n ** 18n
-/** Values at or above this are not plain balances (packed words, addresses, flags). */
-const MAX_PLAUSIBLE_BALANCE = 2n ** 200n
+const LOW_128_MASK = (1n << 128n) - 1n
+/** Plain balances sit well below 2^128; larger values are packed words (e.g. Aave v3 UserState). */
+const MAX_UNPACKED_BALANCE = 2n ** 128n
+
+/**
+ * Computes an increased slot value to simulate a donation.
+ * For packed words >= 2^128 (such as Aave v3 UserState { uint128 balance; uint128 additionalData }),
+ * only the lower 128-bit field is raised while keeping the upper 128 bits intact.
+ */
+export function raiseSlotValue(value: bigint): bigint | undefined {
+    if (value < MAX_UNPACKED_BALANCE) {
+        return value + (value > 0n ? value / 2n + 1n : ONE)
+    }
+    const low = value & LOW_128_MASK
+    const high = value >> 128n
+    const delta = low > 0n ? low / 2n + 1n : ONE
+    if (low + delta > LOW_128_MASK) return undefined
+    return (high << 128n) | (low + delta)
+}
 
 const rateAbi = parseAbi(['function getRate() view returns (uint256)'])
 const REVERT_HINT = /revert|invalid opcode|out of gas|panic|overflow|underflow/i
@@ -191,10 +208,11 @@ export async function checkDonation(probe: DonationProbe, input: DonationInput):
                 continue
             }
             const value = await probe.storage(token, slot)
-            if (value === undefined || value >= MAX_PLAUSIBLE_BALANCE) continue
+            if (value === undefined) continue
+            const raised = raiseSlotValue(value)
+            if (raised === undefined) continue
             slotsTested++
 
-            const raised = value + (value > 0n ? value / 2n + 1n : ONE)
             const override: StateOverride = [
                 { address: token, stateDiff: [{ slot, value: numberToHex(raised, { size: 32 }) }] },
             ]

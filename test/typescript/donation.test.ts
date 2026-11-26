@@ -12,7 +12,7 @@ import {
     numberToHex,
 } from 'viem'
 import { mainnet } from 'viem/chains'
-import { checkDonation, DonationProbe, isDonationRpcError } from '../../src/checks/donation'
+import { checkDonation, DonationProbe, isDonationRpcError, raiseSlotValue } from '../../src/checks/donation'
 import { AdminCheckResult, singleKeyUpgradeable } from '../../src/checks/admin'
 import { hasDonationRisk, hasEoaUpgradeable, renderSecurityChecks, SecurityCheckResults } from '../../src/checks'
 
@@ -149,6 +149,53 @@ describe('donation check', () => {
             isDonationRpcError(new ContractFunctionZeroDataError({ functionName: 'getRate' })),
         ).toBe(false)
         expect(isDonationRpcError(new BaseError('plain'))).toBe(false)
+    })
+
+    it('flags a packed balance slot (e.g. Aave v3 UserState) while preserving the upper 128 bits', async () => {
+        const MASK_128 = (1n << 128n) - 1n
+        const RAY_INDEX = 10n ** 27n
+        const packed = (RAY_INDEX << 128n) | (100n * ONE)
+        const supplySlot = slot(3)
+        let seenOverrideValue: bigint | undefined
+
+        const probe: DonationProbe = {
+            rate: async (override) => {
+                const o = override?.find((x) => x.address === TOKEN)?.stateDiff?.find((d) => d.slot === BALANCE_SLOT)
+                if (o) seenOverrideValue = BigInt(o.value)
+                const raw = o ? BigInt(o.value) : packed
+                const scaledBalance = ((raw & MASK_128) * (raw >> 128n)) / RAY_INDEX
+                return (scaledBalance * ONE) / (100n * ONE)
+            },
+            storage: async (address, s) => (address === TOKEN && s === BALANCE_SLOT ? packed : 100n * ONE),
+            nativeBalance: async () => 0n,
+            balanceOf: async (token, holder, override) => {
+                if (token !== TOKEN) return undefined
+                if (holder !== VAULT) return 0n
+                const o = override?.find((x) => x.address === TOKEN)?.stateDiff?.find((d) => d.slot === BALANCE_SLOT)
+                const raw = o ? BigInt(o.value) : packed
+                return ((raw & MASK_128) * (raw >> 128n)) / RAY_INDEX
+            },
+            totalSupply: async () => 1000n * ONE,
+        }
+
+        const r = await checkDonation(probe, {
+            holders: [VAULT],
+            accessList: [
+                { address: TOKEN, storageKeys: [BALANCE_SLOT] },
+                { address: VAULT, storageKeys: [supplySlot] },
+            ],
+        })
+        expect(r.findings).toHaveLength(1)
+        expect(r.findings[0]).toMatchObject({ kind: 'token', token: TOKEN, holder: VAULT, baseRate: ONE })
+        expect(seenOverrideValue).toBeDefined()
+        expect(seenOverrideValue! >> 128n).toBe(RAY_INDEX)
+    })
+
+    it('skips packed slots whose lower 128 bits would overflow on donation simulation', () => {
+        const maxUint256 = (1n << 256n) - 1n
+        expect(raiseSlotValue(maxUint256)).toBeUndefined()
+        const highSetLowNearMax = (10n ** 27n << 128n) | ((1n << 128n) - 1n)
+        expect(raiseSlotValue(highSetLowNearMax)).toBeUndefined()
     })
 })
 
