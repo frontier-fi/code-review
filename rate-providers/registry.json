@@ -503,28 +503,6 @@
         }
       ]
     },
-    "0x5f8147f9e4fB550C5be815C8a20013171eEFB46D": {
-      "asset": "0x2b2C81e08f1Af8835a78Bb2A90AE924ACE0eA4bE",
-      "name": "sAVAX Rate Provider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0xD70C8AaC058E6daFe3446F78091325F9E29bcee4": {
-      "asset": "0xc3344870d52688874b06d844E0C36cc39FC727F6",
-      "name": "ankrAVAX Rate Provider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
     "0x484ebac26a05e1feb7909243f293a4f79eef837a": {
       "asset": "0x6A02C7a974F1F13A67980C80F774eC1d2eD8f98d",
       "name": "ERC4626RateProvider",
@@ -996,9 +974,7 @@
       "name": "rETH RocketPool Rate Provider",
       "summary": "safe",
       "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
+      "warnings": [],
       "factory": "",
       "upgradeableComponents": []
     },
@@ -1519,108 +1495,7 @@
       "name": "RocketBalancerRETHRateProvider",
       "summary": "safe",
       "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0x302013E7936a39c358d07A3Df55dc94EC417E3a1": {
-      "asset": "0xac3E018457B222d93114458476f3E3416Abbe38F",
-      "name": "sfrxETH ERC4626RateProvider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0x00F8e64a8651E3479A0B20F46b1D462Fe29D6aBc": {
-      "asset": "0xE95A203B1a91a908F9B9CE46459d101078c2c3cb",
-      "name": "AnkrETHRateProvider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0x7311E4BB8a72e7B300c5B8BDE4de6CdaA822a5b1": {
-      "asset": "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704",
-      "name": "CbEthRateProvider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0x3D40f9dd83bd404fA4047c15da494E58C3c1f1ac": {
-      "asset": "0x9559Aaa82d9649C7A7b220E7c461d2E74c9a3593",
-      "name": "Stafi RETHRateProvider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0x3556F710c165090AAE9f98Eb62F5b04ADeF7Eaea": {
-      "asset": "0x198d7387Fa97A73F05b8578CdEFf8F2A1f34Cd1F",
-      "name": "wjAuraRateProvider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0xf951E335afb289353dc249e82926178EaC7DEd78": {
-      "asset": "0xf951E335afb289353dc249e82926178EaC7DEd78",
-      "name": "swETH Rate Provider TransparentUpgradeableProxy",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0xdE76434352633349f119bcE523d092743fEF20E9": {
-      "asset": "0xa2E3356610840701BDf5611a53974510Ae27E2e1",
-      "name": "wBETH BinanceBeaconEthRateProvider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0x12589A727aeFAc3fbE5025F890f1CB97c269BEc2": {
-      "asset": "0x4Bc3263Eb5bb2Ef7Ad9aB6FB68be80E43b43801F",
-      "name": "Bitfrost vETHRateProvider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0x5F0A29e479744DcA0D3d912f87F1a6E3237A55D3": {
-      "asset": "0x0Ae38f7E10A43B5b2fB064B42a2f4514cbA909ef",
-      "name": "unshETHRateProvider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
+      "warnings": [],
       "factory": "",
       "upgradeableComponents": []
     },
@@ -2862,20 +2737,7 @@
       "name": "rETH RocketPool Rate Provider",
       "summary": "safe",
       "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0x97b323fc033323B66159402bcDb9D7B9DC604235": {
-      "asset": "0xe05A08226c49b636ACf99c40Da8DC6aF83CE5bB3",
-      "name": "ankrETH Staking Rate Provider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
+      "warnings": [],
       "factory": "",
       "upgradeableComponents": []
     },
@@ -3195,50 +3057,6 @@
       "review": "./ChainLinkRateProvider.md",
       "warnings": [],
       "factory": "0xa3b370092aeb56770B23315252aB5E16DAcBF62B",
-      "upgradeableComponents": []
-    },
-    "0xeE652bbF72689AA59F0B8F981c9c90e2A8Af8d8f": {
-      "asset": "0xfa68FB4628DFF1028CFEc22b4162FCcd0d45efb6",
-      "name": "MaticX Rate Provider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0xdEd6C522d803E35f65318a9a4d7333a22d582199": {
-      "asset": "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
-      "name": "stMATIC Rate Provider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0x87393BE8ac323F2E63520A6184e5A8A9CC9fC051": {
-      "asset": "0xFcBB00dF1d663eeE58123946A30AB2138bF9eb2A",
-      "name": "csMATIC Clay Stack Tunnel Rate Provider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
-      "upgradeableComponents": []
-    },
-    "0x737b6ea575AD54e0c4F45c7A36Ad8c0e730aAD74": {
-      "asset": "0xAF0D9D65fC54de245cdA37af3d18cbEc860A4D4b",
-      "name": "wUSDR Rate Provider",
-      "summary": "safe",
-      "review": "./LegacyReview.md",
-      "warnings": [
-        "legacy"
-      ],
-      "factory": "",
       "upgradeableComponents": []
     }
   },
