@@ -13,6 +13,7 @@ import {
     RpcRequestError,
     StateOverride,
     erc20Abi,
+    getAddress,
     numberToHex,
     parseAbi,
 } from 'viem'
@@ -57,6 +58,7 @@ export interface DonationProbe {
     nativeBalance(address: Address): Promise<bigint>
     balanceOf(token: Address, holder: Address, override?: StateOverride): Promise<bigint | undefined>
     totalSupply(token: Address, override?: StateOverride): Promise<bigint | undefined>
+    code?(address: Address): Promise<Hex | undefined>
 }
 
 export interface DonationInput {
@@ -68,10 +70,38 @@ export interface DonationInput {
 
 /** Bounds RPC load on providers with large call paths. */
 const MAX_SLOTS = 150
+const MAX_EXTRA_HOLDERS = 40
 const ONE = 10n ** 18n
 const LOW_128_MASK = (1n << 128n) - 1n
 /** Plain balances sit well below 2^128; larger values are packed words (e.g. Aave v3 UserState). */
 const MAX_UNPACKED_BALANCE = 2n ** 128n
+const MIN_ADDRESS_VALUE = 2n ** 100n
+const ADDRESS_MASK = (1n << 160n) - 1n
+
+/** Extracts candidate 20-byte addresses pushed via `PUSH20` (e.g. Solidity immutables). */
+export function extractPush20Addresses(bytecode: Hex): Address[] {
+    const hex = bytecode.startsWith('0x') ? bytecode.slice(2) : bytecode
+    const len = Math.floor(hex.length / 2)
+    const out: Address[] = []
+    let i = 0
+    while (i < len) {
+        const opcode = parseInt(hex.slice(i * 2, i * 2 + 2), 16)
+        if (opcode === 0x73 && i + 21 <= len) {
+            const addrHex = hex.slice((i + 1) * 2, (i + 21) * 2)
+            const val = BigInt(`0x${addrHex}`)
+            if (val >= MIN_ADDRESS_VALUE && val < ADDRESS_MASK) {
+                out.push(getAddress(`0x${addrHex}`))
+            }
+        }
+        // Skip PUSH1 (0x60)..PUSH32 (0x7f) immediate data bytes so data isn't read as opcodes.
+        if (opcode >= 0x60 && opcode <= 0x7f) {
+            i += 1 + (opcode - 0x5f)
+        } else {
+            i += 1
+        }
+    }
+    return dedupe(out)
+}
 
 /**
  * Computes an increased slot value to simulate a donation.
@@ -171,6 +201,14 @@ export function clientDonationProbe(client: Client, target: Address): DonationPr
                 return undefined
             }
         },
+        code: async (address) => {
+            try {
+                return await client.getCode({ address })
+            } catch (error) {
+                if (isDonationRpcError(error)) throw error
+                return undefined
+            }
+        },
     }
 }
 
@@ -193,6 +231,42 @@ export async function checkDonation(probe: DonationProbe, input: DonationInput):
         const key = `${token}:${holder}`.toLowerCase()
         if (!balanceCache.has(key)) balanceCache.set(key, await probe.balanceOf(token, holder))
         return balanceCache.get(key)
+    }
+
+    let cachedExtraHolders: Address[] | undefined
+    const extraHolders = async (): Promise<Address[]> => {
+        if (cachedExtraHolders) return cachedExtraHolders
+        const candidates: Address[] = []
+        const seen = new Set(holders.map((h) => h.toLowerCase()))
+        const pushCandidate = (addr: Address) => {
+            const lower = addr.toLowerCase()
+            if (seen.has(lower) || candidates.length >= MAX_EXTRA_HOLDERS) return
+            seen.add(lower)
+            candidates.push(addr)
+        }
+
+        for (const entry of input.accessList) {
+            if (candidates.length >= MAX_EXTRA_HOLDERS) break
+            for (const s of entry.storageKeys) {
+                if (candidates.length >= MAX_EXTRA_HOLDERS) break
+                const v = await probe.storage(entry.address, s)
+                if (v !== undefined && v >= MIN_ADDRESS_VALUE && v < ADDRESS_MASK) {
+                    pushCandidate(getAddress(`0x${v.toString(16).padStart(40, '0')}`))
+                }
+            }
+        }
+
+        if (probe.code) {
+            for (const h of holders) {
+                if (candidates.length >= MAX_EXTRA_HOLDERS) break
+                const bytecode = await probe.code(h)
+                if (!bytecode || bytecode === '0x') continue
+                for (const addr of extractPush20Addresses(bytecode)) pushCandidate(addr)
+            }
+        }
+
+        cachedExtraHolders = candidates
+        return candidates
     }
 
     for (const entry of input.accessList) {
@@ -229,15 +303,22 @@ export async function checkDonation(probe: DonationProbe, input: DonationInput):
             // pooled amount, which moves every balance) is global state, not a balance.
             const supplyBefore = await probe.totalSupply(token)
             if (supplyBefore !== undefined && (await probe.totalSupply(token, override)) !== supplyBefore) continue
-            for (const holder of holders) {
-                const before = await currentBalance(token, holder)
-                if (before === undefined) continue
-                const after = await probe.balanceOf(token, holder, override)
-                if (after !== undefined && after !== before) {
-                    finding({ kind: 'token', token, holder, donatedRate })
-                    foundForToken = true
-                    break
+            const matchHolderBalance = async (candidateHolders: Address[]): Promise<boolean> => {
+                for (const holder of candidateHolders) {
+                    const before = await currentBalance(token, holder)
+                    if (before === undefined) continue
+                    const after = await probe.balanceOf(token, holder, override)
+                    if (after !== undefined && after !== before) {
+                        finding({ kind: 'token', token, holder, donatedRate })
+                        foundForToken = true
+                        return true
+                    }
                 }
+                return false
+            }
+
+            if (!(await matchHolderBalance(holders))) {
+                await matchHolderBalance(await extraHolders())
             }
         }
     }
@@ -266,9 +347,15 @@ export async function checkDonationForCallchain(
     client: Client,
     callchain: Callchain,
     accessList: readonly { address: Address; storageKeys: readonly Hex[] }[],
+    asset?: Address,
 ): Promise<DonationCheckResult> {
     return checkDonation(clientDonationProbe(client, callchain.target), {
-        holders: [callchain.target, ...callchain.accessListAddresses],
+        holders: [
+            callchain.target,
+            ...(asset ? [asset] : []),
+            ...callchain.accessListAddresses,
+            ...accessList.map((a) => a.address),
+        ],
         accessList,
     })
 }

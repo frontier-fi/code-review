@@ -64,7 +64,7 @@ export async function runRateProviderChecks(
     }
 
     const donation = await attempt('donation', () =>
-        checkDonationForCallchain(client, callchain, service.accessList.accessList),
+        checkDonationForCallchain(client, callchain, service.accessList.accessList, options.asset),
     )
 
     return { admin, oracle, spot, hygiene, tokens, donation }

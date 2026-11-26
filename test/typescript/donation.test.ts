@@ -9,10 +9,19 @@ import {
     MethodNotSupportedRpcError,
     RpcRequestError,
     StateOverride,
+    getAddress,
     numberToHex,
 } from 'viem'
 import { mainnet } from 'viem/chains'
-import { checkDonation, DonationProbe, isDonationRpcError, raiseSlotValue } from '../../src/checks/donation'
+import {
+    checkDonation,
+    checkDonationForCallchain,
+    DonationProbe,
+    extractPush20Addresses,
+    isDonationRpcError,
+    raiseSlotValue,
+} from '../../src/checks/donation'
+import { Client } from '../../src/checks/common'
 import { AdminCheckResult, singleKeyUpgradeable } from '../../src/checks/admin'
 import { hasDonationRisk, hasEoaUpgradeable, renderSecurityChecks, SecurityCheckResults } from '../../src/checks'
 
@@ -196,6 +205,131 @@ describe('donation check', () => {
         expect(raiseSlotValue(maxUint256)).toBeUndefined()
         const highSetLowNearMax = (10n ** 27n << 128n) | ((1n << 128n) - 1n)
         expect(raiseSlotValue(highSetLowNearMax)).toBeUndefined()
+    })
+
+    it('flags an uncalled custodian whose address is stored in a call-path storage slot', async () => {
+        const CUSTODIAN = getAddress('0x1234567890abcdef1234567890abcdef12345678')
+        const CUSTODIAN_SLOT = slot(4)
+        const probe: DonationProbe = {
+            rate: async (override) => {
+                const o = override?.find((x) => x.address === TOKEN)?.stateDiff?.find((d) => d.slot === BALANCE_SLOT)
+                const bal = o ? BigInt(o.value) : 100n * ONE
+                return (bal * ONE) / (100n * ONE)
+            },
+            storage: async (address, s) => {
+                if (address === VAULT && s === CUSTODIAN_SLOT) return BigInt(CUSTODIAN)
+                if (address === TOKEN && s === BALANCE_SLOT) return 100n * ONE
+                if (address === TOKEN && s === PRICE_SLOT) return 2n * ONE
+                return 100n * ONE
+            },
+            nativeBalance: async () => 0n,
+            balanceOf: async (token, holder, override) => {
+                if (token !== TOKEN) return undefined
+                if (holder.toLowerCase() !== CUSTODIAN.toLowerCase()) return 0n
+                const o = override?.find((x) => x.address === TOKEN)?.stateDiff?.find((d) => d.slot === BALANCE_SLOT)
+                return o ? BigInt(o.value) : 100n * ONE
+            },
+            totalSupply: async () => 1000n * ONE,
+        }
+
+        const r = await checkDonation(probe, {
+            holders: [VAULT],
+            accessList: [
+                { address: VAULT, storageKeys: [SUPPLY_SLOT, CUSTODIAN_SLOT] },
+                { address: TOKEN, storageKeys: [PRICE_SLOT, BALANCE_SLOT] },
+            ],
+        })
+        expect(r.findings).toHaveLength(1)
+        expect(r.findings[0]).toMatchObject({ kind: 'token', token: TOKEN, holder: CUSTODIAN, baseRate: ONE })
+    })
+
+    it('flags an uncalled custodian embedded as a PUSH20 immutable and skips PUSH32 false positives', async () => {
+        const CUSTODIAN = getAddress('0xabcdef1234567890abcdef1234567890abcdef12')
+        // PUSH32 containing 0x73 (PUSH20 opcode byte) in its data, followed by PUSH20 (0xff..ff mask),
+        // followed by PUSH20(CUSTODIAN), STOP
+        const push32Data = '73' + '11'.repeat(31)
+        const mask20 = 'ff'.repeat(20)
+        const bytecode = `0x7f${push32Data}73${mask20}73${CUSTODIAN.slice(2).toLowerCase()}00` as Hex
+        expect(extractPush20Addresses(bytecode)).toEqual([CUSTODIAN])
+
+        const probe: DonationProbe = {
+            rate: async (override) => {
+                const o = override?.find((x) => x.address === TOKEN)?.stateDiff?.find((d) => d.slot === BALANCE_SLOT)
+                const bal = o ? BigInt(o.value) : 100n * ONE
+                return (bal * ONE) / (100n * ONE)
+            },
+            storage: async (address, s) => {
+                if (address === TOKEN && s === BALANCE_SLOT) return 100n * ONE
+                if (address === TOKEN && s === PRICE_SLOT) return 2n * ONE
+                return 100n * ONE
+            },
+            nativeBalance: async () => 0n,
+            balanceOf: async (token, holder, override) => {
+                if (token !== TOKEN) return undefined
+                if (holder.toLowerCase() !== CUSTODIAN.toLowerCase()) return 0n
+                const o = override?.find((x) => x.address === TOKEN)?.stateDiff?.find((d) => d.slot === BALANCE_SLOT)
+                return o ? BigInt(o.value) : 100n * ONE
+            },
+            totalSupply: async () => 1000n * ONE,
+            code: async (address) => (address === VAULT ? bytecode : '0x'),
+        }
+
+        const r = await checkDonation(probe, {
+            holders: [VAULT],
+            accessList: [{ address: TOKEN, storageKeys: [BALANCE_SLOT] }],
+        })
+        expect(r.findings).toHaveLength(1)
+        expect(r.findings[0]).toMatchObject({ kind: 'token', token: TOKEN, holder: CUSTODIAN })
+    })
+
+    it('still ignores non-balance state slots when extra-holder discovery is enabled', async () => {
+        const CUSTODIAN = getAddress('0x1234567890abcdef1234567890abcdef12345678')
+        const CUSTODIAN_SLOT = slot(4)
+        const probe = fakeChain((read) => (read(TOKEN, PRICE_SLOT) * ONE) / read(VAULT, SUPPLY_SLOT))
+        probe.storage = async (address, s) => {
+            if (address === VAULT && s === CUSTODIAN_SLOT) return BigInt(CUSTODIAN)
+            if (address === TOKEN && s === PRICE_SLOT) return 2n * ONE
+            return 100n * ONE
+        }
+        probe.code = async () => `0x73${CUSTODIAN.slice(2).toLowerCase()}00` as Hex
+
+        const r = await checkDonation(probe, {
+            holders: [VAULT],
+            accessList: [
+                { address: VAULT, storageKeys: [SUPPLY_SLOT, CUSTODIAN_SLOT] },
+                { address: TOKEN, storageKeys: [PRICE_SLOT, BALANCE_SLOT] },
+            ],
+        })
+        expect(r.findings).toHaveLength(0)
+    })
+
+    it('includes codeless access-list addresses and asset in checkDonationForCallchain', async () => {
+        const EOA = a(99)
+        const ASSET = a(88)
+        const nativeBalances: Record<string, bigint> = {
+            [VAULT.toLowerCase()]: 0n,
+            [EOA.toLowerCase()]: 10n * ONE,
+            [ASSET.toLowerCase()]: 0n,
+        }
+        const client = {
+            readContract: async ({ override, stateOverride }: any) => {
+                const so = stateOverride ?? override
+                const eoaOverride = so?.find((x: any) => x.address.toLowerCase() === EOA.toLowerCase())?.balance
+                const bal = eoaOverride ?? nativeBalances[EOA.toLowerCase()]
+                return (bal * ONE) / (10n * ONE)
+            },
+            getBalance: async ({ address }: any) => nativeBalances[address.toLowerCase()] ?? 0n,
+            getStorageAt: async () => `0x${'0'.repeat(64)}`,
+            getCode: async () => '0x',
+        } as unknown as Client
+
+        const r = await checkDonationForCallchain(
+            client,
+            { target: VAULT, contracts: [], accessListAddresses: [VAULT] },
+            [{ address: EOA, storageKeys: [] }],
+            ASSET,
+        )
+        expect(r.findings).toEqual([expect.objectContaining({ kind: 'native', holder: EOA })])
     })
 })
 
