@@ -1,6 +1,18 @@
-import { Address, Hex, StateOverride, numberToHex } from 'viem'
+import {
+    Address,
+    BaseError,
+    ContractFunctionExecutionError,
+    ContractFunctionRevertedError,
+    ContractFunctionZeroDataError,
+    Hex,
+    InvalidParamsRpcError,
+    MethodNotSupportedRpcError,
+    RpcRequestError,
+    StateOverride,
+    numberToHex,
+} from 'viem'
 import { mainnet } from 'viem/chains'
-import { checkDonation, DonationProbe } from '../../src/checks/donation'
+import { checkDonation, DonationProbe, isDonationRpcError } from '../../src/checks/donation'
 import { AdminCheckResult, singleKeyUpgradeable } from '../../src/checks/admin'
 import { hasDonationRisk, hasEoaUpgradeable, renderSecurityChecks, SecurityCheckResults } from '../../src/checks'
 
@@ -97,6 +109,46 @@ describe('donation check', () => {
         const probe = fakeChain(() => ONE)
         probe.rate = async () => undefined
         await expect(checkDonation(probe, { holders: [VAULT], accessList })).rejects.toThrow('getRate')
+    })
+
+    it('fails the check when every state-override getRate call returns undefined', async () => {
+        const probe = fakeChain(() => ONE)
+        probe.rate = async (override) => (override ? undefined : ONE)
+        await expect(checkDonation(probe, { holders: [VAULT], accessList })).rejects.toThrow('stateOverride')
+    })
+
+    it('treats state-override RPC errors as failures but ignores contract reverts', () => {
+        const rpcErr = new RpcRequestError({
+            url: 'https://rpc.example',
+            body: {},
+            error: { code: -32602, message: 'invalid params: stateOverrides not supported' },
+        })
+        expect(isDonationRpcError(new InvalidParamsRpcError(rpcErr))).toBe(true)
+        expect(isDonationRpcError(new MethodNotSupportedRpcError(rpcErr))).toBe(true)
+        expect(
+            isDonationRpcError(
+                new ContractFunctionExecutionError(new InvalidParamsRpcError(rpcErr), {
+                    abi: [],
+                    functionName: 'getRate',
+                }),
+            ),
+        ).toBe(true)
+
+        const revertRpcErr = new RpcRequestError({
+            url: 'https://rpc.example',
+            body: {},
+            error: { code: 3, message: 'execution reverted' },
+        })
+        expect(isDonationRpcError(revertRpcErr)).toBe(false)
+        expect(
+            isDonationRpcError(
+                new ContractFunctionRevertedError({ abi: [], functionName: 'getRate' }),
+            ),
+        ).toBe(false)
+        expect(
+            isDonationRpcError(new ContractFunctionZeroDataError({ functionName: 'getRate' })),
+        ).toBe(false)
+        expect(isDonationRpcError(new BaseError('plain'))).toBe(false)
     })
 })
 

@@ -1,4 +1,21 @@
-import { Address, Hex, StateOverride, erc20Abi, numberToHex, parseAbi } from 'viem'
+import {
+    AbiDecodingDataSizeInvalidError,
+    AbiDecodingDataSizeTooSmallError,
+    AbiDecodingZeroDataError,
+    Address,
+    BaseError,
+    ContractFunctionRevertedError,
+    ContractFunctionZeroDataError,
+    ExecutionRevertedError,
+    Hex,
+    RawContractError,
+    RpcError,
+    RpcRequestError,
+    StateOverride,
+    erc20Abi,
+    numberToHex,
+    parseAbi,
+} from 'viem'
 import { Callchain } from './callchain'
 import { Client, diffBps, isTransportError, sameAddress } from './common'
 
@@ -56,6 +73,34 @@ const ONE = 10n ** 18n
 const MAX_PLAUSIBLE_BALANCE = 2n ** 200n
 
 const rateAbi = parseAbi(['function getRate() view returns (uint256)'])
+const REVERT_HINT = /revert|invalid opcode|out of gas|panic|overflow|underflow/i
+
+/**
+ * True when a probe call failed due to RPC / state-override incompatibility rather than
+ * a contract revert or ABI mismatch.
+ */
+export function isDonationRpcError(error: unknown): boolean {
+    if (isTransportError(error)) return true
+    if (!(error instanceof BaseError)) return false
+
+    const isContractFailure = !!error.walk(
+        (e) =>
+            e instanceof ContractFunctionRevertedError ||
+            e instanceof ExecutionRevertedError ||
+            e instanceof RawContractError ||
+            e instanceof ContractFunctionZeroDataError ||
+            e instanceof AbiDecodingZeroDataError ||
+            e instanceof AbiDecodingDataSizeTooSmallError ||
+            e instanceof AbiDecodingDataSizeInvalidError,
+    )
+    if (isContractFailure) return false
+
+    return !!error.walk(
+        (e) =>
+            (e instanceof RpcError || e instanceof RpcRequestError) &&
+            !REVERT_HINT.test(`${e.message} ${e.details ?? ''}`),
+    )
+}
 
 export function clientDonationProbe(client: Client, target: Address): DonationProbe {
     return {
@@ -68,7 +113,7 @@ export function clientDonationProbe(client: Client, target: Address): DonationPr
                     stateOverride,
                 })) as bigint
             } catch (error) {
-                if (isTransportError(error)) throw error
+                if (isDonationRpcError(error)) throw error
                 return undefined
             }
         },
@@ -77,7 +122,7 @@ export function clientDonationProbe(client: Client, target: Address): DonationPr
                 const value = await client.getStorageAt({ address, slot })
                 return value ? BigInt(value) : 0n
             } catch (error) {
-                if (isTransportError(error)) throw error
+                if (isDonationRpcError(error)) throw error
                 return undefined
             }
         },
@@ -92,7 +137,7 @@ export function clientDonationProbe(client: Client, target: Address): DonationPr
                     stateOverride,
                 })) as bigint
             } catch (error) {
-                if (isTransportError(error)) throw error
+                if (isDonationRpcError(error)) throw error
                 return undefined
             }
         },
@@ -105,7 +150,7 @@ export function clientDonationProbe(client: Client, target: Address): DonationPr
                     stateOverride,
                 })) as bigint
             } catch (error) {
-                if (isTransportError(error)) throw error
+                if (isDonationRpcError(error)) throw error
                 return undefined
             }
         },
@@ -124,6 +169,8 @@ export async function checkDonation(probe: DonationProbe, input: DonationInput):
     // Token balances read by getRate.
     let slotsTested = 0
     let slotsSkipped = 0
+    let overrideAttempts = 0
+    let overrideUndefined = 0
     const balanceCache = new Map<string, bigint | undefined>()
     const currentBalance = async (token: Address, holder: Address) => {
         const key = `${token}:${holder}`.toLowerCase()
@@ -151,8 +198,13 @@ export async function checkDonation(probe: DonationProbe, input: DonationInput):
             const override: StateOverride = [
                 { address: token, stateDiff: [{ slot, value: numberToHex(raised, { size: 32 }) }] },
             ]
+            overrideAttempts++
             const donatedRate = await probe.rate(override)
-            if (donatedRate === undefined || donatedRate === baseRate) continue
+            if (donatedRate === undefined) {
+                overrideUndefined++
+                continue
+            }
+            if (donatedRate === baseRate) continue
 
             // The rate depends on this slot. It is a donation vector only if the slot is a holder's balance.
             // A transfer never changes totalSupply, so a slot that does (e.g. a rebasing token's total
@@ -176,8 +228,17 @@ export async function checkDonation(probe: DonationProbe, input: DonationInput):
     for (const holder of holders) {
         const balance = await probe.nativeBalance(holder)
         const raised = balance + (balance > 0n ? balance / 2n + 1n : ONE)
+        overrideAttempts++
         const donatedRate = await probe.rate([{ address: holder, balance: raised }])
-        if (donatedRate !== undefined && donatedRate !== baseRate) finding({ kind: 'native', holder, donatedRate })
+        if (donatedRate === undefined) {
+            overrideUndefined++
+            continue
+        }
+        if (donatedRate !== baseRate) finding({ kind: 'native', holder, donatedRate })
+    }
+
+    if (overrideAttempts > 0 && overrideUndefined === overrideAttempts) {
+        throw new Error('all state-override getRate calls failed; RPC may not support stateOverride')
     }
 
     return { findings, slotsTested, slotsSkipped }
