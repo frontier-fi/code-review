@@ -12,6 +12,8 @@ import {
     renderSecurityChecks,
     hasUnverifiedContracts,
     hasOracle,
+    hasDonationRisk,
+    hasEoaUpgradeable,
     SecurityCheckResults,
 } from '../checks'
 import { doOnchainCallGetName } from '../utils'
@@ -37,7 +39,7 @@ export async function writeReviewAndUpdateRegistry(
     rateProviderDocs?: string,
     linkToAudits?: string,
     warnings?: RateProviderWarnings,
-): Promise<{ rateProvider: Address }> {
+): Promise<{ rateProvider: Address; warnings: string[] }> {
     const service = new RateProviderDataService(rateProviderAddress, network)
 
     await service.initialize()
@@ -68,6 +70,13 @@ export async function writeReviewAndUpdateRegistry(
     }
     const unverifiedInCallPath = securityChecks ? hasUnverifiedContracts(securityChecks) : false
     const isMarketRate = !!warnings?.isMarketRate || (securityChecks ? hasOracle(securityChecks) : false)
+    const isDonationSusceptible = securityChecks ? hasDonationRisk(securityChecks) : false
+    const isEoaUpgradeable = securityChecks ? hasEoaUpgradeable(securityChecks) : false
+    const registryWarnings = [
+        ...(isMarketRate ? ['market-rate'] : []),
+        ...(isDonationSusceptible ? ['donation'] : []),
+        ...(isEoaUpgradeable ? ['eoaUpgradeable'] : []),
+    ]
 
     //const [{ ContractName }] = await service.getContractInfo([rateProviderAsset])
     const contractName = await doOnchainCallGetName(rateProviderAsset, network, rpcUrl)
@@ -79,6 +88,8 @@ export async function writeReviewAndUpdateRegistry(
         isScale18: `${rateInfo.scale18 ? 'x' : ' '}`,
         isUpgradeable: `${upgradeData.map((c) => c.address).includes(rateProviderAddress) ? 'x' : ' '}`,
         hasUpgradeableElements: `${upgradeData.filter((contract) => contract.address !== rateProviderAddress).length > 0 ? 'x' : ' '}`,
+        isDonationSusceptible: `${isDonationSusceptible ? 'x' : ' '}`,
+        isEoaUpgradeable: `${isEoaUpgradeable ? 'x' : ' '}`,
         isUsable: `${hasInterfaceImplemented && rateInfo.scale18 && !unverifiedInCallPath ? 'USABLE' : 'UNUSABLE'}`,
     }
 
@@ -100,14 +111,13 @@ export async function writeReviewAndUpdateRegistry(
         .replace('{{isScale18}}', templateData.isScale18)
         .replace('{{isUpgradeable}}', templateData.isUpgradeable)
         .replace('{{hasUpgradeableElements}}', templateData.hasUpgradeableElements)
+        .replace('{{isEoaUpgradeable}}', templateData.isEoaUpgradeable)
+        .replace('{{isDonationSusceptible}}', templateData.isDonationSusceptible)
         .replace('{{isUsable}}', templateData.isUsable)
         .replace('{{tenderlySimUrl}}', tenderlysimUrl)
         .replace('{{securityChecks}}', () => renderSecurityChecks(service.chain, securityChecks, securityChecksFailure))
 
-    fs.writeFileSync(
-        `./rate-providers/${baseName}RateProviderReview${shortUuid}.md`,
-        filledTemplate,
-    )
+    fs.writeFileSync(`./rate-providers/${baseName}RateProviderReview${shortUuid}.md`, filledTemplate)
 
     // Write to registry
     const registryPath = path.join(__dirname, '../../rate-providers/registry.json')
@@ -118,7 +128,7 @@ export async function writeReviewAndUpdateRegistry(
         name: `${baseName}RateProvider`,
         summary: templateData.isUsable === 'USABLE' ? 'safe' : 'unsafe',
         review: `./${baseName}RateProviderReview${shortUuid}.md`,
-        warnings: isMarketRate ? ['market-rate'] : [],
+        warnings: registryWarnings,
         factory,
         upgradeableComponents: upgradeData.map((contract) => ({
             entrypoint: contract.address,
@@ -134,5 +144,5 @@ export async function writeReviewAndUpdateRegistry(
     registry[registryKey][rateProviderAddress] = newEntry
 
     fs.writeFileSync(registryPath, JSON.stringify(registry, null, 2))
-    return { rateProvider: rateProviderAddress }
+    return { rateProvider: rateProviderAddress, warnings: registryWarnings }
 }

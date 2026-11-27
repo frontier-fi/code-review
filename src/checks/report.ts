@@ -1,6 +1,7 @@
 import { Chain, formatUnits } from 'viem'
 import type { Outcome, SecurityCheckResults } from './index'
-import { AdminCheckResult, Controller } from './admin'
+import { AdminCheckResult, Controller, singleKeyUpgradeable } from './admin'
+import { DonationCheckResult } from './donation'
 import { OracleCheckResult } from './oracle'
 import { SpotPriceCheckResult } from './spotPrice'
 import { HygieneCheckResult } from './hygiene'
@@ -33,6 +34,9 @@ export function renderSecurityChecks(
         section('Spot prices and read-only reentrancy', results.spot, (r) => renderSpot(r, link)),
         section('Contract hygiene', results.hygiene, (r) => renderHygiene(r, link)),
     ]
+    if (results.donation) {
+        sections.push(section('Donation attacks', results.donation, (r) => renderDonation(r, link)))
+    }
     if (results.liquidity) {
         sections.push(section('ERC4626 liquidity and fees', results.liquidity, (r) => renderLiquidity(r, link)))
     }
@@ -85,6 +89,17 @@ function renderAdmin(r: AdminCheckResult, link: Link): string {
         }
     }
 
+    const upgraders = singleKeyUpgradeable(r)
+    if (upgraders.length > 0) {
+        lines.push('')
+        lines.push('- ⚠️ **Upgradeable by a single key (EOA or 1-of-n Safe). This needs a closer manual review:**')
+        for (const u of upgraders) {
+            lines.push(
+                `    - ${u.contract.name} ${link(u.contract.address)}: ${u.role.role}, ${describeController(u.role.controller, link)}`,
+            )
+        }
+    }
+
     for (const c of r.contracts) {
         for (const note of c.notes) lines.push(`- ⚠️ ${c.name} ${link(c.address)}: ${note}`)
     }
@@ -102,6 +117,39 @@ function renderAdmin(r: AdminCheckResult, link: Link): string {
             lines.push(`- ${c.name} ${link(c.address)}: ${shown}${more}`)
         }
     }
+    return lines.join('\n')
+}
+
+function renderDonation(r: DonationCheckResult, link: Link): string {
+    const lines: string[] = []
+    if (r.findings.length === 0) {
+        lines.push(
+            `- No donation vector found: raising the token and native balances read by \`getRate\` did not move the rate (${r.slotsTested} storage slots tested).`,
+        )
+    } else {
+        lines.push(
+            '- ⚠️ **The rate moves when tokens are sent directly to a contract. Anyone can do this in one transaction, so this needs a closer manual review.** Downstream integrations that read this rate (e.g. lending markets) can be manipulated even if Balancer pools are not.',
+        )
+        lines.push('')
+        lines.push('| Donated asset | Received by | Rate before | Rate after | Change |')
+        lines.push('|---|---|---|---|---|')
+        for (const f of r.findings) {
+            const asset = f.kind === 'native' ? 'native balance' : link(f.token!)
+            const change =
+                f.changeBps === undefined ? 'n/a' : `${f.donatedRate > f.baseRate ? '+' : '-'}${f.changeBps} bps`
+            lines.push(
+                `| ${asset} | ${link(f.holder)} | ${formatUnits(f.baseRate, 18)} | ${formatUnits(f.donatedRate, 18)} | ${change} |`,
+            )
+        }
+    }
+    if (r.slotsSkipped > 0) {
+        lines.push(
+            `- ${r.slotsSkipped} storage slots were not tested (limit reached); a donation vector may be missed.`,
+        )
+    }
+    lines.push(
+        '- Only immediate effects are detected. A rate that picks up donated tokens later (e.g. on harvest or rebase) is not flagged.',
+    )
     return lines.join('\n')
 }
 

@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv'
+import fs from 'fs'
 import { writeReviewAndUpdateRegistry as writeERC4626ReviewAndUpdateRegistry } from '../src/utils/write-erc4626-review'
 import { writeReviewAndUpdateRegistry } from '../src/utils/write-rp-review'
 
@@ -83,7 +84,7 @@ async function processIssue(issueJson: string) {
         },
     }
 
-    await writeReviewAndUpdateRegistry(
+    const { warnings } = await writeReviewAndUpdateRegistry(
         issueData.rate_provider_contract_address,
         network,
         issueData.asset_contract_address,
@@ -96,6 +97,8 @@ async function processIssue(issueJson: string) {
             ? { isMarketRate: true }
             : undefined,
     )
+
+    writeCloseReviewOutputs(warnings)
 
     // Only continue with erc4626 review if
 
@@ -125,6 +128,28 @@ async function processIssue(issueJson: string) {
             ),
         )
     }
+}
+
+/** Warnings that mean a person must look at the review closely before it is merged. */
+const CLOSE_REVIEW_WARNINGS = ['donation', 'eoaUpgradeable']
+
+/** Exposes the flags to the workflow, which labels the PR and lists them in its body. */
+function writeCloseReviewOutputs(warnings: string[]) {
+    const flagged = warnings.filter((w) => CLOSE_REVIEW_WARNINGS.includes(w))
+    if (flagged.length > 0) console.warn(`Needs close review: ${flagged.join(', ')}`)
+    if (!process.env.GITHUB_OUTPUT) return
+    fs.appendFileSync(
+        process.env.GITHUB_OUTPUT,
+        [
+            `needs_close_review=${flagged.length > 0}`,
+            `close_review_note=${
+                flagged.length > 0
+                    ? `**⚠️ Needs close review:** the automated checks flagged \`${flagged.join(', ')}\`. Read the Automated Security Checks section of the review before merging.`
+                    : ''
+            }`,
+            '',
+        ].join('\n'),
+    )
 }
 
 // Read from environment variable instead of command line

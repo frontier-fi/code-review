@@ -59,6 +59,8 @@ export interface ControlRole {
 export interface ContractControl {
     address: Address
     name: string
+    /** The contract is a proxy (its implementation can be swapped). */
+    isProxy?: boolean
     roles: ControlRole[]
     privilegedFunctions: string[]
     /** Caveats about completeness, e.g. role members that were not enumerated. */
@@ -133,6 +135,7 @@ export async function checkAdminControl(client: Client, callchain: Callchain): P
         contracts.push({
             address: contract.address,
             name: contract.name,
+            isProxy: contract.isProxy,
             roles: resolved,
             privilegedFunctions: unique(stateChangingFunctionNames(contract.abi)).filter(
                 (n) => PRIVILEGED_FUNCTION.test(n) && !USER_FUNCTION.test(n),
@@ -209,6 +212,30 @@ export function riskOf(controller: Controller): Risk {
         default:
             return 'Unknown'
     }
+}
+
+const UPGRADE_ROLE = /Proxy admin|Beacon owner/
+
+/** True for an account that one key holder can act through alone. */
+export function isSingleKey(controller: Controller): boolean {
+    const ultimate = ultimateController(controller)
+    return ultimate.kind === 'EOA' || (ultimate.kind === 'Safe' && (ultimate.threshold ?? 0) <= 1)
+}
+
+/**
+ * Contracts in the call path that a single key (EOA or 1-of-n Safe) can upgrade.
+ * The upgrader is the proxy admin or beacon owner. A proxy with neither (e.g. UUPS)
+ * is upgraded through its own access control, so its other roles count instead.
+ */
+export function singleKeyUpgradeable(result: AdminCheckResult): { contract: ContractControl; role: ControlRole }[] {
+    const out: { contract: ContractControl; role: ControlRole }[] = []
+    for (const contract of result.contracts) {
+        const upgradeRoles = contract.roles.filter((r) => UPGRADE_ROLE.test(r.role))
+        const roles = upgradeRoles.length > 0 ? upgradeRoles : contract.isProxy ? contract.roles : []
+        const role = roles.find((r) => isSingleKey(r.controller))
+        if (role) out.push({ contract, role })
+    }
+    return out
 }
 
 export function ultimateController(controller: Controller): Controller {
