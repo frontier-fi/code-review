@@ -1354,6 +1354,17 @@
       "warnings": [],
       "factory": "0x0A973B6DB16C2ded41dC91691Cc347BEb0e2442B",
       "upgradeableComponents": []
+    },
+    "0x6D132D6974079584Cfc389Ae8d92637FBF73eee9": {
+      "asset": "0x660975730059246A68521a3e2FBD4740173100f5",
+      "name": "SyrupUSDCRateProvider",
+      "summary": "safe",
+      "review": "./SyrupUSDCRateProviderReview827b.md",
+      "warnings": [
+        "market-rate"
+      ],
+      "factory": "0x0A973B6DB16C2ded41dC91691Cc347BEb0e2442B",
+      "upgradeableComponents": []
     }
   },
   "ethereum": {
