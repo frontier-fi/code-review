@@ -1345,6 +1345,15 @@
           "implementationReviewed": "0xf248dd0adb01e78043e8a423b8504c8129f11918"
         }
       ]
+    },
+    "0x31bfb6418a71d8128b0dd9e3a791d0c419bb5367": {
+      "asset": "0x211Cc4DD073734dA055fbF44a2b4667d5E5fE5d2",
+      "name": "StakedUSDeRateProvider",
+      "summary": "safe",
+      "review": "./StakedUSDeRateProviderReviewbdb7.md",
+      "warnings": [],
+      "factory": "0x0A973B6DB16C2ded41dC91691Cc347BEb0e2442B",
+      "upgradeableComponents": []
     }
   },
   "ethereum": {
